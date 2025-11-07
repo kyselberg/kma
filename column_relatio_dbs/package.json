@@ -1,0 +1,26 @@
+{
+  "name": "column_relatio_dbs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "populate": "tsx --expose-gc src/columns/populate-column-data.ts",
+    "populate-relational": "tsx --expose-gc src/relational/populate-relational-data.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@clickhouse/client": "^1.12.1",
+    "@types/pg": "^8.15.5",
+    "pg": "^8.16.3"
+  }
+}

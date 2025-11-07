@@ -1,0 +1,291 @@
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.all.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.item_count) AS total_items
+        FROM transactions
+
+Execution Time: 75.49ms
+Memory Before: 7.61 MB
+Memory After: 8.37 MB
+Memory Delta: 780.91 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 13 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-47-42-667Z.json
+Total items: 27486996
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.product.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      p.name as product_name
+    FROM transaction_items ti
+    INNER JOIN transactions t ON ti.transaction_id = t.id
+    INNER JOIN products p ON ti.product_id = p.id
+    WHERE p.name = $1
+      AND t.transaction_date >= $2
+      AND t.transaction_date <= $3
+    GROUP BY p.name
+
+Execution Time: 1450.83ms
+Memory Before: 7.49 MB
+Memory After: 8.27 MB
+Memory Delta: 800.73 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 1 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-47-48-725Z.json
+Total amount of "Яблука": UAH 11,844,025.38
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.product.price.in.shop.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      p.name as product_name,
+      m.name as shop_name
+    FROM transaction_items ti
+    INNER JOIN transactions t ON ti.transaction_id = t.id
+    INNER JOIN products p ON ti.product_id = p.id
+    INNER JOIN markets m ON t.market_id = m.id
+    WHERE p.name = $1
+      AND m.name = $2
+      AND t.transaction_date >= $3
+      AND t.transaction_date <= $4
+    GROUP BY p.name, m.name
+
+Execution Time: 289.82ms
+Memory Before: 7.58 MB
+Memory After: 8.37 MB
+Memory Delta: 810.38 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 3 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-48-42-921Z.json
+Total amount of "Яблука" in "Novus Оболонський 1": UAH 581,702.64
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.shop.income.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(t.total_amount) as total_amount,
+      m.name as shop_name
+    FROM transactions t
+    INNER JOIN markets m ON t.market_id = m.id
+    WHERE m.name = $1
+      AND t.transaction_date >= $2
+      AND t.transaction_date <= $3
+    GROUP BY m.name
+
+Execution Time: 33.04ms
+Memory Before: 7.53 MB
+Memory After: 8.35 MB
+Memory Delta: 842.64 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 30 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-49-19-170Z.json
+Total income of "Novus Оболонський 1": UAH 32,233,865.26
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.total.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.total_amount) as total_amount
+        FROM transactions
+        WHERE transaction_date >= $1
+          AND transaction_date <= $2
+
+Execution Time: 25.91ms
+Memory Before: 7.62 MB
+Memory After: 8.40 MB
+Memory Delta: 798.63 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 39 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-49-29-814Z.json
+Total amount in period 2024-11-01 - 2024-12-31: UAH 644,128,346.79
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.2.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_id ORDER BY ti.product_id) AS items
+      FROM transaction_items ti
+      INNER JOIN transactions t ON ti.transaction_id = t.id
+      WHERE t.transaction_date BETWEEN $1 AND $2
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_id) > 1
+    ),
+    product_pairs AS (
+      SELECT
+        tp.transaction_id,
+        LEAST(p1.name, p2.name) as product1,
+        GREATEST(p1.name, p2.name) as product2
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i1(item1, idx1)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i2(item2, idx2)
+      INNER JOIN products p1 ON p1.id = item1
+      INNER JOIN products p2 ON p2.id = item2
+      WHERE idx1 < idx2
+    )
+    SELECT
+      ARRAY[product1, product2] as pair,
+      COUNT(*) as frequency
+    FROM product_pairs
+    GROUP BY product1, product2
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 1456.02ms
+Memory Before: 7.66 MB
+Memory After: 8.51 MB
+Memory Delta: 868.08 KB
+Rows Read: 10
+Result Rows: 10
+Throughput: 7 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-49-52-294Z.json
+
+=== TOP-10 Product Pairs Bought Together ===
+1. Газована вода + Зубна щітка: 867 times
+2. Газована вода + Сміттєві пакети: 867 times
+3. Губки + Сміттєві пакети: 862 times
+4. Рулонні рушники + Цукор: 861 times
+5. Помідори + Шоколад: 861 times
+6. Зубна щітка + Сміттєві пакети: 859 times
+7. Помідори + Сміттєві пакети: 857 times
+8. Курка + Шоколад: 857 times
+9. Молоко + Шоколад: 856 times
+10. Курка + Сміттєві пакети: 856 times
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.3.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_id ORDER BY ti.product_id) AS items
+      FROM transaction_items ti
+      INNER JOIN transactions t ON ti.transaction_id = t.id
+      WHERE (t.transaction_date BETWEEN $1 AND $2)
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_id) > 2
+    ),
+    product_triples AS (
+      SELECT
+        tp.transaction_id,
+        ARRAY[p1.name, p2.name, p3.name] as triple
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i1(item1, idx1)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i2(item2, idx2)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i3(item3, idx3)
+      INNER JOIN products p1 ON p1.id = item1
+      INNER JOIN products p2 ON p2.id = item2
+      INNER JOIN products p3 ON p3.id = item3
+      WHERE idx1 < idx2 AND idx2 < idx3
+    )
+    SELECT
+      triple,
+      COUNT(*) as frequency
+    FROM product_triples
+    GROUP BY triple
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 6817.75ms
+Memory Before: 7.50 MB
+Memory After: 8.36 MB
+Memory Delta: 879.37 KB
+Rows Read: 10
+Result Rows: 10
+Throughput: 1 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-50-03-905Z.json
+
+=== TOP-10 Product Triples Bought Together ===
+1. Хліб + Сіль + Засіб для прибирання: 422 times
+2. Газована вода + Сміттєві пакети + Зубна щітка: 418 times
+3. Сміттєві пакети + Батарейки + Зубна щітка: 412 times
+4. Чай + Пральний порошок + Шоколад: 412 times
+5. Каша + Газована вода + Зубна щітка: 411 times
+6. Оцет + Губки + Печиво: 411 times
+7. Каша + Сміттєві пакети + Зубна щітка: 410 times
+8. Помідори + Рулонні рушники + Шоколад: 410 times
+9. Сміттєві пакети + Губки + Зубна щітка: 410 times
+10. Молоко + Зубна паста + Шоколад: 409 times
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.4.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_id ORDER BY ti.product_id) AS items
+      FROM transaction_items ti
+      INNER JOIN transactions t ON ti.transaction_id = t.id
+      WHERE t.transaction_date BETWEEN $1 AND $2
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_id) > 3
+    ),
+    product_quadruples AS (
+      SELECT
+        tp.transaction_id,
+        ARRAY[p1.name, p2.name, p3.name, p4.name] as quadruple
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i1(item1, idx1)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i2(item2, idx2)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i3(item3, idx3)
+      CROSS JOIN LATERAL unnest(tp.items) WITH ORDINALITY AS i4(item4, idx4)
+      INNER JOIN products p1 ON p1.id = item1
+      INNER JOIN products p2 ON p2.id = item2
+      INNER JOIN products p3 ON p3.id = item3
+      INNER JOIN products p4 ON p4.id = item4
+      WHERE idx1 < idx2 AND idx2 < idx3 AND idx3 < idx4
+    )
+    SELECT
+      quadruple,
+      COUNT(*) as frequency
+    FROM product_quadruples
+    GROUP BY quadruple
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 53707.28ms
+Memory Before: 7.57 MB
+Memory After: 7.05 MB
+Memory Delta: -546640.00 B
+Rows Read: 10
+Result Rows: 10
+Throughput: 0 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-07T19-51-17-268Z.json
+
+=== TOP-10 Product Quadruples Bought Together ===
+1. Газована вода + Сміттєві пакети + Батарейки + Зубна щітка: 216 times
+2. Хліб + Рис + Оцет + Мило: 213 times
+3. Каша + Газована вода + Сміттєві пакети + Зубна щітка: 213 times
+4. Сіль + Губки + Зубна щітка + Печиво: 213 times
+5. Яблучний сік + Засіб для миття посуду + Батарейки + Шоколад: 212 times
+6. Каша + Сміттєві пакети + Зубна щітка + Чіпси: 212 times
+7. Яловичина + Оцет + Мило + Шоколад: 212 times
+8. Помідори + Вівсянка + Рулонні рушники + Шоколад: 212 times
+9. Оцет + Газована вода + Зубна паста + Печиво: 211 times
+10. Хліб + Сіль + Губки + Печиво: 211 times
+➜  column_relatio_dbs git:(main) ✗

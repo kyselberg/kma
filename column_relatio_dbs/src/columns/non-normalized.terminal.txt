@@ -1,0 +1,302 @@
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.all.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.item_count) AS total_items
+        FROM transactions
+
+Execution Time: 53.98ms
+Memory Before: 8.51 MB
+Memory After: 8.78 MB
+Memory Delta: 278.66 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-05-37-948Z.json
+Total items: 32,990,585
+➜  column_relatio_dbs git:(main) ✗
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.product.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      ti.product_name as product_name
+    FROM transaction_items ti
+    WHERE ti.product_name = 'Яблука'
+      AND ti.transaction_date >= toDate('2024-11-01')
+      AND ti.transaction_date <= toDate('2024-12-31')
+    GROUP BY ti.product_name
+
+Execution Time: 68.00ms
+Memory Before: 8.52 MB
+Memory After: 8.76 MB
+Memory Delta: 247.54 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-05-51-967Z.json
+Total amount of "Яблука": UAH 9,361,417
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.shop.income.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.total_price) as total_amount,
+      ti.market_name as shop_name
+    FROM transaction_items ti
+    WHERE ti.market_name = 'Novus Оболонський 1'
+      AND ti.transaction_date >= toDate('2024-11-01')
+      AND ti.transaction_date <= toDate('2024-12-31')
+    GROUP BY ti.market_name
+
+Execution Time: 52.86ms
+Memory Before: 8.51 MB
+Memory After: 8.76 MB
+Memory Delta: 262.85 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-06-09-699Z.json
+Total income of "Novus Оболонський 1": UAH 30,247,303.44
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.total.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.total_amount) as total_amount
+        FROM transactions
+        WHERE transaction_date >= '2024-11-01'
+          AND transaction_date <= '2024-12-31'
+
+Execution Time: 47.27ms
+Memory Before: 8.55 MB
+Memory After: 8.74 MB
+Memory Delta: 196.66 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-06-31-301Z.json
+Total amount in period 2024-11-01 - 2024-12-31: UAH 702,016,567.99
+➜  column_relatio_dbs git:(main) ✗
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.2.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        groupArray(DISTINCT ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN toDate('2024-10-10') AND toDate('2024-10-12')
+      GROUP BY ti.transaction_id
+      HAVING length(product_names) > 1
+    ),
+    enumerated_products AS (
+      SELECT
+        transaction_id,
+        product_names,
+        arrayEnumerate(product_names) AS indices
+      FROM transaction_products
+    ),
+    product_pairs AS (
+      SELECT
+        ep.transaction_id,
+        arraySort([ep.product_names[i1], ep.product_names[i2]]) AS pair
+      FROM enumerated_products ep
+      ARRAY JOIN indices AS i1
+      ARRAY JOIN indices AS i2
+      WHERE i1 < i2
+    )
+    SELECT
+      pair,
+      count() AS frequency
+    FROM product_pairs
+    GROUP BY pair
+    ORDER BY frequency DESC
+    LIMIT 10
+
+Execution Time: 1024.21ms
+Memory Before: 8.60 MB
+Memory After: 8.72 MB
+Memory Delta: 121.77 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-07-01-793Z.json
+
+=== TOP-10 Product Pairs Bought Together ===
+1. Пиво + Цибуля: 1,247 times
+2. Морозиво + Сіль: 1,247 times
+3. Курка + Морозиво: 1,246 times
+4. Бритва + Лампочки: 1,246 times
+5. Оцет + Печиво: 1,243 times
+6. Зубна паста + Сіль: 1,242 times
+7. Крекери + Печиво: 1,239 times
+8. Печиво + Яблука: 1,239 times
+9. Лампочки + Яловичина: 1,239 times
+10. Апельсини + Хліб: 1,237 times
+➜  column_relatio_dbs git:(main) ✗
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.3.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        groupArray(DISTINCT ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN toDate('2024-10-10') AND toDate('2024-10-12')
+      GROUP BY ti.transaction_id
+      HAVING length(product_names) > 2
+    ),
+    enumerated_products AS (
+      SELECT
+        transaction_id,
+        product_names,
+        arrayEnumerate(product_names) AS indices
+      FROM transaction_products
+    ),
+    product_triples AS (
+      SELECT
+        ep.transaction_id,
+        arraySort([ep.product_names[i1], ep.product_names[i2], ep.product_names[i3]]) AS triple
+      FROM enumerated_products ep
+      ARRAY JOIN indices AS i1
+      ARRAY JOIN indices AS i2
+      ARRAY JOIN indices AS i3
+      WHERE i1 < i2 AND i2 < i3
+    )
+    SELECT
+      triple,
+      count() AS frequency
+    FROM product_triples
+    GROUP BY triple
+    ORDER BY frequency DESC
+    LIMIT 10
+
+Execution Time: 9173.19ms
+Memory Before: 8.51 MB
+Memory After: 7.55 MB
+Memory Delta: -998992.00 B
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-07-34-142Z.json
+
+=== TOP-10 Product Triples Bought Together ===
+1. Курка + Морозиво + Сіль: 594 times
+2. Морозиво + Сіль + Чай: 592 times
+3. Вівсянка + Морозиво + Сіль: 591 times
+4. Лампочки + Мітла + Яловичина: 590 times
+5. Газована вода + Крекери + Оцет: 590 times
+6. Апельсини + Пиво + Хліб: 587 times
+7. Губки + Зубна паста + Печиво: 587 times
+8. Молоко + Оцет + Шоколад: 585 times
+9. Каша + Крекери + Печиво: 585 times
+10. Масло + Оцет + Печиво: 584 times
+➜  column_relatio_dbs git:(main) ✗
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.4.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        groupArray(DISTINCT ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN toDate('2024-10-10') AND toDate('2024-10-12')
+      GROUP BY ti.transaction_id
+      HAVING length(product_names) > 3
+    ),
+    enumerated_products AS (
+      SELECT
+        transaction_id,
+        product_names,
+        arrayEnumerate(product_names) AS indices
+      FROM transaction_products
+    ),
+    product_quadruples AS (
+      SELECT
+        ep.transaction_id,
+        arraySort([ep.product_names[i1], ep.product_names[i2], ep.product_names[i3], ep.product_names[i4]]) AS quadruple
+      FROM enumerated_products ep
+      ARRAY JOIN indices AS i1
+      ARRAY JOIN indices AS i2
+      ARRAY JOIN indices AS i3
+      ARRAY JOIN indices AS i4
+      WHERE i1 < i2 AND i2 < i3 AND i3 < i4
+    )
+    SELECT
+      quadruple,
+      count() AS frequency
+    FROM product_quadruples
+    GROUP BY quadruple
+    ORDER BY frequency DESC
+    LIMIT 10
+
+Execution Time: 71151.16ms
+Memory Before: 8.51 MB
+Memory After: 7.59 MB
+Memory Delta: -959056.00 B
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-08-54-897Z.json
+
+=== TOP-10 Product Quadruples Bought Together ===
+1. Молоко + Оцет + Печиво + Шоколад: 305 times
+2. Картопля + Лампочки + Печиво + Шоколад: 304 times
+3. Каша + Крекери + Лампочки + Печиво: 301 times
+4. Апельсини + Банани + Горіхи + Перець: 299 times
+5. Картопля + Молоко + Печиво + Шоколад: 299 times
+6. Апельсини + Дезодорант + Крекери + Піна для гоління: 299 times
+7. Апельсиновий сік + Дезодорант + Макарони + Пральний порошок: 298 times
+8. Масло + Оцет + Цибуля + Цукерки: 297 times
+9. Апельсини + Макарони + Шоколад + Яловичина: 297 times
+10. Апельсини + Крекери + Перець + Рис: 297 times
+➜  column_relatio_dbs git:(main) ✗
+
+Gud monin'
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/columns/q/get.product.price.in.shop.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      ti.product_name as product_name,
+      ti.market_name as shop_name
+    FROM transaction_items ti
+    WHERE ti.product_name = 'Яблука'
+      AND ti.market_name = 'Novus Оболонський 1'
+      AND ti.transaction_date >= toDate('2024-11-01')
+      AND ti.transaction_date <= toDate('2024-12-31')
+    GROUP BY ti.product_name, ti.market_name
+
+Execution Time: 50.75ms
+Memory Before: 8.51 MB
+Memory After: 8.76 MB
+Memory Delta: 261.12 KB
+Rows Read: 0
+Data Read: 0.00 B
+Result Rows: 0
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/clickhouse_query_2025-10-10T00-18-01-301Z.json
+Total amount of "Яблука" in "Novus Оболонський 1": UAH 469,718.6
+➜  column_relatio_dbs git:(main) ✗

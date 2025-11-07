@@ -1,0 +1,283 @@
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.all.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.item_count) AS total_items
+        FROM transactions
+
+Execution Time: 148.74ms
+Memory Before: 7.60 MB
+Memory After: 8.36 MB
+Memory Delta: 781.43 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 7 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-53-48-931Z.json
+Total items: 27514532
+➜  column_relatio_dbs git:(main) ✗
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.product.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      ti.product_name as product_name
+    FROM transaction_items ti
+    WHERE ti.product_name = $1
+      AND ti.transaction_date >= $2::date
+      AND ti.transaction_date <= $3::date
+    GROUP BY ti.product_name
+
+Execution Time: 901.36ms
+Memory Before: 7.55 MB
+Memory After: 8.35 MB
+Memory Delta: 813.47 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 1 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-55-04-346Z.json
+Total amount of "Яблука": UAH 16,815,025.92
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.product.price.in.shop.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.quantity * ti.unit_price) as total_amount,
+      ti.product_name as product_name,
+      ti.market_name as shop_name
+    FROM transaction_items ti
+    WHERE ti.product_name = $1
+      AND ti.market_name = $2
+      AND ti.transaction_date >= $3::date
+      AND ti.transaction_date <= $4::date
+    GROUP BY ti.product_name, ti.market_name
+
+Execution Time: 568.49ms
+Memory Before: 7.55 MB
+Memory After: 8.36 MB
+Memory Delta: 821.33 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 2 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-55-45-156Z.json
+Total amount of "Яблука" in "Novus Оболонський 1": UAH 828,836.26
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.shop.income.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    SELECT
+      SUM(ti.total_price) as total_amount,
+      ti.market_name as shop_name
+    FROM transaction_items ti
+    WHERE ti.market_name = $1
+      AND ti.transaction_date >= $2::date
+      AND ti.transaction_date <= $3::date
+    GROUP BY ti.market_name
+
+Execution Time: 610.90ms
+Memory Before: 7.63 MB
+Memory After: 8.41 MB
+Memory Delta: 800.77 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 2 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-56-19-545Z.json
+Total income of "Novus Оболонський 1": UAH 32,857,599.82
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.total.price.in.period.ts
+
+=== Query Performance Report ===
+Query:
+        SELECT SUM(transactions.total_amount) as total_amount
+        FROM transactions
+        WHERE transaction_date >= $1
+          AND transaction_date <= $2
+
+Execution Time: 55.24ms
+Memory Before: 7.59 MB
+Memory After: 8.37 MB
+Memory Delta: 799.05 KB
+Rows Read: 1
+Result Rows: 1
+Throughput: 18 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-56-48-646Z.json
+Total amount in period 2024-11-01 - 2024-12-31: UAH 646,818,379.37
+➜  column_relatio_dbs git:(main) ✗
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.2.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_name ORDER BY ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN $1::date AND $2::date
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_name) > 1
+    ),
+    product_pairs AS (
+      SELECT
+        tp.transaction_id,
+        LEAST(name1, name2) as product1,
+        GREATEST(name1, name2) as product2
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i1(name1, idx1)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i2(name2, idx2)
+      WHERE idx1 < idx2
+    )
+    SELECT
+      ARRAY[product1, product2] as pair,
+      COUNT(*) as frequency
+    FROM product_pairs
+    GROUP BY product1, product2
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 1104.63ms
+Memory Before: 7.58 MB
+Memory After: 8.42 MB
+Memory Delta: 864.12 KB
+Rows Read: 10
+Result Rows: 10
+Throughput: 9 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-57-05-827Z.json
+
+=== TOP-10 Product Pairs Bought Together ===
+1. Каша + Яблучний сік: 1322 times
+2. Перець + Яблучний сік: 1316 times
+3. Морква + Шоколад: 1314 times
+4. Перець + Цукор: 1311 times
+5. Перець + Рис: 1310 times
+6. Батарейки + Перець: 1302 times
+7. Йогурт + Шампунь: 1300 times
+8. Банани + Перець: 1300 times
+9. Газована вода + Йогурт: 1299 times
+10. Йогурт + Яблучний сік: 1298 times
+➜  column_relatio_dbs git:(main) ✗
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.3.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_name ORDER BY ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN $1::date AND $2::date
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_name) > 2
+    ),
+    product_triples AS (
+      SELECT
+        tp.transaction_id,
+        ARRAY[name1, name2, name3] as triple
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i1(name1, idx1)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i2(name2, idx2)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i3(name3, idx3)
+      WHERE idx1 < idx2 AND idx2 < idx3
+    )
+    SELECT
+      triple,
+      COUNT(*) as frequency
+    FROM product_triples
+    GROUP BY triple
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 7864.23ms
+Memory Before: 7.56 MB
+Memory After: 8.42 MB
+Memory Delta: 885.52 KB
+Rows Read: 10
+Result Rows: 10
+Throughput: 1 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-57-31-473Z.json
+
+=== TOP-10 Product Triples Bought Together ===
+1. Зубна паста + Каша + Яблучний сік: 627 times
+2. Перець + Цукор + Яблучний сік: 626 times
+3. Газована вода + Каша + Яблучний сік: 624 times
+4. Каша + Цукор + Яблучний сік: 620 times
+5. Йогурт + Морква + Шоколад: 616 times
+6. Батарейки + Морква + Шоколад: 616 times
+7. Батарейки + Шампунь + Шоколад: 615 times
+8. Бритва + Каша + Яблучний сік: 615 times
+9. Каша + Макарони + Яблучний сік: 614 times
+10. Газована вода + Йогурт + Пиво: 614 times
+➜  column_relatio_dbs git:(main) ✗
+
+➜  column_relatio_dbs git:(main) ✗ npx tsx src/relational/q/get.4.in.period.ts
+
+=== Query Performance Report ===
+Query:
+    WITH transaction_products AS (
+      SELECT
+        ti.transaction_id,
+        array_agg(DISTINCT ti.product_name ORDER BY ti.product_name) AS product_names
+      FROM transaction_items ti
+      WHERE ti.transaction_date BETWEEN $1::date AND $2::date
+      GROUP BY ti.transaction_id
+      HAVING COUNT(DISTINCT ti.product_name) > 3
+    ),
+    product_quadruples AS (
+      SELECT
+        tp.transaction_id,
+        ARRAY[name1, name2, name3, name4] as quadruple
+      FROM transaction_products tp
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i1(name1, idx1)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i2(name2, idx2)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i3(name3, idx3)
+      CROSS JOIN LATERAL unnest(tp.product_names) WITH ORDINALITY AS i4(name4, idx4)
+      WHERE idx1 < idx2 AND idx2 < idx3 AND idx3 < idx4
+    )
+    SELECT
+      quadruple,
+      COUNT(*) as frequency
+    FROM product_quadruples
+    GROUP BY quadruple
+    ORDER BY frequency DESC
+    LIMIT $3
+
+Execution Time: 64107.16ms
+Memory Before: 7.62 MB
+Memory After: 7.05 MB
+Memory Delta: -605664.00 B
+Rows Read: 10
+Result Rows: 10
+Throughput: 0 rows/sec
+================================
+
+Performance report saved to: /Users/illia.kyselov/column_relatio_dbs/query-results/postgresql_query_2025-10-09T23-59-06-951Z.json
+
+=== TOP-10 Product Quadruples Bought Together ===
+1. Бритва + Зубна паста + Каша + Яблучний сік: 324 times
+2. Дезодорант + Каша + Макарони + Яловичина: 316 times
+3. Дезодорант + Каша + Морква + Яловичина: 316 times
+4. Бритва + Вино + Печиво + Туалетний папір: 316 times
+5. Газована вода + Зубна паста + Каша + Яблучний сік: 315 times
+6. Банани + Газована вода + Перець + Помідори: 314 times
+7. Дезодорант + Каша + Пиво + Яловичина: 314 times
+8. Банани + Макарони + Туалетний папір + Шампунь: 312 times
+9. Зубна паста + Каша + Цукор + Яблучний сік: 312 times
+10. Бритва + Каша + Макарони + Яблучний сік: 310 times
+➜  column_relatio_dbs git:(main) ✗
