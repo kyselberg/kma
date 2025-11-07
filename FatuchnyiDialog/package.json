@@ -1,0 +1,25 @@
+{
+  "name": "fatuchnyidialog@kyselov",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "start": "tsx ./main.ts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "dialog",
+    "fatuchnyi",
+    "kyselov"
+  ],
+  "author": "Illia Kyselov",
+  "license": "MIT",
+  "description": "Fatuchnyi Dialog",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^3.2.4",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

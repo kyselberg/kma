@@ -1,0 +1,11 @@
+export const START_INDEX = 0;
+export const NO_MATCH = false;
+export const MATCH = true;
+export const VARIABLE_CAPTURE_PATTERN = /^\?->([a-z])$/i;
+export const WILD_PATTERN = /\*|\?|\?->/i;
+export const EXACT_PATTERN = /^\*|\?|\?->$/i;
+export const ALPHABETIC_VARIABLE_PATTERN = /^<([a-z])>$/i;
+export const EMPTY_VARIABLES = {};
+export const EMPTY_STRING = "";
+export const MULTIPLE_WORDS_MATCHER = "*";
+export const SINGLE_WORD_MATCHER = "?";
