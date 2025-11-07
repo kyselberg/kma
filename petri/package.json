@@ -1,0 +1,18 @@
+{
+  "name": "colored-petri-pizza",
+  "version": "1.0.0",
+  "description": "Colored Petri net simulation for pizza ordering, cooking and delivery with narrative generation",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "petri-net",
+    "colored-petri-net",
+    "simulation",
+    "pizza",
+    "delivery"
+  ],
+  "author": "",
+  "license": "MIT"
+}
