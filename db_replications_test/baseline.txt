@@ -1,0 +1,47 @@
+npm run metrics:physical
+
+> db-replication-test@1.0.0 metrics:physical
+> ts-node src/metrics-physical.ts
+
+Collecting Physical Replication Metrics...
+
+
+================================================================================
+Physical Replication Metrics - Primary (primary)
+Timestamp: 2025-10-20T19:46:40.319Z
+================================================================================
+
+Replication State:
+
+  Replica 1:
+    Application: walreceiver
+    Client: 172.27.0.3/32
+    State: streaming
+    Sync State: async
+    Sent LSN: 0/304B688
+    Replay LSN: 0/304B688
+    Write Lag: N/A
+    Flush Lag: N/A
+    Replay Lag: N/A
+================================================================================
+
+
+================================================================================
+Physical Replication Metrics - Standby (standby)
+Timestamp: 2025-10-20T19:46:40.347Z
+================================================================================
+
+Standby Status:
+  In Recovery: true
+  Replay Paused: false
+  Last WAL Replay LSN: 0/304B688
+  Last Transaction Replay: Mon Oct 20 2025 22:44:30 GMT+0300 (Eastern European Summer Time)
+================================================================================
+
+Summary:
+--------
+
+Replica 1 (walreceiver):
+  Status: streaming
+  Sync Mode: async
+  ✓ No significant lag detected

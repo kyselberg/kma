@@ -1,0 +1,76 @@
+services:
+  pg-primary:
+    image: postgres:16-alpine
+    container_name: pg-primary
+    hostname: pg-primary
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+      POSTGRES_INITDB_ARGS: "-c wal_level=replica"
+    volumes:
+      - ./init/physical/primary:/docker-entrypoint-initdb.d
+      - ./config/physical/primary/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/physical/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - primary-data:/var/lib/postgresql/data
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+      -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "5432:5432"
+    networks:
+      - replication-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pg-standby:
+    image: postgres:16-alpine
+    container_name: pg-standby
+    hostname: pg-standby
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGUSER: postgres
+      PGPASSWORD: replicator_password
+    volumes:
+      - ./config/physical/standby/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/physical/standby/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - standby-data:/var/lib/postgresql/data
+    command: >
+      bash -c "
+      until pg_isready -h pg-primary -p 5432 -U postgres; do
+        echo 'Waiting for primary to be ready...';
+        sleep 2;
+      done &&
+      echo 'Primary is ready, starting base backup...' &&
+      if [ -z \"\$(ls -A /var/lib/postgresql/data)\" ]; then
+        echo 'Data directory is empty, performing pg_basebackup...' &&
+        pg_basebackup -h pg-primary -D /var/lib/postgresql/data -U replicator -v -P --no-password -R &&
+        chown -R postgres:postgres /var/lib/postgresql/data &&
+        chmod 0700 /var/lib/postgresql/data;
+      else
+        echo 'Data directory already exists, skipping basebackup...';
+      fi &&
+      echo 'Starting PostgreSQL as standby...' &&
+      su-exec postgres postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
+      "
+    ports:
+      - "5433:5432"
+    networks:
+      - replication-net
+    depends_on:
+      pg-primary:
+        condition: service_healthy
+
+volumes:
+  primary-data:
+  standby-data:
+
+networks:
+  replication-net:
+    driver: bridge
+    name: replication-net

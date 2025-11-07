@@ -1,0 +1,234 @@
+./scripts/test-scenarios.sh physical 5 1
+[2025-10-21 00:22:24] Starting Physical Replication Test Scenario
+[2025-10-21 00:22:24] Partition duration: 5 minutes
+
+[2025-10-21 00:22:24] === PHASE 1: Baseline (Normal Operation) ===
+[2025-10-21 00:22:24] Collecting baseline metrics...
+
+> db-replication-test@1.0.0 metrics:physical
+> ts-node src/metrics-physical.ts
+
+Collecting Physical Replication Metrics...
+
+
+================================================================================
+Physical Replication Metrics - Primary (primary)
+Timestamp: 2025-10-20T21:22:25.122Z
+================================================================================
+
+Replication State:
+
+  Replica 1:
+    Application: walreceiver
+    Client: 172.27.0.3/32
+    State: streaming
+    Sync State: async
+    Sent LSN: 0/3000060
+    Replay LSN: 0/3000060
+    Write Lag: 0.031948s
+    Flush Lag: 0.032226s
+    Replay Lag: 0.032309s
+================================================================================
+
+
+================================================================================
+Physical Replication Metrics - Standby (standby)
+Timestamp: 2025-10-20T21:22:25.164Z
+================================================================================
+
+Standby Status:
+  In Recovery: true
+  Replay Paused: false
+  Last WAL Replay LSN: 0/3000060
+  Last Transaction Replay: N/A
+================================================================================
+
+Summary:
+--------
+
+Replica 1 (walreceiver):
+  Status: streaming
+  Sync Mode: async
+  ⚠ Replication Lag: 0.032309s
+[2025-10-21 00:22:25] Writing test data to primary...
+
+> db-replication-test@1.0.0 test:physical
+> ts-node src/test-physical.ts
+
+================================================================================
+PHYSICAL REPLICATION TEST (Master → Slave)
+================================================================================
+
+1. Testing Write to Primary...
+   ✓ Write successful
+   - ID: 199acc3c-b48a-4451-9021-a1d4c10f6350
+   - Duration: 21ms
+
+2. Waiting for replication (3 seconds)...
+
+3. Reading from Primary...
+   - Records found: 3
+   - Query duration: 8ms
+
+   Record 1:
+     ID: 199acc3c-b48a-4451-9021-a1d4c10f6350
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:25 GMT+0300 (Eastern European Summer Time)
+     Payload: {"message":"Test write to primary","testType":"physical-replication","timestamp":"2025-10-20T21:22:25.732Z"}
+
+   Record 2:
+     ID: 075af4e5-4031-4407-9928-f43152c43ec2
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:09 GMT+0300 (Eastern European Summer Time)
+     Payload: {"test":true,"message":"Initial data from primary"}
+
+   Record 3:
+     ID: f1a6db14-cee2-42bb-be4b-f3094483f4ed
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:09 GMT+0300 (Eastern European Summer Time)
+     Payload: {"test":true,"message":"Second entry"}
+
+4. Reading from Standby...
+   - Records found: 3
+   - Query duration: 25ms
+
+   Record 1:
+     ID: 199acc3c-b48a-4451-9021-a1d4c10f6350
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:25 GMT+0300 (Eastern European Summer Time)
+     Payload: {"message":"Test write to primary","testType":"physical-replication","timestamp":"2025-10-20T21:22:25.732Z"}
+
+   Record 2:
+     ID: 075af4e5-4031-4407-9928-f43152c43ec2
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:09 GMT+0300 (Eastern European Summer Time)
+     Payload: {"test":true,"message":"Initial data from primary"}
+
+   Record 3:
+     ID: f1a6db14-cee2-42bb-be4b-f3094483f4ed
+     Source: primary
+     Created: Tue Oct 21 2025 00:22:09 GMT+0300 (Eastern European Summer Time)
+     Payload: {"test":true,"message":"Second entry"}
+
+5. Testing Bulk Write...
+   - Success rate: 10/10
+   - Average write duration: 3.70ms
+
+6. Waiting for bulk replication (5 seconds)...
+
+7. Verifying record counts...
+   - Primary count: 13
+   - Standby count: 13
+   ✓ Counts match - replication is working correctly
+
+================================================================================
+Physical replication test completed
+================================================================================
+
+[2025-10-21 00:22:39] Initial counts - Primary: 13, Standby: 13
+
+[2025-10-21 00:22:39] === PHASE 2: Network Partition ===
+[2025-10-21 00:22:39] Disconnecting standby from network...
+Disconnecting pg-standby from replication-net...
+✓ pg-standby disconnected from replication-net
+[2025-10-21 00:22:39] Starting continuous write to primary during partition...
+[2025-10-21 00:22:39] Write interval: 1 seconds (~60 records/min)
+[2025-10-21 00:22:39] Expected total writes: ~300 records
+[2025-10-21 00:22:39] Background writer started (PID: 30750)
+[2025-10-21 00:22:39] Monitoring primary during partition...
+[2025-10-21 00:23:39] Partition active: 1/5 minutes elapsed...
+[2025-10-21 00:23:39]   Primary count: 67 (written: 54 records)
+[2025-10-21 00:23:39]   Collecting metrics...
+> db-replication-test@1.0.0 metrics:physical
+Physical Replication Metrics - Primary (primary)
+Replication State:
+⚠ Warning: No active replication connections detected on Primary
+[2025-10-21 00:24:40] Partition active: 2/5 minutes elapsed...
+[2025-10-21 00:24:40]   Primary count: 122 (written: 109 records)
+[2025-10-21 00:24:40]   Collecting metrics...
+> db-replication-test@1.0.0 metrics:physical
+Physical Replication Metrics - Primary (primary)
+Replication State:
+⚠ Warning: No active replication connections detected on Primary
+[2025-10-21 00:25:41] Partition active: 3/5 minutes elapsed...
+[2025-10-21 00:25:41]   Primary count: 177 (written: 164 records)
+[2025-10-21 00:26:41] Partition active: 4/5 minutes elapsed...
+[2025-10-21 00:26:41]   Primary count: 231 (written: 218 records)
+[2025-10-21 00:26:41]   Collecting metrics...
+> db-replication-test@1.0.0 metrics:physical
+Physical Replication Metrics - Primary (primary)
+Replication State:
+⚠ Warning: No active replication connections detected on Primary
+[2025-10-21 00:27:42] Partition active: 5/5 minutes elapsed...
+[2025-10-21 00:27:42]   Primary count: 282 (written: 269 records)
+[2025-10-21 00:27:42] Background writer completed: 269 records written
+[2025-10-21 00:27:42] Final primary count during partition: 282
+[2025-10-21 00:27:42] Total standby lag: 269 records
+
+[2025-10-21 00:27:42] === PHASE 3: Network Recovery ===
+[2025-10-21 00:27:42] Reconnecting standby to network...
+Connecting pg-standby to replication-net...
+✓ pg-standby connected to replication-net
+[2025-10-21 00:27:42] Waiting for replication to catch up...
+[2025-10-21 00:27:42]   Primary: 282, Standby: 13, Lag: 269
+[2025-10-21 00:27:47]   Primary: 282, Standby: 282, Lag: 0
+[2025-10-21 00:27:47] ✓ Replication caught up! Recovery time: 5s
+
+[2025-10-21 00:27:47] === PHASE 4: Final Metrics ===
+
+> db-replication-test@1.0.0 metrics:physical
+> ts-node src/metrics-physical.ts
+
+Collecting Physical Replication Metrics...
+
+
+================================================================================
+Physical Replication Metrics - Primary (primary)
+Timestamp: 2025-10-20T21:27:48.719Z
+================================================================================
+
+Replication State:
+
+  Replica 1:
+    Application: walreceiver
+    Client: 172.27.0.3/32
+    State: streaming
+    Sync State: async
+    Sent LSN: 0/3063BD8
+    Replay LSN: 0/3063BD8
+    Write Lag: 0.002261s
+    Flush Lag: 0.004359s
+    Replay Lag: 0.007911s
+================================================================================
+
+
+================================================================================
+Physical Replication Metrics - Standby (standby)
+Timestamp: 2025-10-20T21:27:48.758Z
+================================================================================
+
+Standby Status:
+  In Recovery: true
+  Replay Paused: false
+  Last WAL Replay LSN: 0/3063BD8
+  Last Transaction Replay: Tue Oct 21 2025 00:27:38 GMT+0300 (Eastern European Summer Time)
+================================================================================
+
+Summary:
+--------
+
+Replica 1 (walreceiver):
+  Status: streaming
+  Sync Mode: async
+  ⚠ Replication Lag: 0.007911s
+
+[2025-10-21 00:27:48] Test scenario completed!
+[2025-10-21 00:27:48] Summary:
+[2025-10-21 00:27:48]   - Partition duration: 5 minutes
+[2025-10-21 00:27:48]   - Records written during partition: 269 records
+./scripts/test-scenarios.sh: command substitution: line 162: syntax error near unexpected token `*'
+./scripts/test-scenarios.sh: command substitution: line 162: `((PRIMARY_COUNT_DURING - STANDBY_COUNT_BEFORE) * 60) / (DURATION * 60)'
+[2025-10-21 00:27:48]   - Write rate: ~) records/min
+[2025-10-21 00:27:48]   - Recovery time (RTO): 5s
+[2025-10-21 00:27:48]   - Final counts - Primary: 282, Standby: 282
+[2025-10-21 00:27:48]   - Data consistency: ✓ Perfect

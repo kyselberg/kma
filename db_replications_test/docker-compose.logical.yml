@@ -1,0 +1,63 @@
+services:
+  pg-node-a:
+    image: postgres:16-alpine
+    container_name: pg-node-a
+    hostname: pg-node-a
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    volumes:
+      - ./init/logical/node-a:/docker-entrypoint-initdb.d
+      - ./config/logical/node-a/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/logical/node-a/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - node-a-data:/var/lib/postgresql/data
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+      -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "5434:5432"
+    networks:
+      - replication-net-logical
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pg-node-b:
+    image: postgres:16-alpine
+    container_name: pg-node-b
+    hostname: pg-node-b
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    volumes:
+      - ./init/logical/node-b:/docker-entrypoint-initdb.d
+      - ./config/logical/node-b/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/logical/node-b/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - node-b-data:/var/lib/postgresql/data
+    command: >
+      postgres
+      -c config_file=/etc/postgresql/postgresql.conf
+      -c hba_file=/etc/postgresql/pg_hba.conf
+    ports:
+      - "5435:5432"
+    networks:
+      - replication-net-logical
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  node-a-data:
+  node-b-data:
+
+networks:
+  replication-net-logical:
+    driver: bridge
+    name: replication-net-logical

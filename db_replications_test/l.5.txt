@@ -1,0 +1,348 @@
+./scripts/test-scenarios.sh logical 5
+[2025-10-21 01:05:41] Starting Logical Replication Test Scenario (Bidirectional)
+[2025-10-21 01:05:41] Partition duration: 5 minutes
+
+[2025-10-21 01:05:41] Checking if bidirectional replication is configured...
+[2025-10-21 01:05:42] ⚠ Subscriptions not found! Setting up bidirectional replication...
+Setting up bidirectional logical replication...
+Waiting for Node A...
+/var/run/postgresql:5432 - accepting connections
+Waiting for Node B...
+/var/run/postgresql:5432 - accepting connections
+Both nodes are ready!
+Creating subscription on Node A...
+NOTICE:  created replication slot "node_a_sub" on publisher
+CREATE SUBSCRIPTION
+Creating subscription on Node B...
+NOTICE:  created replication slot "node_b_sub" on publisher
+CREATE SUBSCRIPTION
+Logical replication setup complete!
+
+Verifying subscriptions...
+
+Node A subscriptions:
+ subid |  subname   | pid | leader_pid | relid | received_lsn |      last_msg_send_time       |     last_msg_receipt_time     | latest_end_lsn |        latest_end_time
+-------+------------+-----+------------+-------+--------------+-------------------------------+-------------------------------+----------------+-------------------------------
+ 16395 | node_a_sub |  94 |            |       | 0/1925358    | 2025-10-20 22:05:42.649354+00 | 2025-10-20 22:05:42.649434+00 | 0/1925358      | 2025-10-20 22:05:42.649354+00
+(1 row)
+
+
+Node B subscriptions:
+ subid |  subname   | pid | leader_pid | relid | received_lsn |      last_msg_send_time       |     last_msg_receipt_time     | latest_end_lsn |        latest_end_time
+-------+------------+-----+------------+-------+--------------+-------------------------------+-------------------------------+----------------+-------------------------------
+ 16395 | node_b_sub |  96 |            |       | 0/1925358    | 2025-10-20 22:05:42.658945+00 | 2025-10-20 22:05:42.659039+00 | 0/1925358      | 2025-10-20 22:05:42.658945+00
+(1 row)
+
+[2025-10-21 01:05:47] ✓ Bidirectional replication configured
+
+[2025-10-21 01:05:47] === PHASE 1: Baseline (Normal Operation) ===
+[2025-10-21 01:05:47] Collecting baseline metrics...
+
+> db-replication-test@1.0.0 metrics:logical
+> ts-node src/metrics-logical.ts
+
+Collecting Logical Replication Metrics...
+
+
+================================================================================
+Logical Replication Metrics - Node-A
+Timestamp: 2025-10-20T22:05:48.710Z
+================================================================================
+
+Publications:
+  - node_a_pub: test_data
+
+Subscriptions:
+
+  node_a_sub:
+    PID: 94
+    Received LSN: 0/1925358
+    Latest End LSN: 0/1925358
+    Last Message Send: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+    Last Message Receipt: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+    Latest End Time: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+
+Replication Slots:
+  - node_b_sub:
+    Type: logical
+    Plugin: pgoutput
+    Active: true (PID: 96)
+================================================================================
+
+
+================================================================================
+Logical Replication Metrics - Node-B
+Timestamp: 2025-10-20T22:05:48.743Z
+================================================================================
+
+Publications:
+  - node_b_pub: test_data
+
+Subscriptions:
+
+  node_b_sub:
+    PID: 96
+    Received LSN: 0/1925358
+    Latest End LSN: 0/1925358
+    Last Message Send: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+    Last Message Receipt: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+    Latest End Time: Tue Oct 21 2025 01:05:42 GMT+0300 (Eastern European Summer Time)
+
+Replication Slots:
+  - node_a_sub:
+    Type: logical
+    Plugin: pgoutput
+    Active: true (PID: 88)
+================================================================================
+
+Summary:
+--------
+
+Node A:
+  Publications: 1
+  Subscriptions: 1
+  Active Slots: 1/1
+  Active Subscriptions: 1/1
+
+Node B:
+  Publications: 1
+  Subscriptions: 1
+  Active Slots: 1/1
+  Active Subscriptions: 1/1
+
+Health Check:
+  ✓ All subscriptions are active
+[2025-10-21 01:05:48] Testing bidirectional replication...
+
+> db-replication-test@1.0.0 test:logical
+> ts-node src/test-logical.ts
+
+================================================================================
+LOGICAL REPLICATION TEST (Master ↔ Master)
+================================================================================
+
+1. Testing Write to Node A...
+   ✓ Write successful
+   - ID: 17682d50-7910-4e7e-973d-2e3848cfc65c
+   - Duration: 32ms
+
+2. Testing Write to Node B...
+   ✓ Write successful
+   - ID: ffa362bc-1bf9-4a65-bb6b-890fd32d9a8d
+   - Duration: 12ms
+
+3. Waiting for bidirectional replication (5 seconds)...
+
+4. Reading from Node A...
+   - Records found: 3
+   - Query duration: 9ms
+   - Records originated from Node B: 1
+
+5. Reading from Node B...
+   - Records found: 3
+   - Query duration: 4ms
+   - Records originated from Node A: 1
+
+6. Testing Concurrent Writes...
+   Writing 5 records to each node simultaneously...
+   - Node A: 5/5 successful
+   - Node B: 5/5 successful
+
+7. Waiting for cross-replication (10 seconds)...
+
+8. Verifying final record counts...
+   - Node A count: 13
+   - Node B count: 13
+   ✓ Counts match - bidirectional replication is working correctly
+
+9. Checking data consistency...
+   - Records only in Node A: 1
+   - Records only in Node B: 1
+   ⚠ Data inconsistency detected
+
+   Records only in Node A:
+     - 8da933a2-3327-47a4-b8f9-8a3003d82dec from node-a
+
+   Records only in Node B:
+     - 2b83dbc9-7c10-41f6-b867-46421a62f6b2 from node-b
+
+================================================================================
+Logical replication test completed
+================================================================================
+
+[2025-10-21 01:06:09] Initial counts - Node A: 13, Node B: 13
+
+[2025-10-21 01:06:09] === PHASE 2: Network Partition ===
+[2025-10-21 01:06:09] Disconnecting Node B from network...
+Disconnecting pg-node-b from replication-net-logical...
+✓ pg-node-b disconnected from replication-net-logical
+[2025-10-21 01:06:09] Starting BIDIRECTIONAL continuous writes during partition...
+[2025-10-21 01:06:09] Write interval: 5 seconds (~12 records/min per node)
+[2025-10-21 01:06:09] Expected total writes: ~120 records (from both nodes)
+[2025-10-21 01:06:09] This demonstrates true Active-Active capability!
+[2025-10-21 01:06:09] Background writer for Node A started (PID: 50116)
+[2025-10-21 01:06:09] Background writer for Node B started (PID: 50120)
+[2025-10-21 01:06:09] Both nodes writing independently - true Active-Active!
+[2025-10-21 01:06:09] Monitoring both nodes during partition...
+[2025-10-21 01:07:09] Partition active: 1/5 minutes elapsed...
+[2025-10-21 01:07:10]   Node A: 25 (+12), Node B: 25 (+12)
+[2025-10-21 01:07:10]   Both nodes writing independently!
+[2025-10-21 01:07:10]   Collecting metrics...
+Publications:
+Subscriptions:
+Publications:
+Subscriptions:
+Node A:
+  Publications: 1
+  Subscriptions: 1
+  Active Subscriptions: 0/1
+Node B:
+  Publications: 0
+  Subscriptions: 0
+  ⚠ Node A has 1 inactive subscription(s)
+[2025-10-21 01:08:11] Partition active: 2/5 minutes elapsed...
+[2025-10-21 01:08:11]   Node A: 37 (+24), Node B: 37 (+24)
+[2025-10-21 01:08:11]   Both nodes writing independently!
+[2025-10-21 01:08:11]   Collecting metrics...
+Publications:
+Subscriptions:
+Publications:
+Subscriptions:
+Node A:
+  Publications: 1
+  Subscriptions: 1
+  Active Subscriptions: 0/1
+Node B:
+  Publications: 0
+  Subscriptions: 0
+  ⚠ Node A has 1 inactive subscription(s)
+[2025-10-21 01:09:12] Partition active: 3/5 minutes elapsed...
+[2025-10-21 01:09:12]   Node A: 49 (+36), Node B: 49 (+36)
+[2025-10-21 01:09:12]   Both nodes writing independently!
+[2025-10-21 01:10:12] Partition active: 4/5 minutes elapsed...
+[2025-10-21 01:10:12]   Node A: 61 (+48), Node B: 61 (+48)
+[2025-10-21 01:10:12]   Both nodes writing independently!
+[2025-10-21 01:10:12]   Collecting metrics...
+Publications:
+Subscriptions:
+Publications:
+Subscriptions:
+Node A:
+  Publications: 1
+  Subscriptions: 1
+  Active Subscriptions: 0/1
+Node B:
+  Publications: 0
+  Subscriptions: 0
+  ⚠ Node A has 1 inactive subscription(s)
+[2025-10-21 01:11:13] Partition active: 5/5 minutes elapsed...
+[2025-10-21 01:11:13]   Node A: 72 (+59), Node B: 72 (+59)
+[2025-10-21 01:11:13]   Both nodes writing independently!
+[2025-10-21 01:11:13] Background writer A completed: 59 records written to Node A
+[2025-10-21 01:11:13] Background writer B completed: 59 records written to Node B
+[2025-10-21 01:11:13] Final counts during partition:
+[2025-10-21 01:11:13]   Node A: 72 (wrote 59 records)
+[2025-10-21 01:11:13]   Node B: 72 (wrote 59 records)
+[2025-10-21 01:11:13]   Total new records: 118
+
+[2025-10-21 01:11:13] === PHASE 3: Network Recovery ===
+[2025-10-21 01:11:13] Reconnecting Node B to network...
+Connecting pg-node-b to replication-net-logical...
+✓ pg-node-b connected to replication-net-logical
+[2025-10-21 01:11:13] Waiting for BIDIRECTIONAL synchronization...
+[2025-10-21 01:11:13] Node A will receive records from Node B
+[2025-10-21 01:11:13] Node B will receive records from Node A
+[2025-10-21 01:11:14]   Node A: 72, Node B: 72 (target: ~118 each)
+[2025-10-21 01:11:14] ✓ Bidirectional replication synchronized!
+[2025-10-21 01:11:14]   Recovery time (RTO): 1s
+[2025-10-21 01:11:14]   Final count: 72 records on each node
+[2025-10-21 01:11:14]   Successfully merged: 59 from A + 59 from B
+
+[2025-10-21 01:11:14] === PHASE 4: Final Metrics ===
+
+> db-replication-test@1.0.0 metrics:logical
+> ts-node src/metrics-logical.ts
+
+Collecting Logical Replication Metrics...
+
+
+================================================================================
+Logical Replication Metrics - Node-A
+Timestamp: 2025-10-20T22:11:14.918Z
+================================================================================
+
+Publications:
+  - node_a_pub: test_data
+
+Subscriptions:
+
+  node_a_sub:
+    PID: N/A
+    Received LSN: N/A
+    Latest End LSN: N/A
+    Last Message Send: N/A
+    Last Message Receipt: N/A
+    Latest End Time: N/A
+
+Replication Slots:
+  - node_b_sub:
+    Type: logical
+    Plugin: pgoutput
+    Active: true (PID: 1091)
+================================================================================
+
+
+================================================================================
+Logical Replication Metrics - Node-B
+Timestamp: 2025-10-20T22:11:14.960Z
+================================================================================
+
+Publications:
+  - node_b_pub: test_data
+
+Subscriptions:
+
+  node_b_sub:
+    PID: 1085
+    Received LSN: 0/197A078
+    Latest End LSN: 0/197A078
+    Last Message Send: Tue Oct 21 2025 01:11:14 GMT+0300 (Eastern European Summer Time)
+    Last Message Receipt: Tue Oct 21 2025 01:11:14 GMT+0300 (Eastern European Summer Time)
+    Latest End Time: Tue Oct 21 2025 01:11:14 GMT+0300 (Eastern European Summer Time)
+
+Replication Slots:
+  - node_a_sub:
+    Type: logical
+    Plugin: pgoutput
+    Active: false
+================================================================================
+
+Summary:
+--------
+
+Node A:
+  Publications: 1
+  Subscriptions: 1
+  Active Slots: 1/1
+  Active Subscriptions: 0/1
+
+Node B:
+  Publications: 1
+  Subscriptions: 1
+  Active Slots: 0/1
+  Active Subscriptions: 1/1
+
+Health Check:
+  ⚠ Node A has 1 inactive subscription(s)
+
+[2025-10-21 01:11:15] Test scenario completed!
+[2025-10-21 01:11:15] Summary:
+[2025-10-21 01:11:15]   - Partition duration: 5 minutes
+[2025-10-21 01:11:15]   - Records written to Node A: 59 records
+[2025-10-21 01:11:15]   - Records written to Node B: 59 records
+[2025-10-21 01:11:15]   - Total new records: 118 records
+[2025-10-21 01:11:15]   - Write rate per node: ~12 records/min
+[2025-10-21 01:11:15]   - Recovery time (RTO): 1s
+[2025-10-21 01:11:15]   - Final counts - Node A: 72, Node B: 72
+[2025-10-21 01:11:15]   - Data consistency: ✓ Perfect - Bidirectional sync successful!
+[2025-10-21 01:11:15]   - Active-Active demonstration: ✓ Both nodes wrote independently and merged successfully
