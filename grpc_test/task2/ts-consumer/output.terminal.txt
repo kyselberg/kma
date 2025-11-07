@@ -1,0 +1,198 @@
+(grpc_test_env) ➜  task2 git:(main) ✗ sh start-consumer.sh
+🚀 Starting TypeScript Consumer...
+✅ Starting consumer...
+
+> ts-consumer@1.0.0 start
+> node dist/index.js
+
+🚀 Starting TypeScript Consumer Server...
+✅ Connected to RabbitMQ
+📥 Waiting for messages in queue: task_queue
+📤 Also sending periodic messages to the queue...
+
+📬 Received from Python Producer:
+   ID: 3
+   Type: task
+   Content: Registration completed
+   Timestamp: 2025-10-13T01:41:11.063291
+
+✅ Processed message #3
+
+📬 Received from Python Producer:
+   ID: 3
+   Type: ack
+   Content: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-13T01:41:12.085755
+
+📨 Sent message #1000: Привіт від TypeScript сервера!
+✅ Processed message #3
+
+📬 Received from Python Producer:
+   ID: 3
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-13T01:41:13.096153
+
+✅ Processed message #3
+
+📬 Received from Python Producer:
+   ID: 5
+   Type: task
+   Content: Backup process initiated
+   Timestamp: 2025-10-13T01:41:17.088015
+
+📨 Sent message #1001: Database backup completed
+✅ Processed message #5
+
+📬 Received from Python Producer:
+   ID: 5
+   Type: ack
+   Content: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-13T01:41:18.101568
+
+✅ Processed message #5
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: task
+   Content: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:20.094029
+
+✅ Processed message #6
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: ack
+   Content: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:21.107289
+
+✅ Processed message #6
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:22.118875
+
+📨 Sent message #1002: Email notification sent
+✅ Processed message #6
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:23.133480
+
+✅ Processed message #6
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:24.142538
+
+✅ Processed message #6
+
+📬 Received from Python Producer:
+   ID: 6
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-13T01:41:25.152947
+
+✅ Processed message #6
+
+📨 Sent message #1003: Cache cleared successfully
+📬 Received from Python Producer:
+   ID: 10
+   Type: task
+   Content: Backup process initiated
+   Timestamp: 2025-10-13T01:41:32.116033
+
+📨 Sent message #1004: Report generation finished
+✅ Processed message #10
+
+📬 Received from Python Producer:
+   ID: 10
+   Type: ack
+   Content: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-13T01:41:33.131288
+
+✅ Processed message #10
+
+📬 Received from Python Producer:
+   ID: 10
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-13T01:41:34.137841
+
+✅ Processed message #10
+
+📨 Sent message #1005: Привіт від TypeScript сервера!
+📬 Received from Python Producer:
+   ID: 13
+   Type: task
+   Content: Registration completed
+   Timestamp: 2025-10-13T01:41:41.128924
+
+✅ Processed message #13
+
+📬 Received from Python Producer:
+   ID: 13
+   Type: ack
+   Content: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-13T01:41:42.136374
+
+📨 Sent message #1006: Database backup completed
+✅ Processed message #13
+
+📬 Received from Python Producer:
+   ID: 14
+   Type: task
+   Content: Synchronization started
+   Timestamp: 2025-10-13T01:41:44.131272
+
+✅ Processed message #14
+
+📬 Received from Python Producer:
+   ID: 14
+   Type: ack
+   Content: Confirmed: Processed: Synchronization started
+   Timestamp: 2025-10-13T01:41:45.136650
+
+✅ Processed message #14
+
+📬 Received from Python Producer:
+   ID: 14
+   Type: ack
+   Content: Confirmed: Processed: Confirmed: Processed: Synchronization started
+   Timestamp: 2025-10-13T01:41:46.146058
+
+✅ Processed message #14
+
+📨 Sent message #1007: Email notification sent
+📨 Sent message #1008: Cache cleared successfully
+📬 Received from Python Producer:
+   ID: 18
+   Type: task
+   Content: Registration completed
+   Timestamp: 2025-10-13T01:41:56.153077
+
+✅ Processed message #18
+
+📬 Received from Python Producer:
+   ID: 18
+   Type: ack
+   Content: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-13T01:41:57.165444
+
+📨 Sent message #1009: Report generation finished
+✅ Processed message #18
+
+📬 Received from Python Producer:
+   ID: 19
+   Type: task
+   Content: Synchronization started
+   Timestamp: 2025-10-13T01:41:59.155666
+
+^C
+(grpc_test_env) ➜  task2 git:(main)

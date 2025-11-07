@@ -1,0 +1,218 @@
+(grpc_test_env) ➜  python-producer git:(main) ✗ python producer.py
+Starting Python Producer server...
+
+✅ Connected to RabbitMQ
+📤 Publishing messages to queue: task_queue
+
+📨 Sent message #1: Welcome to the message queue!
+📥 Waiting for incoming messages...
+
+📨 Sent message #2: Order processing #12345
+📨 Sent message #3: Registration completed
+
+📬 Received from TypeScript Consumer:
+   ID: 3
+   Type: response
+   Content: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:12.074Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 1000
+   Type: notification
+   Content: Привіт від TypeScript сервера!
+   Timestamp: 2025-10-12T22:41:12.878Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 3
+   Type: response
+   Content: Processed: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:13.090Z
+
+📨 Sent message #4: Synchronization started
+
+📬 Received from TypeScript Consumer:
+   ID: 3
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:14.113Z
+
+📨 Sent message #5: Backup process initiated
+
+📬 Received from TypeScript Consumer:
+   ID: 1001
+   Type: notification
+   Content: Database backup completed
+   Timestamp: 2025-10-12T22:41:17.879Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 5
+   Type: response
+   Content: Processed: Backup process initiated
+   Timestamp: 2025-10-12T22:41:18.096Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 5
+   Type: response
+   Content: Processed: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-12T22:41:19.105Z
+
+📨 Sent message #6: Welcome to the message queue!
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:21.101Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:22.112Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 1002
+   Type: notification
+   Content: Email notification sent
+   Timestamp: 2025-10-12T22:41:22.878Z
+
+📨 Sent message #7: Order processing #12345
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:23.128Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:24.139Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:25.146Z
+
+📨 Sent message #8: Registration completed
+
+📬 Received from TypeScript Consumer:
+   ID: 6
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Confirmed: Processed: Welcome to the message queue!
+   Timestamp: 2025-10-12T22:41:26.157Z
+
+📨 Sent message #9: Synchronization started
+📨 Sent message #10: Backup process initiated
+
+📬 Received from TypeScript Consumer:
+   ID: 1004
+   Type: notification
+   Content: Report generation finished
+   Timestamp: 2025-10-12T22:41:32.879Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 10
+   Type: response
+   Content: Processed: Backup process initiated
+   Timestamp: 2025-10-12T22:41:33.123Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 10
+   Type: response
+   Content: Processed: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-12T22:41:34.134Z
+
+📨 Sent message #11: Welcome to the message queue!
+
+📬 Received from TypeScript Consumer:
+   ID: 10
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Backup process initiated
+   Timestamp: 2025-10-12T22:41:35.142Z
+
+📨 Sent message #12: Order processing #12345
+📨 Sent message #13: Registration completed
+
+📬 Received from TypeScript Consumer:
+   ID: 13
+   Type: response
+   Content: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:42.133Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 1006
+   Type: notification
+   Content: Database backup completed
+   Timestamp: 2025-10-12T22:41:42.881Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 13
+   Type: response
+   Content: Processed: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:43.137Z
+
+📨 Sent message #14: Synchronization started
+
+📬 Received from TypeScript Consumer:
+   ID: 14
+   Type: response
+   Content: Processed: Synchronization started
+   Timestamp: 2025-10-12T22:41:45.135Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 14
+   Type: response
+   Content: Processed: Confirmed: Processed: Synchronization started
+   Timestamp: 2025-10-12T22:41:46.139Z
+
+📨 Sent message #15: Backup process initiated
+
+📬 Received from TypeScript Consumer:
+   ID: 14
+   Type: response
+   Content: Processed: Confirmed: Processed: Confirmed: Processed: Synchronization started
+   Timestamp: 2025-10-12T22:41:47.150Z
+
+📨 Sent message #16: Welcome to the message queue!
+📨 Sent message #17: Order processing #12345
+📨 Sent message #18: Registration completed
+
+📬 Received from TypeScript Consumer:
+   ID: 18
+   Type: response
+   Content: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:57.159Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 1009
+   Type: notification
+   Content: Report generation finished
+   Timestamp: 2025-10-12T22:41:57.884Z
+
+
+📬 Received from TypeScript Consumer:
+   ID: 18
+   Type: response
+   Content: Processed: Confirmed: Processed: Registration completed
+   Timestamp: 2025-10-12T22:41:58.170Z
+
+📨 Sent message #19: Synchronization started
+^CQuitting...
+(grpc_test_env) ➜  python-producer git:(main)

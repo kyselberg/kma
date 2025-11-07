@@ -1,0 +1,31 @@
+{
+  "name": "grpc-client",
+  "version": "1.0.0",
+  "description": "TypeScript gRPC Client",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "proto:generate": "grpc_tools_node_protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./src/generated --ts_proto_opt=outputServices=grpc-js,env=node,esModuleInterop=true -I ../proto ../proto/user.proto"
+  },
+  "keywords": [
+    "grpc",
+    "typescript",
+    "protobuf"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.11",
+    "@grpc/proto-loader": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "grpc-tools": "^1.12.4",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.1",
+    "ts-proto": "^2.7.7",
+    "typescript": "^5.2.2"
+  }
+}
