@@ -1,0 +1,45 @@
+➜  partitioning_test git:(main) ✗ sh verify-variant-b.sh
+Running Variant B verification (hash sharding) inside container coordinator...
+SET
+DO
+      part      |  count
+----------------+---------
+ events_mod2_r0 | 6131464
+ events_mod2_r1 | 5868686
+(2 rows)
+
+                tenant
+--------------------------------------
+ 3590e925-3115-46b3-9471-bb9031bead92
+(1 row)
+
+    what
+------------
+ insert_one
+(1 row)
+
+INSERT 0 1
+                                                                 QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------
+ Foreign Scan on app.events_mod2_r1 events_sharded  (cost=100.00..120.74 rows=4 width=72) (actual time=1.764..1.764 rows=1 loops=1)
+   Output: events_sharded.id, events_sharded.tenant_id, events_sharded.occurred_at, events_sharded.payload
+   Remote SQL: SELECT id, tenant_id, occurred_at, payload FROM app.events_shard WHERE ((tenant_id = 'ccc3641d-246e-4cdf-81cb-8490cbf24197'))
+ Planning Time: 0.108 ms
+ Execution Time: 1.909 ms
+(5 rows)
+
+
+Shard-level counts:
+ shard1_count
+--------------
+      6131464
+(1 row)
+
+ shard2_count
+--------------
+      5868687
+(1 row)
+
+
+Done. Review the partition/shard breakdown above.
+➜  partitioning_test git:(main) ✗

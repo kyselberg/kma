@@ -1,0 +1,95 @@
+services:
+  plain:
+    image: postgres:16
+    container_name: pg_plain
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "54321:5432"
+    volumes:
+      - ./sql/plain/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  partitioned:
+    image: postgres:16
+    container_name: pg_partitioned
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "54322:5432"
+    volumes:
+      - ./sql/variant_a/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  shard1:
+    image: postgres:16
+    container_name: pg_shard1
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "54323:5432"
+    volumes:
+      - ./sql/variant_b/shard/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  shard2:
+    image: postgres:16
+    container_name: pg_shard2
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "54324:5432"
+    volumes:
+      - ./sql/variant_b/shard/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  coordinator:
+    image: postgres:16
+    container_name: pg_coordinator
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    depends_on:
+      shard1:
+        condition: service_healthy
+      shard2:
+        condition: service_healthy
+    ports:
+      - "54325:5432"
+    volumes:
+      - ./sql/variant_b/coordinator/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+networks:
+  default:
+    name: partitioning_net
+    driver: bridge

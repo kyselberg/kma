@@ -1,0 +1,127 @@
+Timing is on.
+SET
+Time: 0.309 ms
+                                                                                               QUERY PLAN                                                                                               
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using events_plain_pkey on app.events_plain  (cost=1.05..9.07 rows=1 width=82) (actual time=1.151..1.152 rows=1 loops=1)
+   Output: events_plain.id, events_plain.tenant_id, events_plain.occurred_at, events_plain.payload
+   Index Cond: (events_plain.id = $0)
+   Buffers: shared hit=5 read=4
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_id  (cost=0.43..0.49 rows=1 width=16) (actual time=0.413..0.413 rows=1 loops=1)
+           Output: any_id.id
+           Buffers: shared hit=2 read=2
+           ->  Limit  (cost=0.43..0.48 rows=1 width=24) (actual time=0.412..0.412 rows=1 loops=1)
+                 Output: events_plain_1.id, events_plain_1.occurred_at
+                 Buffers: shared hit=2 read=2
+                 ->  Index Scan Backward using idx_events_plain_occurred_at on app.events_plain events_plain_1  (cost=0.43..530826.15 rows=12000800 width=24) (actual time=0.411..0.412 rows=1 loops=1)
+                       Output: events_plain_1.id, events_plain_1.occurred_at
+                       Buffers: shared hit=2 read=2
+ Planning:
+   Buffers: shared hit=104 read=25
+ Planning Time: 7.893 ms
+ Execution Time: 1.200 ms
+(18 rows)
+
+Time: 20.013 ms
+                                                                                          QUERY PLAN                                                                                          
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=16195.44..16195.45 rows=1 width=8) (actual time=35.626..37.159 rows=1 loops=1)
+   Output: count(*)
+   Buffers: shared hit=1708 read=1
+   ->  Gather  (cost=16195.23..16195.44 rows=2 width=8) (actual time=35.447..37.150 rows=3 loops=1)
+         Output: (PARTIAL count(*))
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=1708 read=1
+         ->  Partial Aggregate  (cost=15195.23..15195.24 rows=1 width=8) (actual time=33.894..33.895 rows=1 loops=3)
+               Output: PARTIAL count(*)
+               Buffers: shared hit=1708 read=1
+               Worker 0:  actual time=33.269..33.269 rows=1 loops=1
+                 Buffers: shared hit=552
+               Worker 1:  actual time=33.192..33.192 rows=1 loops=1
+                 Buffers: shared hit=539
+               ->  Parallel Index Only Scan using idx_events_plain_occurred_at on app.events_plain  (cost=0.45..14667.92 rows=210921 width=0) (actual time=0.069..27.830 rows=166667 loops=3)
+                     Output: occurred_at
+                     Index Cond: ((events_plain.occurred_at >= (date_trunc('month'::text, now()) - '1 mon'::interval)) AND (events_plain.occurred_at < date_trunc('month'::text, now())))
+                     Heap Fetches: 0
+                     Buffers: shared hit=1708 read=1
+                     Worker 0:  actual time=0.069..27.247 rows=163326 loops=1
+                       Buffers: shared hit=552
+                     Worker 1:  actual time=0.053..27.440 rows=159002 loops=1
+                       Buffers: shared hit=539
+ Planning:
+   Buffers: shared hit=14
+ Planning Time: 0.091 ms
+ Execution Time: 37.192 ms
+(28 rows)
+
+Time: 38.835 ms
+                                                                                                   QUERY PLAN                                                                                                    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=86.41..86.42 rows=1 width=8) (actual time=2.507..2.507 rows=1 loops=1)
+   Output: count(*)
+   Buffers: shared hit=7 read=14
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_tenant  (cost=0.43..0.49 rows=1 width=16) (actual time=0.011..0.011 rows=1 loops=1)
+           Output: any_tenant.tenant_id
+           Buffers: shared hit=4
+           ->  Limit  (cost=0.43..0.48 rows=1 width=24) (actual time=0.010..0.011 rows=1 loops=1)
+                 Output: events_plain_1.tenant_id, events_plain_1.occurred_at
+                 Buffers: shared hit=4
+                 ->  Index Scan Backward using idx_events_plain_occurred_at on app.events_plain events_plain_1  (cost=0.43..530826.15 rows=12000800 width=24) (actual time=0.010..0.010 rows=1 loops=1)
+                       Output: events_plain_1.tenant_id, events_plain_1.occurred_at
+                       Buffers: shared hit=4
+   ->  Index Only Scan using idx_events_plain_tenant_time on app.events_plain  (cost=0.57..82.19 rows=1494 width=0) (actual time=0.692..2.448 rows=1491 loops=1)
+         Output: events_plain.tenant_id, events_plain.occurred_at
+         Index Cond: ((events_plain.tenant_id = $0) AND (events_plain.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)) AND (events_plain.occurred_at < date_trunc('month'::text, now())))
+         Heap Fetches: 0
+         Buffers: shared hit=7 read=14
+ Planning Time: 0.108 ms
+ Execution Time: 2.524 ms
+(20 rows)
+
+Time: 2.890 ms
+                                                                                      QUERY PLAN                                                                                       
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ GroupAggregate  (cost=2156860.26..2396876.26 rows=12000800 width=16) (actual time=5310.420..6200.069 rows=24 loops=1)
+   Output: (date_trunc('month'::text, occurred_at)), count(*)
+   Group Key: (date_trunc('month'::text, events_plain.occurred_at))
+   Buffers: shared hit=893548 read=44249 dirtied=2, temp read=35238 written=35306
+   ->  Sort  (cost=2156860.26..2186862.26 rows=12000800 width=8) (actual time=5270.312..5811.026 rows=12000000 loops=1)
+         Output: (date_trunc('month'::text, occurred_at))
+         Sort Key: (date_trunc('month'::text, events_plain.occurred_at))
+         Sort Method: external merge  Disk: 140984kB
+         Buffers: shared hit=893548 read=44249 dirtied=2, temp read=35238 written=35306
+         ->  Index Only Scan using idx_events_plain_occurred_at on app.events_plain  (cost=0.44..417615.56 rows=12000800 width=8) (actual time=58.410..2654.064 rows=12000000 loops=1)
+               Output: date_trunc('month'::text, occurred_at)
+               Index Cond: (events_plain.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+               Heap Fetches: 50
+               Buffers: shared hit=893545 read=44249 dirtied=2
+ Planning:
+   Buffers: shared hit=2 read=2
+ Planning Time: 0.139 ms
+ JIT:
+   Functions: 7
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+   Timing: Generation 0.251 ms, Inlining 36.775 ms, Optimization 11.263 ms, Emission 10.514 ms, Total 58.803 ms
+ Execution Time: 6232.960 ms
+(22 rows)
+
+Time: 6233.918 ms (00:06.234)
+BEGIN
+Time: 0.219 ms
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Insert on app.events_plain  (cost=0.00..0.18 rows=0 width=0) (actual time=21.698..21.699 rows=0 loops=1)
+   Buffers: shared hit=88 read=65 dirtied=30
+   ->  Function Scan on pg_catalog.generate_series  (cost=0.00..0.18 rows=10 width=72) (actual time=0.042..0.075 rows=10 loops=1)
+         Output: gen_random_uuid(), gen_random_uuid(), now(), '{"bench": true}'::jsonb
+         Function Call: generate_series(1, 10)
+ Planning Time: 0.112 ms
+ Execution Time: 21.739 ms
+(7 rows)
+
+Time: 22.535 ms
+ROLLBACK
+Time: 0.128 ms

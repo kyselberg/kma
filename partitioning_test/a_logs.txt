@@ -1,0 +1,72 @@
+➜  partitioning_test git:(main) ✗ sh verify-variant-a.sh
+Running Variant A verification (range partitions) inside container pg_partitioned...
+SET
+INSERT 0 4
+ partition_name |  rows
+----------------+--------
+ events_2024_01 | 500000
+ events_2024_02 | 500000
+ events_2024_03 | 500000
+ events_2024_04 | 500000
+ events_2024_05 | 500000
+ events_2024_06 | 500000
+ events_2024_07 | 500000
+ events_2024_08 | 500000
+ events_2024_09 | 500000
+ events_2024_10 | 500000
+ events_2024_11 | 500000
+ events_2024_12 | 500000
+ events_2025_01 | 500000
+ events_2025_02 | 500000
+ events_2025_03 | 500000
+ events_2025_04 | 500000
+ events_2025_05 | 500000
+ events_2025_06 | 500000
+ events_2025_07 | 500000
+ events_2025_08 | 500000
+ events_2025_09 | 500002
+ events_2025_10 | 500002
+ events_2025_11 | 500002
+ events_2025_12 | 500002
+(24 rows)
+
+                                                                                     QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=15808.03..15808.04 rows=1 width=8) (actual time=146.927..153.165 rows=1 loops=1)
+   Output: count(*)
+   Buffers: shared hit=130 read=7014
+   ->  Gather  (cost=15807.81..15808.02 rows=2 width=8) (actual time=146.857..153.161 rows=3 loops=1)
+         Output: (PARTIAL count(*))
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=130 read=7014
+         ->  Partial Aggregate  (cost=14807.81..14807.82 rows=1 width=8) (actual time=85.878..85.879 rows=1 loops=3)
+               Output: PARTIAL count(*)
+               Buffers: shared hit=130 read=7014
+               Worker 0:  actual time=48.637..48.637 rows=1 loops=1
+                 Buffers: shared hit=41 read=1179
+               Worker 1:  actual time=63.214..63.214 rows=1 loops=1
+                 Buffers: shared hit=44 read=1796
+               ->  Parallel Append  (cost=4.20..14286.89 rows=208370 width=0) (actual time=0.039..78.805 rows=166667 loops=3)
+                     Buffers: shared hit=130 read=7014
+                     Worker 0:  actual time=0.041..45.031 rows=85400 loops=1
+                       Buffers: shared hit=41 read=1179
+                     Worker 1:  actual time=0.045..57.831 rows=128731 loops=1
+                       Buffers: shared hit=44 read=1796
+                     Subplans Removed: 37
+                     ->  Parallel Seq Scan on app.events_2025_11 events_1  (cost=0.00..12873.17 rows=208333 width=0) (actual time=0.037..68.908 rows=166667 loops=3)
+                           Filter: ((events_1.occurred_at >= date_trunc('month'::text, now())) AND (events_1.occurred_at < (date_trunc('month'::text, now()) + '1 mon'::interval)))
+                           Buffers: shared hit=130 read=7014
+                           Worker 0:  actual time=0.039..39.972 rows=85400 loops=1
+                             Buffers: shared hit=41 read=1179
+                           Worker 1:  actual time=0.043..50.258 rows=128731 loops=1
+                             Buffers: shared hit=44 read=1796
+ Planning:
+   Buffers: shared hit=537
+ Planning Time: 5.096 ms
+ Execution Time: 153.206 ms
+(33 rows)
+
+
+Done. Review the partition names and counts above.
+➜  partitioning_test git:(main) ✗

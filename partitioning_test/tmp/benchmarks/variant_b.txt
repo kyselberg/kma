@@ -1,0 +1,117 @@
+Timing is on.
+SET
+Time: 0.187 ms
+                                                                             QUERY PLAN                                                                              
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Append  (cost=300.07..441.59 rows=8 width=72) (actual time=92.237..93.297 rows=1 loops=1)
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_row  (cost=200.01..200.07 rows=1 width=16) (actual time=91.185..91.188 rows=1 loops=1)
+           Output: any_row.id
+           ->  Limit  (cost=200.01..200.06 rows=1 width=40) (actual time=91.184..91.186 rows=1 loops=1)
+                 Output: events_sharded_3.id, NULL::uuid, events_sharded_3.occurred_at
+                 ->  Merge Append  (cost=200.01..367.31 rows=3412 width=40) (actual time=91.178..91.180 rows=1 loops=1)
+                       Sort Key: events_sharded_3.occurred_at DESC
+                       ->  Foreign Scan on app.events_mod2_r0 events_sharded_4  (cost=100.00..166.59 rows=1706 width=40) (actual time=59.841..59.842 rows=1 loops=1)
+                             Output: events_sharded_4.id, NULL::uuid, events_sharded_4.occurred_at
+                             Remote SQL: SELECT id, occurred_at FROM app.events_shard ORDER BY occurred_at DESC NULLS FIRST
+                       ->  Foreign Scan on app.events_mod2_r1 events_sharded_5  (cost=100.00..166.59 rows=1706 width=40) (actual time=31.334..31.335 rows=1 loops=1)
+                             Output: events_sharded_5.id, NULL::uuid, events_sharded_5.occurred_at
+                             Remote SQL: SELECT id, occurred_at FROM app.events_shard ORDER BY occurred_at DESC NULLS FIRST
+   ->  Foreign Scan on app.events_mod2_r0 events_sharded_1  (cost=100.00..120.74 rows=4 width=72) (actual time=92.236..92.237 rows=1 loops=1)
+         Output: events_sharded_1.id, events_sharded_1.tenant_id, events_sharded_1.occurred_at, events_sharded_1.payload
+         Remote SQL: SELECT id, tenant_id, occurred_at, payload FROM app.events_shard WHERE ((id = $1::uuid))
+   ->  Foreign Scan on app.events_mod2_r1 events_sharded_2  (cost=100.00..120.74 rows=4 width=72) (actual time=1.054..1.054 rows=0 loops=1)
+         Output: events_sharded_2.id, events_sharded_2.tenant_id, events_sharded_2.occurred_at, events_sharded_2.payload
+         Remote SQL: SELECT id, tenant_id, occurred_at, payload FROM app.events_shard WHERE ((id = $1::uuid))
+ Planning Time: 1.643 ms
+ Execution Time: 109.801 ms
+(22 rows)
+
+Time: 112.808 ms
+                                                                                       QUERY PLAN                                                                                        
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=632.86..632.87 rows=1 width=8) (actual time=44.149..44.152 rows=1 loops=1)
+   Output: count(*)
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_tenant  (cost=200.01..200.07 rows=1 width=16) (actual time=11.816..11.819 rows=1 loops=1)
+           Output: any_tenant.tenant_id
+           ->  Limit  (cost=200.01..200.06 rows=1 width=24) (actual time=11.815..11.816 rows=1 loops=1)
+                 Output: events_sharded_3.tenant_id, events_sharded_3.occurred_at
+                 ->  Merge Append  (cost=200.01..367.31 rows=3412 width=24) (actual time=11.813..11.814 rows=1 loops=1)
+                       Sort Key: events_sharded_3.occurred_at DESC
+                       ->  Foreign Scan on app.events_mod2_r0 events_sharded_4  (cost=100.00..166.59 rows=1706 width=24) (actual time=2.873..2.874 rows=1 loops=1)
+                             Output: events_sharded_4.tenant_id, events_sharded_4.occurred_at
+                             Remote SQL: SELECT tenant_id, occurred_at FROM app.events_shard ORDER BY occurred_at DESC NULLS FIRST
+                       ->  Foreign Scan on app.events_mod2_r1 events_sharded_5  (cost=100.00..166.59 rows=1706 width=24) (actual time=8.935..8.935 rows=1 loops=1)
+                             Output: events_sharded_5.tenant_id, events_sharded_5.occurred_at
+                             Remote SQL: SELECT tenant_id, occurred_at FROM app.events_shard ORDER BY occurred_at DESC NULLS FIRST
+   ->  Append  (cost=100.00..432.79 rows=2 width=0) (actual time=38.503..44.059 rows=1491 loops=1)
+         ->  Foreign Scan on app.events_mod2_r0 events_sharded_1  (cost=100.00..216.39 rows=1 width=0) (actual time=26.621..32.095 rows=1491 loops=1)
+               Filter: ((events_sharded_1.occurred_at < date_trunc('month'::text, now())) AND (events_sharded_1.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)))
+               Rows Removed by Filter: 10462
+               Remote SQL: SELECT occurred_at FROM app.events_shard WHERE ((tenant_id = $1::uuid))
+         ->  Foreign Scan on app.events_mod2_r1 events_sharded_2  (cost=100.00..216.39 rows=1 width=0) (never executed)
+               Filter: ((events_sharded_2.occurred_at < date_trunc('month'::text, now())) AND (events_sharded_2.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)))
+               Remote SQL: SELECT occurred_at FROM app.events_shard WHERE ((tenant_id = $1::uuid))
+ Planning Time: 0.224 ms
+ Execution Time: 44.870 ms
+(25 rows)
+
+Time: 46.141 ms
+                                                                                       QUERY PLAN                                                                                       
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=543.97..543.98 rows=1 width=8) (actual time=23223.781..23223.789 rows=1 loops=1)
+   Output: count(*)
+   ->  Append  (cost=100.00..543.88 rows=34 width=0) (actual time=9795.530..23208.462 rows=500000 loops=1)
+         ->  Foreign Scan on app.events_mod2_r0 events_sharded_1  (cost=100.00..271.86 rows=17 width=0) (actual time=9795.526..10433.540 rows=255466 loops=1)
+               Filter: ((events_sharded_1.occurred_at < date_trunc('month'::text, now())) AND (events_sharded_1.occurred_at >= (date_trunc('month'::text, now()) - '1 mon'::interval)))
+               Rows Removed by Filter: 5875906
+               Remote SQL: SELECT occurred_at FROM app.events_shard
+         ->  Foreign Scan on app.events_mod2_r1 events_sharded_2  (cost=100.00..271.86 rows=17 width=0) (actual time=11547.181..12752.937 rows=244534 loops=1)
+               Filter: ((events_sharded_2.occurred_at < date_trunc('month'::text, now())) AND (events_sharded_2.occurred_at >= (date_trunc('month'::text, now()) - '1 mon'::interval)))
+               Rows Removed by Filter: 5624094
+               Remote SQL: SELECT occurred_at FROM app.events_shard
+ Planning Time: 3.275 ms
+ Execution Time: 23227.328 ms
+(13 rows)
+
+Time: 23232.356 ms (00:23.232)
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=456.23..456.73 rows=200 width=16) (actual time=19996.206..19996.208 rows=24 loops=1)
+   Output: (date_trunc('month'::text, events_sharded.occurred_at)), (count(*))
+   Sort Key: (date_trunc('month'::text, events_sharded.occurred_at))
+   Sort Method: quicksort  Memory: 25kB
+   ->  HashAggregate  (cost=446.08..448.58 rows=200 width=16) (actual time=19996.084..19996.088 rows=24 loops=1)
+         Output: (date_trunc('month'::text, events_sharded.occurred_at)), count(*)
+         Group Key: (date_trunc('month'::text, events_sharded.occurred_at))
+         Batches: 1  Memory Usage: 40kB
+         ->  Append  (cost=100.00..437.55 rows=1706 width=8) (actual time=6.838..19093.717 rows=12000000 loops=1)
+               ->  Foreign Scan on app.events_mod2_r0 events_sharded_1  (cost=100.00..214.51 rows=853 width=8) (actual time=6.837..9410.535 rows=6131372 loops=1)
+                     Output: date_trunc('month'::text, events_sharded_1.occurred_at)
+                     Filter: (events_sharded_1.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                     Remote SQL: SELECT occurred_at FROM app.events_shard
+               ->  Foreign Scan on app.events_mod2_r1 events_sharded_2  (cost=100.00..214.51 rows=853 width=8) (actual time=2.477..9140.053 rows=5868628 loops=1)
+                     Output: date_trunc('month'::text, events_sharded_2.occurred_at)
+                     Filter: (events_sharded_2.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                     Remote SQL: SELECT occurred_at FROM app.events_shard
+ Planning Time: 1.086 ms
+ Execution Time: 19997.618 ms
+(19 rows)
+
+Time: 19999.796 ms (00:20.000)
+BEGIN
+Time: 0.093 ms
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Insert on app.events_sharded  (cost=0.00..0.18 rows=0 width=0) (actual time=13.849..13.849 rows=0 loops=1)
+   ->  Function Scan on pg_catalog.generate_series  (cost=0.00..0.18 rows=10 width=72) (actual time=0.062..0.102 rows=10 loops=1)
+         Output: gen_random_uuid(), gen_random_uuid(), now(), '{"bench": true}'::jsonb
+         Function Call: generate_series(1, 10)
+ Planning Time: 0.052 ms
+ Execution Time: 13.992 ms
+(6 rows)
+
+Time: 16.541 ms
+ROLLBACK
+Time: 0.433 ms

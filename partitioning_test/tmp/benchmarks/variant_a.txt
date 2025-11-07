@@ -1,0 +1,794 @@
+Timing is on.
+SET
+Time: 0.139 ms
+                                                                                              QUERY PLAN                                                                                              
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Append  (cost=17.55..393.31 rows=80 width=75) (actual time=1.406..1.424 rows=1 loops=1)
+   Buffers: shared hit=211
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_id  (cost=13.24..13.37 rows=1 width=16) (actual time=0.707..0.712 rows=1 loops=1)
+           Output: any_id.id
+           Buffers: shared hit=110
+           ->  Limit  (cost=13.24..13.36 rows=1 width=24) (actual time=0.707..0.711 rows=1 loops=1)
+                 Output: events_39.id, events_39.occurred_at
+                 Buffers: shared hit=110
+                 ->  Merge Append  (cost=13.24..1427385.99 rows=12011340 width=24) (actual time=0.706..0.710 rows=1 loops=1)
+                       Sort Key: events_39.occurred_at DESC
+                       Buffers: shared hit=110
+                       ->  Index Scan Backward using events_2023_05_occurred_at on app.events_2023_05 events_40  (cost=0.15..56.30 rows=810 width=24) (actual time=0.003..0.003 rows=0 loops=1)
+                             Output: events_40.id, events_40.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_06_occurred_at on app.events_2023_06 events_41  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_41.id, events_41.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_07_occurred_at on app.events_2023_07 events_42  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_42.id, events_42.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_08_occurred_at on app.events_2023_08 events_43  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_43.id, events_43.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_09_occurred_at on app.events_2023_09 events_44  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_44.id, events_44.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_10_occurred_at on app.events_2023_10 events_45  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_45.id, events_45.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_11_occurred_at on app.events_2023_11 events_46  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_46.id, events_46.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_12_occurred_at on app.events_2023_12 events_47  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_47.id, events_47.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2024_01_occurred_at on app.events_2024_01 events_48  (cost=0.42..43708.39 rows=500000 width=24) (actual time=0.083..0.083 rows=1 loops=1)
+                             Output: events_48.id, events_48.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_02_occurred_at on app.events_2024_02 events_49  (cost=0.42..43900.42 rows=500000 width=24) (actual time=0.024..0.024 rows=1 loops=1)
+                             Output: events_49.id, events_49.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_03_occurred_at on app.events_2024_03 events_50  (cost=0.42..43955.13 rows=500000 width=24) (actual time=0.020..0.020 rows=1 loops=1)
+                             Output: events_50.id, events_50.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_04_occurred_at on app.events_2024_04 events_51  (cost=0.42..43704.40 rows=500000 width=24) (actual time=0.023..0.023 rows=1 loops=1)
+                             Output: events_51.id, events_51.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_05_occurred_at on app.events_2024_05 events_52  (cost=0.42..43984.39 rows=500000 width=24) (actual time=0.019..0.019 rows=1 loops=1)
+                             Output: events_52.id, events_52.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_06_occurred_at on app.events_2024_06 events_53  (cost=0.42..43811.14 rows=500000 width=24) (actual time=0.021..0.021 rows=1 loops=1)
+                             Output: events_53.id, events_53.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_07_occurred_at on app.events_2024_07 events_54  (cost=0.42..43556.29 rows=500000 width=24) (actual time=0.019..0.019 rows=1 loops=1)
+                             Output: events_54.id, events_54.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_08_occurred_at on app.events_2024_08 events_55  (cost=0.42..43684.37 rows=500000 width=24) (actual time=0.019..0.019 rows=1 loops=1)
+                             Output: events_55.id, events_55.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_09_occurred_at on app.events_2024_09 events_56  (cost=0.42..43784.10 rows=500000 width=24) (actual time=0.017..0.017 rows=1 loops=1)
+                             Output: events_56.id, events_56.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_10_occurred_at on app.events_2024_10 events_57  (cost=0.42..43828.02 rows=500000 width=24) (actual time=0.018..0.018 rows=1 loops=1)
+                             Output: events_57.id, events_57.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_11_occurred_at on app.events_2024_11 events_58  (cost=0.42..43764.42 rows=500000 width=24) (actual time=0.016..0.016 rows=1 loops=1)
+                             Output: events_58.id, events_58.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_12_occurred_at on app.events_2024_12 events_59  (cost=0.42..43827.69 rows=500000 width=24) (actual time=0.019..0.020 rows=1 loops=1)
+                             Output: events_59.id, events_59.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_01_occurred_at on app.events_2025_01 events_60  (cost=0.42..43892.33 rows=500000 width=24) (actual time=0.011..0.011 rows=1 loops=1)
+                             Output: events_60.id, events_60.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_02_occurred_at on app.events_2025_02 events_61  (cost=0.42..43752.41 rows=500000 width=24) (actual time=0.023..0.023 rows=1 loops=1)
+                             Output: events_61.id, events_61.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_03_occurred_at on app.events_2025_03 events_62  (cost=0.42..43952.41 rows=500000 width=24) (actual time=0.013..0.013 rows=1 loops=1)
+                             Output: events_62.id, events_62.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_04_occurred_at on app.events_2025_04 events_63  (cost=0.42..43875.15 rows=500000 width=24) (actual time=0.012..0.012 rows=1 loops=1)
+                             Output: events_63.id, events_63.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_05_occurred_at on app.events_2025_05 events_64  (cost=0.42..44004.42 rows=500000 width=24) (actual time=0.010..0.010 rows=1 loops=1)
+                             Output: events_64.id, events_64.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_06_occurred_at on app.events_2025_06 events_65  (cost=0.42..43575.00 rows=500000 width=24) (actual time=0.010..0.010 rows=1 loops=1)
+                             Output: events_65.id, events_65.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_07_occurred_at on app.events_2025_07 events_66  (cost=0.42..43628.41 rows=500000 width=24) (actual time=0.011..0.011 rows=1 loops=1)
+                             Output: events_66.id, events_66.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_08_occurred_at on app.events_2025_08 events_67  (cost=0.42..43651.42 rows=500000 width=24) (actual time=0.011..0.012 rows=1 loops=1)
+                             Output: events_67.id, events_67.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_09_occurred_at on app.events_2025_09 events_68  (cost=0.42..43916.17 rows=500000 width=24) (actual time=0.012..0.012 rows=1 loops=1)
+                             Output: events_68.id, events_68.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_10_occurred_at on app.events_2025_10 events_69  (cost=0.42..43847.23 rows=500000 width=24) (actual time=0.014..0.014 rows=1 loops=1)
+                             Output: events_69.id, events_69.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_11_occurred_at on app.events_2025_11 events_70  (cost=0.42..43771.62 rows=500000 width=24) (actual time=0.057..0.057 rows=1 loops=1)
+                             Output: events_70.id, events_70.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_12_occurred_at on app.events_2025_12 events_71  (cost=0.42..43991.53 rows=500000 width=24) (actual time=0.195..0.195 rows=1 loops=1)
+                             Output: events_71.id, events_71.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2026_01_occurred_at on app.events_2026_01 events_72  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_72.id, events_72.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_02_occurred_at on app.events_2026_02 events_73  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_73.id, events_73.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_03_occurred_at on app.events_2026_03 events_74  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_74.id, events_74.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_04_occurred_at on app.events_2026_04 events_75  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_75.id, events_75.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_05_occurred_at on app.events_2026_05 events_76  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_76.id, events_76.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_default_occurred_at on app.events_default events_77  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_77.id, events_77.occurred_at
+                             Buffers: shared hit=1
+   ->  Bitmap Heap Scan on app.events_2023_05 events_1  (cost=4.18..12.64 rows=4 width=72) (actual time=0.712..0.712 rows=0 loops=1)
+         Output: events_1.id, events_1.tenant_id, events_1.occurred_at, events_1.payload
+         Recheck Cond: (events_1.id = $0)
+         Buffers: shared hit=112
+         ->  Bitmap Index Scan on events_2023_05_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.711..0.711 rows=0 loops=1)
+               Index Cond: (events_1.id = $0)
+               Buffers: shared hit=112
+   ->  Bitmap Heap Scan on app.events_2023_06 events_2  (cost=4.18..12.64 rows=4 width=72) (actual time=0.002..0.002 rows=0 loops=1)
+         Output: events_2.id, events_2.tenant_id, events_2.occurred_at, events_2.payload
+         Recheck Cond: (events_2.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_06_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_2.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_07 events_3  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_3.id, events_3.tenant_id, events_3.occurred_at, events_3.payload
+         Recheck Cond: (events_3.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_07_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_3.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_08 events_4  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_4.id, events_4.tenant_id, events_4.occurred_at, events_4.payload
+         Recheck Cond: (events_4.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_08_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_4.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_09 events_5  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_5.id, events_5.tenant_id, events_5.occurred_at, events_5.payload
+         Recheck Cond: (events_5.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_09_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_5.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_10 events_6  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_6.id, events_6.tenant_id, events_6.occurred_at, events_6.payload
+         Recheck Cond: (events_6.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_10_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_6.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_11 events_7  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.002 rows=0 loops=1)
+         Output: events_7.id, events_7.tenant_id, events_7.occurred_at, events_7.payload
+         Recheck Cond: (events_7.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_11_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_7.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2023_12 events_8  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_8.id, events_8.tenant_id, events_8.occurred_at, events_8.payload
+         Recheck Cond: (events_8.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2023_12_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_8.id = $0)
+               Buffers: shared hit=2
+   ->  Index Scan using events_2024_01_pkey on app.events_2024_01 events_9  (cost=0.42..8.44 rows=1 width=82) (actual time=0.011..0.011 rows=0 loops=1)
+         Output: events_9.id, events_9.tenant_id, events_9.occurred_at, events_9.payload
+         Index Cond: (events_9.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_02_pkey on app.events_2024_02 events_10  (cost=0.42..8.44 rows=1 width=82) (actual time=0.012..0.013 rows=0 loops=1)
+         Output: events_10.id, events_10.tenant_id, events_10.occurred_at, events_10.payload
+         Index Cond: (events_10.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_03_pkey on app.events_2024_03 events_11  (cost=0.42..8.44 rows=1 width=82) (actual time=0.014..0.014 rows=0 loops=1)
+         Output: events_11.id, events_11.tenant_id, events_11.occurred_at, events_11.payload
+         Index Cond: (events_11.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_04_pkey on app.events_2024_04 events_12  (cost=0.42..8.44 rows=1 width=82) (actual time=0.018..0.018 rows=0 loops=1)
+         Output: events_12.id, events_12.tenant_id, events_12.occurred_at, events_12.payload
+         Index Cond: (events_12.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_05_pkey on app.events_2024_05 events_13  (cost=0.42..8.44 rows=1 width=82) (actual time=0.013..0.013 rows=0 loops=1)
+         Output: events_13.id, events_13.tenant_id, events_13.occurred_at, events_13.payload
+         Index Cond: (events_13.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_06_pkey on app.events_2024_06 events_14  (cost=0.42..8.44 rows=1 width=82) (actual time=0.018..0.018 rows=0 loops=1)
+         Output: events_14.id, events_14.tenant_id, events_14.occurred_at, events_14.payload
+         Index Cond: (events_14.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_07_pkey on app.events_2024_07 events_15  (cost=0.42..8.44 rows=1 width=82) (actual time=0.016..0.016 rows=0 loops=1)
+         Output: events_15.id, events_15.tenant_id, events_15.occurred_at, events_15.payload
+         Index Cond: (events_15.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_08_pkey on app.events_2024_08 events_16  (cost=0.42..8.44 rows=1 width=82) (actual time=0.014..0.014 rows=0 loops=1)
+         Output: events_16.id, events_16.tenant_id, events_16.occurred_at, events_16.payload
+         Index Cond: (events_16.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_09_pkey on app.events_2024_09 events_17  (cost=0.42..8.44 rows=1 width=82) (actual time=0.016..0.016 rows=0 loops=1)
+         Output: events_17.id, events_17.tenant_id, events_17.occurred_at, events_17.payload
+         Index Cond: (events_17.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_10_pkey on app.events_2024_10 events_18  (cost=0.42..8.44 rows=1 width=82) (actual time=0.016..0.016 rows=0 loops=1)
+         Output: events_18.id, events_18.tenant_id, events_18.occurred_at, events_18.payload
+         Index Cond: (events_18.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_11_pkey on app.events_2024_11 events_19  (cost=0.42..8.44 rows=1 width=82) (actual time=0.021..0.021 rows=0 loops=1)
+         Output: events_19.id, events_19.tenant_id, events_19.occurred_at, events_19.payload
+         Index Cond: (events_19.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2024_12_pkey on app.events_2024_12 events_20  (cost=0.42..8.44 rows=1 width=82) (actual time=0.025..0.025 rows=0 loops=1)
+         Output: events_20.id, events_20.tenant_id, events_20.occurred_at, events_20.payload
+         Index Cond: (events_20.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_01_pkey on app.events_2025_01 events_21  (cost=0.42..8.44 rows=1 width=82) (actual time=0.019..0.019 rows=0 loops=1)
+         Output: events_21.id, events_21.tenant_id, events_21.occurred_at, events_21.payload
+         Index Cond: (events_21.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_02_pkey on app.events_2025_02 events_22  (cost=0.42..8.44 rows=1 width=82) (actual time=0.020..0.020 rows=0 loops=1)
+         Output: events_22.id, events_22.tenant_id, events_22.occurred_at, events_22.payload
+         Index Cond: (events_22.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_03_pkey on app.events_2025_03 events_23  (cost=0.42..8.44 rows=1 width=82) (actual time=0.020..0.020 rows=0 loops=1)
+         Output: events_23.id, events_23.tenant_id, events_23.occurred_at, events_23.payload
+         Index Cond: (events_23.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_04_pkey on app.events_2025_04 events_24  (cost=0.42..8.44 rows=1 width=82) (actual time=0.013..0.013 rows=0 loops=1)
+         Output: events_24.id, events_24.tenant_id, events_24.occurred_at, events_24.payload
+         Index Cond: (events_24.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_05_pkey on app.events_2025_05 events_25  (cost=0.42..8.44 rows=1 width=82) (actual time=0.016..0.016 rows=0 loops=1)
+         Output: events_25.id, events_25.tenant_id, events_25.occurred_at, events_25.payload
+         Index Cond: (events_25.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_06_pkey on app.events_2025_06 events_26  (cost=0.42..8.44 rows=1 width=82) (actual time=0.017..0.017 rows=0 loops=1)
+         Output: events_26.id, events_26.tenant_id, events_26.occurred_at, events_26.payload
+         Index Cond: (events_26.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_07_pkey on app.events_2025_07 events_27  (cost=0.42..8.44 rows=1 width=82) (actual time=0.014..0.014 rows=0 loops=1)
+         Output: events_27.id, events_27.tenant_id, events_27.occurred_at, events_27.payload
+         Index Cond: (events_27.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_08_pkey on app.events_2025_08 events_28  (cost=0.42..8.44 rows=1 width=82) (actual time=0.017..0.017 rows=0 loops=1)
+         Output: events_28.id, events_28.tenant_id, events_28.occurred_at, events_28.payload
+         Index Cond: (events_28.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_09_pkey on app.events_2025_09 events_29  (cost=0.42..8.44 rows=1 width=82) (actual time=0.018..0.018 rows=0 loops=1)
+         Output: events_29.id, events_29.tenant_id, events_29.occurred_at, events_29.payload
+         Index Cond: (events_29.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_10_pkey on app.events_2025_10 events_30  (cost=0.42..8.44 rows=1 width=82) (actual time=0.010..0.010 rows=0 loops=1)
+         Output: events_30.id, events_30.tenant_id, events_30.occurred_at, events_30.payload
+         Index Cond: (events_30.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_11_pkey on app.events_2025_11 events_31  (cost=0.42..8.44 rows=1 width=82) (actual time=0.026..0.027 rows=0 loops=1)
+         Output: events_31.id, events_31.tenant_id, events_31.occurred_at, events_31.payload
+         Index Cond: (events_31.id = $0)
+         Buffers: shared hit=3
+   ->  Index Scan using events_2025_12_pkey on app.events_2025_12 events_32  (cost=0.42..8.44 rows=1 width=82) (actual time=0.298..0.298 rows=1 loops=1)
+         Output: events_32.id, events_32.tenant_id, events_32.occurred_at, events_32.payload
+         Index Cond: (events_32.id = $0)
+         Buffers: shared hit=4
+   ->  Bitmap Heap Scan on app.events_2026_01 events_33  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.002 rows=0 loops=1)
+         Output: events_33.id, events_33.tenant_id, events_33.occurred_at, events_33.payload
+         Recheck Cond: (events_33.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2026_01_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_33.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2026_02 events_34  (cost=4.18..12.64 rows=4 width=72) (actual time=0.002..0.002 rows=0 loops=1)
+         Output: events_34.id, events_34.tenant_id, events_34.occurred_at, events_34.payload
+         Recheck Cond: (events_34.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2026_02_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_34.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2026_03 events_35  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_35.id, events_35.tenant_id, events_35.occurred_at, events_35.payload
+         Recheck Cond: (events_35.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2026_03_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_35.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2026_04 events_36  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_36.id, events_36.tenant_id, events_36.occurred_at, events_36.payload
+         Recheck Cond: (events_36.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2026_04_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_36.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_2026_05 events_37  (cost=4.18..12.64 rows=4 width=72) (actual time=0.001..0.001 rows=0 loops=1)
+         Output: events_37.id, events_37.tenant_id, events_37.occurred_at, events_37.payload
+         Recheck Cond: (events_37.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_2026_05_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_37.id = $0)
+               Buffers: shared hit=2
+   ->  Bitmap Heap Scan on app.events_default events_38  (cost=4.18..12.64 rows=4 width=72) (actual time=0.002..0.002 rows=0 loops=1)
+         Output: events_38.id, events_38.tenant_id, events_38.occurred_at, events_38.payload
+         Recheck Cond: (events_38.id = $0)
+         Buffers: shared hit=2
+         ->  Bitmap Index Scan on events_default_pkey  (cost=0.00..4.18 rows=4 width=0) (actual time=0.001..0.001 rows=0 loops=1)
+               Index Cond: (events_38.id = $0)
+               Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=3258
+ Planning Time: 6.393 ms
+ Execution Time: 1.709 ms
+(324 rows)
+
+Time: 10.788 ms
+                                                                                     QUERY PLAN                                                                                     
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=15832.03..15832.04 rows=1 width=8) (actual time=85.933..87.173 rows=1 loops=1)
+   Output: count(*)
+   Buffers: shared hit=130 read=7038
+   ->  Gather  (cost=15831.81..15832.02 rows=2 width=8) (actual time=85.849..87.170 rows=3 loops=1)
+         Output: (PARTIAL count(*))
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=130 read=7038
+         ->  Partial Aggregate  (cost=14831.81..14831.82 rows=1 width=8) (actual time=82.390..82.391 rows=1 loops=3)
+               Output: PARTIAL count(*)
+               Buffers: shared hit=130 read=7038
+               Worker 0:  actual time=80.986..80.987 rows=1 loops=1
+                 Buffers: shared hit=35 read=2333
+               Worker 1:  actual time=80.972..80.972 rows=1 loops=1
+                 Buffers: shared hit=58 read=2304
+               ->  Parallel Append  (cost=4.20..14310.89 rows=208370 width=0) (actual time=0.616..76.594 rows=166667 loops=3)
+                     Buffers: shared hit=130 read=7038
+                     Worker 0:  actual time=0.618..75.179 rows=165750 loops=1
+                       Buffers: shared hit=35 read=2333
+                     Worker 1:  actual time=0.458..75.296 rows=163660 loops=1
+                       Buffers: shared hit=58 read=2304
+                     Subplans Removed: 37
+                     ->  Parallel Seq Scan on app.events_2025_10 events_1  (cost=0.00..12897.17 rows=208333 width=0) (actual time=0.616..67.987 rows=166667 loops=3)
+                           Filter: ((events_1.occurred_at < date_trunc('month'::text, now())) AND (events_1.occurred_at >= (date_trunc('month'::text, now()) - '1 mon'::interval)))
+                           Buffers: shared hit=130 read=7038
+                           Worker 0:  actual time=0.617..66.580 rows=165750 loops=1
+                             Buffers: shared hit=35 read=2333
+                           Worker 1:  actual time=0.457..66.886 rows=163660 loops=1
+                             Buffers: shared hit=58 read=2304
+ Planning:
+   Buffers: shared hit=265
+ Planning Time: 1.867 ms
+ Execution Time: 87.245 ms
+(33 rows)
+
+Time: 89.604 ms
+                                                                                                QUERY PLAN                                                                                                 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=424.13..424.14 rows=1 width=8) (actual time=0.405..0.408 rows=1 loops=1)
+   Output: count(*)
+   Buffers: shared hit=130
+   InitPlan 1 (returns $0)
+     ->  Subquery Scan on any_tenant  (cost=13.24..13.37 rows=1 width=16) (actual time=0.101..0.104 rows=1 loops=1)
+           Output: any_tenant.tenant_id
+           Buffers: shared hit=110
+           ->  Limit  (cost=13.24..13.36 rows=1 width=24) (actual time=0.101..0.104 rows=1 loops=1)
+                 Output: events_4.tenant_id, events_4.occurred_at
+                 Buffers: shared hit=110
+                 ->  Merge Append  (cost=13.24..1427385.99 rows=12011340 width=24) (actual time=0.100..0.103 rows=1 loops=1)
+                       Sort Key: events_4.occurred_at DESC
+                       Buffers: shared hit=110
+                       ->  Index Scan Backward using events_2023_05_occurred_at on app.events_2023_05 events_5  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_5.tenant_id, events_5.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_06_occurred_at on app.events_2023_06 events_6  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.002 rows=0 loops=1)
+                             Output: events_6.tenant_id, events_6.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_07_occurred_at on app.events_2023_07 events_7  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_7.tenant_id, events_7.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_08_occurred_at on app.events_2023_08 events_8  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_8.tenant_id, events_8.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_09_occurred_at on app.events_2023_09 events_9  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_9.tenant_id, events_9.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_10_occurred_at on app.events_2023_10 events_10  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_10.tenant_id, events_10.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_11_occurred_at on app.events_2023_11 events_11  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.001 rows=0 loops=1)
+                             Output: events_11.tenant_id, events_11.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2023_12_occurred_at on app.events_2023_12 events_12  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_12.tenant_id, events_12.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2024_01_occurred_at on app.events_2024_01 events_13  (cost=0.42..43708.39 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_13.tenant_id, events_13.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_02_occurred_at on app.events_2024_02 events_14  (cost=0.42..43900.42 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_14.tenant_id, events_14.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_03_occurred_at on app.events_2024_03 events_15  (cost=0.42..43955.13 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_15.tenant_id, events_15.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_04_occurred_at on app.events_2024_04 events_16  (cost=0.42..43704.40 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_16.tenant_id, events_16.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_05_occurred_at on app.events_2024_05 events_17  (cost=0.42..43984.39 rows=500000 width=24) (actual time=0.004..0.004 rows=1 loops=1)
+                             Output: events_17.tenant_id, events_17.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_06_occurred_at on app.events_2024_06 events_18  (cost=0.42..43811.14 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_18.tenant_id, events_18.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_07_occurred_at on app.events_2024_07 events_19  (cost=0.42..43556.29 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_19.tenant_id, events_19.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_08_occurred_at on app.events_2024_08 events_20  (cost=0.42..43684.37 rows=500000 width=24) (actual time=0.004..0.004 rows=1 loops=1)
+                             Output: events_20.tenant_id, events_20.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_09_occurred_at on app.events_2024_09 events_21  (cost=0.42..43784.10 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_21.tenant_id, events_21.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_10_occurred_at on app.events_2024_10 events_22  (cost=0.42..43828.02 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_22.tenant_id, events_22.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_11_occurred_at on app.events_2024_11 events_23  (cost=0.42..43764.42 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_23.tenant_id, events_23.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2024_12_occurred_at on app.events_2024_12 events_24  (cost=0.42..43827.69 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_24.tenant_id, events_24.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_01_occurred_at on app.events_2025_01 events_25  (cost=0.42..43892.33 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_25.tenant_id, events_25.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_02_occurred_at on app.events_2025_02 events_26  (cost=0.42..43752.41 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_26.tenant_id, events_26.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_03_occurred_at on app.events_2025_03 events_27  (cost=0.42..43952.41 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_27.tenant_id, events_27.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_04_occurred_at on app.events_2025_04 events_28  (cost=0.42..43875.15 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_28.tenant_id, events_28.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_05_occurred_at on app.events_2025_05 events_29  (cost=0.42..44004.42 rows=500000 width=24) (actual time=0.003..0.003 rows=1 loops=1)
+                             Output: events_29.tenant_id, events_29.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_06_occurred_at on app.events_2025_06 events_30  (cost=0.42..43575.00 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_30.tenant_id, events_30.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_07_occurred_at on app.events_2025_07 events_31  (cost=0.42..43628.41 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_31.tenant_id, events_31.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_08_occurred_at on app.events_2025_08 events_32  (cost=0.42..43651.42 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_32.tenant_id, events_32.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_09_occurred_at on app.events_2025_09 events_33  (cost=0.42..43916.17 rows=500000 width=24) (actual time=0.002..0.002 rows=1 loops=1)
+                             Output: events_33.tenant_id, events_33.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_10_occurred_at on app.events_2025_10 events_34  (cost=0.42..43847.23 rows=500000 width=24) (actual time=0.004..0.004 rows=1 loops=1)
+                             Output: events_34.tenant_id, events_34.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_11_occurred_at on app.events_2025_11 events_35  (cost=0.42..43771.62 rows=500000 width=24) (actual time=0.004..0.004 rows=1 loops=1)
+                             Output: events_35.tenant_id, events_35.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2025_12_occurred_at on app.events_2025_12 events_36  (cost=0.42..43991.53 rows=500000 width=24) (actual time=0.009..0.009 rows=1 loops=1)
+                             Output: events_36.tenant_id, events_36.occurred_at
+                             Buffers: shared hit=4
+                       ->  Index Scan Backward using events_2026_01_occurred_at on app.events_2026_01 events_37  (cost=0.15..56.30 rows=810 width=24) (actual time=0.008..0.008 rows=0 loops=1)
+                             Output: events_37.tenant_id, events_37.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_02_occurred_at on app.events_2026_02 events_38  (cost=0.15..56.30 rows=810 width=24) (actual time=0.003..0.003 rows=0 loops=1)
+                             Output: events_38.tenant_id, events_38.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_03_occurred_at on app.events_2026_03 events_39  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_39.tenant_id, events_39.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_04_occurred_at on app.events_2026_04 events_40  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_40.tenant_id, events_40.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_2026_05_occurred_at on app.events_2026_05 events_41  (cost=0.15..56.30 rows=810 width=24) (actual time=0.002..0.002 rows=0 loops=1)
+                             Output: events_41.tenant_id, events_41.occurred_at
+                             Buffers: shared hit=1
+                       ->  Index Scan Backward using events_default_occurred_at on app.events_default events_42  (cost=0.15..56.30 rows=810 width=24) (actual time=0.001..0.002 rows=0 loops=1)
+                             Output: events_42.tenant_id, events_42.occurred_at
+                             Buffers: shared hit=1
+   ->  Append  (cost=0.16..406.93 rows=1535 width=0) (actual time=0.121..0.357 rows=1491 loops=1)
+         Buffers: shared hit=130
+         Subplans Removed: 35
+         ->  Index Only Scan using events_2025_08_tenant_time on app.events_2025_08 events_1  (cost=0.43..31.68 rows=500 width=0) (actual time=0.121..0.167 rows=486 loops=1)
+               Index Cond: ((events_1.tenant_id = $0) AND (events_1.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)) AND (events_1.occurred_at < date_trunc('month'::text, now())))
+               Heap Fetches: 0
+               Buffers: shared hit=117
+         ->  Index Only Scan using events_2025_09_tenant_time on app.events_2025_09 events_2  (cost=0.43..39.68 rows=500 width=0) (actual time=0.023..0.065 rows=517 loops=1)
+               Index Cond: ((events_2.tenant_id = $0) AND (events_2.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)) AND (events_2.occurred_at < date_trunc('month'::text, now())))
+               Heap Fetches: 0
+               Buffers: shared hit=7
+         ->  Index Only Scan using events_2025_10_tenant_time on app.events_2025_10 events_3  (cost=0.43..35.68 rows=500 width=0) (actual time=0.016..0.057 rows=488 loops=1)
+               Index Cond: ((events_3.tenant_id = $0) AND (events_3.occurred_at >= (date_trunc('month'::text, now()) - '3 mons'::interval)) AND (events_3.occurred_at < date_trunc('month'::text, now())))
+               Heap Fetches: 0
+               Buffers: shared hit=6
+ Planning:
+   Buffers: shared hit=304
+ Planning Time: 1.234 ms
+ Execution Time: 0.483 ms
+(146 rows)
+
+Time: 2.135 ms
+                                                                                  QUERY PLAN                                                                                  
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize GroupAggregate  (cost=336051.42..336102.59 rows=200 width=16) (actual time=2965.076..2976.799 rows=24 loops=1)
+   Output: (date_trunc('month'::text, events.occurred_at)), count(*)
+   Group Key: (date_trunc('month'::text, events.occurred_at))
+   Buffers: shared hit=2344 read=169932
+   ->  Gather Merge  (cost=336051.42..336098.09 rows=400 width=16) (actual time=2965.041..2976.735 rows=27 loops=1)
+         Output: (date_trunc('month'::text, events.occurred_at)), (PARTIAL count(*))
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=2344 read=169932
+         ->  Sort  (cost=335051.40..335051.90 rows=200 width=16) (actual time=2952.561..2952.697 rows=9 loops=3)
+               Output: (date_trunc('month'::text, events.occurred_at)), (PARTIAL count(*))
+               Sort Key: (date_trunc('month'::text, events.occurred_at))
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: shared hit=2344 read=169932
+               Worker 0:  actual time=2946.700..2946.805 rows=10 loops=1
+                 Sort Method: quicksort  Memory: 25kB
+                 JIT:
+                   Functions: 131
+                   Options: Inlining false, Optimization false, Expressions true, Deforming true
+                   Timing: Generation 2.489 ms, Inlining 0.000 ms, Optimization 1.048 ms, Emission 32.989 ms, Total 36.526 ms
+                 Buffers: shared hit=351 read=57570
+               Worker 1:  actual time=2946.701..2946.826 rows=8 loops=1
+                 Sort Method: quicksort  Memory: 25kB
+                 JIT:
+                   Functions: 131
+                   Options: Inlining false, Optimization false, Expressions true, Deforming true
+                   Timing: Generation 2.430 ms, Inlining 0.000 ms, Optimization 1.129 ms, Emission 30.024 ms, Total 33.583 ms
+                 Buffers: shared hit=1477 read=55925
+               ->  Partial HashAggregate  (cost=335041.26..335043.76 rows=200 width=16) (actual time=2952.530..2952.665 rows=9 loops=3)
+                     Output: (date_trunc('month'::text, events.occurred_at)), PARTIAL count(*)
+                     Group Key: (date_trunc('month'::text, events.occurred_at))
+                     Batches: 1  Memory Usage: 40kB
+                     Buffers: shared hit=2328 read=169932
+                     Worker 0:  actual time=2946.663..2946.766 rows=10 loops=1
+                       Batches: 1  Memory Usage: 40kB
+                       Buffers: shared hit=343 read=57570
+                     Worker 1:  actual time=2946.679..2946.802 rows=8 loops=1
+                       Batches: 1  Memory Usage: 40kB
+                       Buffers: shared hit=1469 read=55925
+                     ->  Parallel Append  (cost=6.25..310033.39 rows=5001574 width=8) (actual time=30.623..2514.785 rows=4000000 loops=3)
+                           Buffers: shared hit=2328 read=169932
+                           Worker 0:  actual time=33.702..2513.415 rows=4027020 loops=1
+                             Buffers: shared hit=343 read=57570
+                           Worker 1:  actual time=30.212..2517.701 rows=3993000 loops=1
+                             Buffers: shared hit=1469 read=55925
+                           Subplans Removed: 8
+                           ->  Parallel Bitmap Heap Scan on app.events_2026_01 events_25  (cost=6.25..19.82 rows=159 width=8) (actual time=29.497..29.509 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_25.occurred_at)
+                                 Recheck Cond: (events_25.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 1:  actual time=29.497..29.509 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_2026_01_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=29.410..29.415 rows=0 loops=1)
+                                       Index Cond: (events_25.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 1:  actual time=29.410..29.415 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Bitmap Heap Scan on app.events_2026_02 events_26  (cost=6.25..19.82 rows=159 width=8) (actual time=32.340..32.353 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_26.occurred_at)
+                                 Recheck Cond: (events_26.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 0:  actual time=32.340..32.353 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_2026_02_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=32.323..32.332 rows=0 loops=1)
+                                       Index Cond: (events_26.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 0:  actual time=32.323..32.332 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Bitmap Heap Scan on app.events_2026_03 events_27  (cost=6.25..19.82 rows=159 width=8) (actual time=0.299..0.299 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_27.occurred_at)
+                                 Recheck Cond: (events_27.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 1:  actual time=0.299..0.299 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_2026_03_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=0.020..0.020 rows=0 loops=1)
+                                       Index Cond: (events_27.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 1:  actual time=0.020..0.020 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Bitmap Heap Scan on app.events_2026_04 events_28  (cost=6.25..19.82 rows=159 width=8) (actual time=0.017..0.021 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_28.occurred_at)
+                                 Recheck Cond: (events_28.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 1:  actual time=0.017..0.021 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_2026_04_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=0.016..0.020 rows=0 loops=1)
+                                       Index Cond: (events_28.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 1:  actual time=0.016..0.020 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Bitmap Heap Scan on app.events_2026_05 events_29  (cost=6.25..19.82 rows=159 width=8) (actual time=0.295..0.299 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_29.occurred_at)
+                                 Recheck Cond: (events_29.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 1:  actual time=0.295..0.299 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_2026_05_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                       Index Cond: (events_29.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 1:  actual time=0.004..0.004 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Bitmap Heap Scan on app.events_default events_30  (cost=6.25..19.82 rows=159 width=8) (actual time=0.013..0.013 rows=0 loops=1)
+                                 Output: date_trunc('month'::text, events_30.occurred_at)
+                                 Recheck Cond: (events_30.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=2
+                                 Worker 1:  actual time=0.013..0.013 rows=0 loops=1
+                                   Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on events_default_occurred_at  (cost=0.00..6.18 rows=270 width=0) (actual time=0.012..0.012 rows=0 loops=1)
+                                       Index Cond: (events_30.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                       Buffers: shared hit=2
+                                       Worker 1:  actual time=0.012..0.012 rows=0 loops=1
+                                         Buffers: shared hit=2
+                           ->  Parallel Seq Scan on app.events_2024_05 events_5  (cost=0.00..11887.50 rows=208333 width=8) (actual time=0.088..281.675 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_5.occurred_at)
+                                 Filter: (events_5.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7166
+                                 Worker 1:  actual time=0.088..281.675 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7166
+                           ->  Parallel Seq Scan on app.events_2024_08 events_8  (cost=0.00..11887.50 rows=208333 width=8) (actual time=1.359..275.818 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_8.occurred_at)
+                                 Filter: (events_8.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7166
+                                 Worker 0:  actual time=1.359..275.818 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7166
+                           ->  Parallel Seq Scan on app.events_2024_11 events_11  (cost=0.00..11887.50 rows=208333 width=8) (actual time=0.088..362.900 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_11.occurred_at)
+                                 Filter: (events_11.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7166
+                                 Worker 1:  actual time=0.088..362.900 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7166
+                           ->  Parallel Seq Scan on app.events_2025_02 events_14  (cost=0.00..11887.50 rows=208333 width=8) (actual time=0.065..384.223 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_14.occurred_at)
+                                 Filter: (events_14.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7166
+                                 Worker 0:  actual time=0.065..384.223 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7166
+                           ->  Parallel Seq Scan on app.events_2025_05 events_17  (cost=0.00..11887.50 rows=208333 width=8) (actual time=1.565..477.652 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_17.occurred_at)
+                                 Filter: (events_17.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7166
+                                 Worker 1:  actual time=1.565..477.652 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7166
+                           ->  Parallel Seq Scan on app.events_2024_02 events_2  (cost=0.00..11879.50 rows=208333 width=8) (actual time=1.181..478.304 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_2.occurred_at)
+                                 Filter: (events_2.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7158
+                                 Worker 0:  actual time=1.181..478.304 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7158
+                           ->  Parallel Seq Scan on app.events_2025_12 events_24  (cost=0.00..11879.50 rows=208333 width=8) (actual time=0.400..296.885 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_24.occurred_at)
+                                 Filter: (events_24.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=1246 read=5946
+                                 Worker 1:  actual time=0.400..296.885 rows=500000 loops=1
+                                   Buffers: shared hit=1246 read=5946
+                           ->  Parallel Seq Scan on app.events_2024_06 events_6  (cost=0.00..11871.50 rows=208333 width=8) (actual time=0.289..240.569 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_6.occurred_at)
+                                 Filter: (events_6.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 0:  actual time=0.289..240.569 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2024_09 events_9  (cost=0.00..11871.50 rows=208333 width=8) (actual time=0.684..201.037 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_9.occurred_at)
+                                 Filter: (events_9.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 0:  actual time=0.684..201.037 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2024_12 events_12  (cost=0.00..11871.50 rows=208333 width=8) (actual time=0.505..209.923 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_12.occurred_at)
+                                 Filter: (events_12.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 1:  actual time=0.505..209.923 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2025_03 events_15  (cost=0.00..11871.50 rows=208333 width=8) (actual time=0.895..216.672 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_15.occurred_at)
+                                 Filter: (events_15.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 0:  actual time=0.895..216.672 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2025_06 events_18  (cost=0.00..11871.50 rows=208333 width=8) (actual time=0.186..207.530 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_18.occurred_at)
+                                 Filter: (events_18.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 1:  actual time=0.186..207.530 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2025_09 events_21  (cost=0.00..11871.50 rows=208333 width=8) (actual time=1.263..206.816 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_21.occurred_at)
+                                 Filter: (events_21.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7150
+                                 Worker 0:  actual time=1.263..206.816 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7150
+                           ->  Parallel Seq Scan on app.events_2024_03 events_3  (cost=0.00..11863.50 rows=208333 width=8) (actual time=0.563..190.906 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_3.occurred_at)
+                                 Filter: (events_3.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7142
+                                 Worker 1:  actual time=0.563..190.906 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7142
+                           ->  Parallel Seq Scan on app.events_2024_10 events_10  (cost=0.00..11855.50 rows=208333 width=8) (actual time=1.353..195.826 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_10.occurred_at)
+                                 Filter: (events_10.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7134
+                                 Worker 0:  actual time=1.353..195.826 rows=500000 loops=1
+                                   Buffers: shared hit=34 read=7134
+                           ->  Parallel Seq Scan on app.events_2025_01 events_13  (cost=0.00..11855.50 rows=208333 width=8) (actual time=0.506..70.654 rows=166667 loops=3)
+                                 Output: date_trunc('month'::text, events_13.occurred_at)
+                                 Filter: (events_13.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7134
+                                 Worker 0:  actual time=0.465..7.001 rows=3430 loops=1
+                                   Buffers: shared hit=15 read=47
+                                 Worker 1:  actual time=0.600..198.002 rows=493000 loops=1
+                                   Buffers: shared hit=9 read=7039
+                           ->  Parallel Seq Scan on app.events_2025_04 events_16  (cost=0.00..11855.50 rows=208333 width=8) (actual time=0.115..102.261 rows=250000 loops=2)
+                                 Output: date_trunc('month'::text, events_16.occurred_at)
+                                 Filter: (events_16.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=98 read=7070
+                                 Worker 0:  actual time=0.121..15.249 rows=23590 loops=1
+                                   Buffers: shared hit=54 read=299
+                           ->  Parallel Seq Scan on app.events_2025_07 events_19  (cost=0.00..11855.50 rows=208333 width=8) (actual time=0.109..210.100 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_19.occurred_at)
+                                 Filter: (events_19.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7134
+                           ->  Parallel Seq Scan on app.events_2025_10 events_22  (cost=0.00..11855.50 rows=208333 width=8) (actual time=0.122..223.910 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_22.occurred_at)
+                                 Filter: (events_22.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=226 read=6942
+                           ->  Parallel Seq Scan on app.events_2024_01 events_1  (cost=0.00..11839.50 rows=208333 width=8) (actual time=0.534..204.453 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_1.occurred_at)
+                                 Filter: (events_1.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7118
+                           ->  Parallel Seq Scan on app.events_2024_04 events_4  (cost=0.00..11839.50 rows=208333 width=8) (actual time=0.633..239.332 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_4.occurred_at)
+                                 Filter: (events_4.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7118
+                           ->  Parallel Seq Scan on app.events_2024_07 events_7  (cost=0.00..11839.50 rows=208333 width=8) (actual time=0.391..410.656 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_7.occurred_at)
+                                 Filter: (events_7.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7118
+                           ->  Parallel Seq Scan on app.events_2025_08 events_20  (cost=0.00..11831.50 rows=208333 width=8) (actual time=0.994..435.254 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_20.occurred_at)
+                                 Filter: (events_20.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=34 read=7110
+                           ->  Parallel Seq Scan on app.events_2025_11 events_23  (cost=0.00..11831.50 rows=208333 width=8) (actual time=27.954..335.979 rows=500000 loops=1)
+                                 Output: date_trunc('month'::text, events_23.occurred_at)
+                                 Filter: (events_23.occurred_at >= (date_trunc('year'::text, now()) - '1 year'::interval))
+                                 Buffers: shared hit=66 read=7078
+ Planning:
+   Buffers: shared hit=154
+ Planning Time: 0.700 ms
+ JIT:
+   Functions: 396
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+   Timing: Generation 8.237 ms, Inlining 0.000 ms, Optimization 3.689 ms, Emission 92.369 ms, Total 104.296 ms
+ Execution Time: 3004.976 ms
+(252 rows)
+
+Time: 3017.543 ms (00:03.018)
+BEGIN
+Time: 0.216 ms
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Insert on app.events  (cost=0.00..0.18 rows=0 width=0) (actual time=21.028..21.029 rows=0 loops=1)
+   Buffers: shared hit=105 read=28 dirtied=31
+   ->  Function Scan on pg_catalog.generate_series  (cost=0.00..0.18 rows=10 width=72) (actual time=0.075..0.121 rows=10 loops=1)
+         Output: gen_random_uuid(), gen_random_uuid(), now(), '{"bench": true}'::jsonb
+         Function Call: generate_series(1, 10)
+ Planning Time: 0.161 ms
+ Execution Time: 21.091 ms
+(7 rows)
+
+Time: 22.040 ms
+ROLLBACK
+Time: 0.166 ms

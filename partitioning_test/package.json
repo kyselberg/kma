@@ -1,0 +1,22 @@
+{
+  "name": "partitioning_test",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "gen-and-load": "ts-node --transpile-only scripts/node_gen_and_load.ts"
+  },
+  "dependencies": {
+    "pg": "^8.12.0",
+    "pg-copy-streams": "^7.0.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.15.6",
+    "@types/pg-copy-streams": "^1.2.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.6.3"
+  }
+}

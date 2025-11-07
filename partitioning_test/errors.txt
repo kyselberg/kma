@@ -1,0 +1,9 @@
+2025-11-04 11:13:28.823 UTC [61] ERROR: unique constraint on partitioned table must include all partitioning columns 2025-11-04 11:13:28.823 UTC [61] DETAIL: PRIMARY KEY constraint on table "events" lacks column "occurred_at" which is part of the partition key. 2025-11-04 11:13:28.823 UTC [61] STATEMENT: CREATE TABLE IF NOT EXISTS app.events ( id uuid NOT NULL, tenant_id uuid NOT NULL, occurred_at timestamptz NOT NULL, payload jsonb NOT NULL DEFAULT '{}'::jsonb, PRIMARY KEY (id) ) PARTITION BY RANGE (occurred_at);
+
+PostgreSQL каже: “Гей, у тебе PRIMARY KEY має гарантувати унікальність по всій таблиці, але ж таблиця розбита по occurred_at, тобто фактично складається з кількох фізичних таблиць. Як я можу перевірити унікальність id через усі партиції без occurred_at?”
+
+PostgreSQL не може забезпечити глобальну унікальність ключа між усіма партиціями — кожна партиція це своя фізична таблиця. Без occurred_at воно не знає, в якій саме партиції перевіряти дублікат.
+
+для партиційованих таблиць PK/UNIQUE мусить включати всі колонки ключа партиціювання (у вас це occurred_at).
+
+=======
