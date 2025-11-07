@@ -1,0 +1,409 @@
+dodocker-compose down
+docker-compose up --build
+
+[+] Running 4/4
+ ✔ Container spark-client    Removed                                                                                  0.0s
+ ✔ Container spark-worker    Removed                                                                                  0.1s
+ ✔ Container spark-master    Removed                                                                                  0.0s
+ ✔ Network sprktest_default  Removed                                                                                  0.1s
+[+] Building 0.1s (8/8) FINISHED                                                                      docker:desktop-linux
+ => [spark-client internal] load build definition from Dockerfile                                                     0.0s
+ => => transferring dockerfile: 179B                                                                                  0.0s
+ => [spark-client internal] load metadata for docker.io/apache/spark-py:latest                                        0.0s
+ => [spark-client internal] load .dockerignore                                                                        0.0s
+ => => transferring context: 141B                                                                                     0.0s
+ => [spark-client 1/3] FROM docker.io/apache/spark-py:latest                                                          0.0s
+ => CACHED [spark-client 2/3] RUN pip3 install --no-cache-dir numpy==2.2.6                                            0.0s
+ => CACHED [spark-client 3/3] WORKDIR /opt/spark                                                                      0.0s
+ => [spark-client] exporting to image                                                                                 0.0s
+ => => exporting layers                                                                                               0.0s
+ => => writing image sha256:1d4f69e78c4efda4f47c30fb1c6d74151fec1f5923625e090359edf9782f165d                          0.0s
+ => => naming to docker.io/library/sprktest-spark-client                                                              0.0s
+ => [spark-client] resolving provenance for metadata file                                                             0.0s
+[+] Running 4/4
+ ✔ Network sprktest_default  Created                                                                                  0.0s
+ ✔ Container spark-master    Created                                                                                  0.1s
+ ✔ Container spark-worker    Created                                                                                  0.1s
+ ✔ Container spark-client    Created                                                                                  0.1s
+Attaching to spark-client, spark-master, spark-worker
+spark-master  | ++ id -u
+spark-master  | + myuid=185
+spark-master  | ++ id -g
+spark-master  | + mygid=0
+spark-master  | + set +e
+spark-master  | ++ getent passwd 185
+spark-master  | + uidentry=
+spark-master  | + set -e
+spark-master  | + '[' -z '' ']'
+spark-master  | + '[' -w /etc/passwd ']'
+spark-master  | + echo '185:x:185:0:anonymous uid:/opt/spark:/bin/false'
+spark-master  | + '[' -z /opt/java/openjdk ']'
+spark-master  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-master  | + sort -t_ -k4 -n
+spark-master  | + env
+spark-master  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-master  | + grep SPARK_JAVA_OPT_
+spark-master  | ++ command -v readarray
+spark-master  | + '[' readarray ']'
+spark-master  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-master  | + '[' -n '' ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -n '' ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z x ']'
+spark-master  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-master  | + case "$1" in
+spark-master  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-master  | + CMD=("$@")
+spark-master  | + exec /usr/bin/tini -s -- bash -c 'cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.master.Master'
+spark-master  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-worker  | ++ id -u
+spark-worker  | + myuid=0
+spark-worker  | ++ id -g
+spark-worker  | + mygid=0
+spark-worker  | + set +e
+spark-worker  | ++ getent passwd 0
+spark-worker  | + uidentry=root:x:0:0:root:/root:/bin/bash
+spark-worker  | + set -e
+spark-worker  | + '[' -z root:x:0:0:root:/root:/bin/bash ']'
+spark-worker  | + '[' -z /opt/java/openjdk ']'
+spark-worker  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-worker  | + env
+spark-worker  | + grep SPARK_JAVA_OPT_
+spark-worker  | + sort -t_ -k4 -n
+spark-worker  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-worker  | ++ command -v readarray
+spark-worker  | + '[' readarray ']'
+spark-worker  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-worker  | + '[' -n '' ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -n '' ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z x ']'
+spark-worker  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-worker  | + case "$1" in
+spark-worker  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-worker  | + CMD=("$@")
+spark-worker  | + exec /usr/bin/tini -s -- bash -c 'pip3 install --no-cache-dir numpy==2.2.6 && mkdir -p /opt/spark/work && chmod 777 /opt/spark/work && cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077'
+spark-worker  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-client  | ++ id -u
+spark-client  | + myuid=0
+spark-client  | ++ id -g
+spark-client  | + mygid=0
+spark-client  | + set +e
+spark-client  | ++ getent passwd 0
+spark-client  | + uidentry=root:x:0:0:root:/root:/bin/bash
+spark-client  | + set -e
+spark-client  | + '[' -z root:x:0:0:root:/root:/bin/bash ']'
+spark-client  | + '[' -z /opt/java/openjdk ']'
+spark-client  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-client  | + grep SPARK_JAVA_OPT_
+spark-client  | + env
+spark-client  | + sort -t_ -k4 -n
+spark-client  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-client  | ++ command -v readarray
+spark-client  | + '[' readarray ']'
+spark-client  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-client  | + '[' -n '' ']'
+spark-client  | + '[' -z x ']'
+spark-client  | + export PYSPARK_PYTHON
+spark-client  | + '[' -z x ']'
+spark-client  | + export PYSPARK_DRIVER_PYTHON
+spark-client  | + '[' -n '' ']'
+spark-client  | + '[' -z ']'
+spark-client  | + '[' -z ']'
+spark-client  | + '[' -z x ']'
+spark-client  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-client  | + case "$1" in
+spark-client  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-client  | + CMD=("$@")
+spark-client  | + exec /usr/bin/tini -s -- bash -c 'cd /opt/spark && ./bin/spark-submit --master spark://spark-master:7077 /opt/spark/app/matrix_multiply.py'
+spark-client  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-worker  | Collecting numpy==2.2.6
+spark-worker  |   Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (14.3 MB)
+spark-master  | Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+spark-master  | 25/11/05 20:08:33 INFO Master: Started daemon with process name: 15@spark-master
+spark-master  | 25/11/05 20:08:33 INFO SignalUtils: Registering signal handler for TERM
+spark-master  | 25/11/05 20:08:33 INFO SignalUtils: Registering signal handler for HUP
+spark-master  | 25/11/05 20:08:33 INFO SignalUtils: Registering signal handler for INT
+spark-master  | 25/11/05 20:08:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-master  | 25/11/05 20:08:33 INFO SecurityManager: Changing view acls to: 185
+spark-master  | 25/11/05 20:08:33 INFO SecurityManager: Changing modify acls to: 185
+spark-master  | 25/11/05 20:08:33 INFO SecurityManager: Changing view acls groups to:
+spark-master  | 25/11/05 20:08:33 INFO SecurityManager: Changing modify acls groups to:
+spark-master  | 25/11/05 20:08:33 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: 185; groups with view permissions: EMPTY; users with modify permissions: 185; groups with modify permissions: EMPTY
+spark-master  | 25/11/05 20:08:33 INFO Utils: Successfully started service 'sparkMaster' on port 7077.
+spark-master  | 25/11/05 20:08:33 INFO Master: Starting Spark master at spark://172.28.0.2:7077
+spark-master  | 25/11/05 20:08:33 INFO Master: Running Spark version 3.4.0
+spark-master  | 25/11/05 20:08:33 INFO JettyUtils: Start Jetty 0.0.0.0:8080 for MasterUI
+spark-master  | 25/11/05 20:08:33 INFO Utils: Successfully started service 'MasterUI' on port 8080.
+spark-master  | 25/11/05 20:08:33 INFO MasterWebUI: Bound MasterWebUI to 0.0.0.0, and started at http://spark-master:8080
+spark-master  | 25/11/05 20:08:34 INFO Master: I have been elected leader! New state: ALIVE
+spark-client  | ============================================================
+spark-client  | Множення матриць через PySpark на кластері
+spark-client  | ============================================================
+spark-client  | 25/11/05 20:08:34 INFO SparkContext: Running Spark version 3.4.0
+spark-client  | 25/11/05 20:08:34 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-client  | 25/11/05 20:08:34 INFO ResourceUtils: ==============================================================
+spark-client  | 25/11/05 20:08:34 INFO ResourceUtils: No custom resources configured for spark.driver.
+spark-client  | 25/11/05 20:08:34 INFO ResourceUtils: ==============================================================
+spark-client  | 25/11/05 20:08:34 INFO SparkContext: Submitted application: MatrixMultiplication
+spark-client  | 25/11/05 20:08:34 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 4, script: , vendor: , memory -> name: memory, amount: 7168, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+spark-client  | 25/11/05 20:08:34 INFO ResourceProfile: Limiting resource is cpus at 4 tasks per executor
+spark-client  | 25/11/05 20:08:34 INFO ResourceProfileManager: Added ResourceProfile id: 0
+spark-client  | 25/11/05 20:08:34 INFO SecurityManager: Changing view acls to: root
+spark-client  | 25/11/05 20:08:34 INFO SecurityManager: Changing modify acls to: root
+spark-client  | 25/11/05 20:08:34 INFO SecurityManager: Changing view acls groups to:
+spark-client  | 25/11/05 20:08:34 INFO SecurityManager: Changing modify acls groups to:
+spark-client  | 25/11/05 20:08:34 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-client  | 25/11/05 20:08:34 INFO Utils: Successfully started service 'sparkDriver' on port 36273.
+spark-client  | 25/11/05 20:08:34 INFO SparkEnv: Registering MapOutputTracker
+spark-client  | 25/11/05 20:08:34 INFO SparkEnv: Registering BlockManagerMaster
+spark-worker  |      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.3/14.3 MB 9.6 MB/s eta 0:00:00
+spark-client  | 25/11/05 20:08:34 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+spark-client  | 25/11/05 20:08:34 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+spark-client  | 25/11/05 20:08:34 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+spark-client  | 25/11/05 20:08:34 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-66e44fa6-26c4-4413-88a9-a49dcbe10e57
+spark-client  | 25/11/05 20:08:34 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+spark-client  | 25/11/05 20:08:34 INFO SparkEnv: Registering OutputCommitCoordinator
+spark-worker  | Installing collected packages: numpy
+spark-client  | 25/11/05 20:08:34 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+spark-client  | 25/11/05 20:08:34 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+spark-client  | 25/11/05 20:08:34 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+spark-client  | 25/11/05 20:08:34 INFO TransportClientFactory: Successfully created connection to spark-master/172.28.0.2:7077 after 10 ms (0 ms spent in bootstraps)
+spark-master  | 25/11/05 20:08:34 INFO Master: Registering app MatrixMultiplication
+spark-master  | 25/11/05 20:08:34 INFO Master: Registered app MatrixMultiplication with ID app-20251105200834-0000
+spark-master  | 25/11/05 20:08:34 INFO Master: Start scheduling for app app-20251105200834-0000 with rpId: 0
+spark-client  | 25/11/05 20:08:34 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20251105200834-0000
+spark-master  | 25/11/05 20:08:34 WARN Master: App app-20251105200834-0000 requires more resource than any of Workers could have.
+spark-client  | 25/11/05 20:08:34 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36091.
+spark-client  | 25/11/05 20:08:34 INFO NettyBlockTransferService: Server created on 987455dd36ad:36091
+spark-client  | 25/11/05 20:08:34 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+spark-client  | 25/11/05 20:08:34 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 987455dd36ad, 36091, None)
+spark-client  | 25/11/05 20:08:34 INFO BlockManagerMasterEndpoint: Registering block manager 987455dd36ad:36091 with 434.4 MiB RAM, BlockManagerId(driver, 987455dd36ad, 36091, None)
+spark-client  | 25/11/05 20:08:34 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 987455dd36ad, 36091, None)
+spark-client  | 25/11/05 20:08:34 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 987455dd36ad, 36091, None)
+spark-client  | 25/11/05 20:08:34 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+spark-client  | Spark Master: spark://spark-master:7077
+spark-client  | Spark UI: http://spark-master:8080
+spark-client  |
+spark-client  | Генерую матриці розміром 500x500...
+spark-client  | Генерую матрицю A...
+spark-client  | Генерую матрицю B...
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Матриця A: розмір (500, 500), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[102 435 860 270 106  71 700  20 614 121]
+spark-client  |  [322 871 685 791 625 287 942 853 662 961]
+spark-client  |  [876   4 118 800 373  64 145 223 238 176]
+spark-client  |  [805 908 158 814 227 876 215 947 695  14]
+spark-client  |  [989 371 934 994 401 442 489 614 272 525]
+spark-client  |  [241 864   1 224 800 744 972 925 928 588]
+spark-client  |  [311 240 937 444 297 951  35  83 451 885]
+spark-client  |  [ 86  42 384 620 434 407 482 663  16 644]
+spark-client  |  [513  21 111  56  65 841  97 143 879 434]
+spark-client  |  [934 182  40 550 396 703 778 493 658 906]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 0
+spark-client  |   Максимум: 1000
+spark-client  |   Середнє: 499.93
+spark-client  |   Стандартне відхилення: 288.90
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Матриця B: розмір (500, 500), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[510 365 382 322 988  98 742  17 595 106]
+spark-client  |  [771 735 233 219 247 847 880 106 731 846]
+spark-client  |  [867 264 527 863 159  26  14 323 227 792]
+spark-client  |  [806  20 572 914 719 283  68 391 398 501]
+spark-client  |  [660 870 124 653 332 817 851 716 263 899]
+spark-client  |  [973 486 535 573 296 286 507 362   2 878]
+spark-client  |  [905 460 952 181 608 228 453 555 738 248]
+spark-client  |  [938 751 642 845 403 504 623 952 508 304]
+spark-client  |  [404 717  79 560 904 936 296 494 833 798]
+spark-client  |  [845 664 960 637 581 997 502 262 847  49]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 0
+spark-client  |   Максимум: 1000
+spark-client  |   Середнє: 500.24
+spark-client  |   Стандартне відхилення: 289.13
+spark-client  |
+spark-client  | Починаю множення матриць...
+spark-client  | Матриця A: 500x500
+spark-client  | Матриця B: 500x500
+spark-client  | Результат: 500x500
+spark-client  | Використовую блоки розміром 1000x1000
+spark-client  | Передаю матриці через broadcast...
+spark-client  | 25/11/05 20:08:34 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 208.0 B, free 434.4 MiB)
+spark-client  | 25/11/05 20:08:35 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 704.1 KiB, free 433.7 MiB)
+spark-client  | 25/11/05 20:08:35 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 987455dd36ad:36091 (size: 704.1 KiB, free: 433.7 MiB)
+spark-client  | 25/11/05 20:08:35 INFO SparkContext: Created broadcast 0 from broadcast at <unknown>:0
+spark-client  | 25/11/05 20:08:35 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 208.0 B, free 433.7 MiB)
+spark-client  | 25/11/05 20:08:35 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 704.3 KiB, free 433.0 MiB)
+spark-client  | 25/11/05 20:08:35 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 987455dd36ad:36091 (size: 704.3 KiB, free: 433.0 MiB)
+spark-client  | 25/11/05 20:08:35 INFO SparkContext: Created broadcast 1 from broadcast at <unknown>:0
+spark-client  | Створюю 1 блоків для A, 1 блоків для B
+spark-client  | Виконую блочне множення...
+spark-client  | 25/11/05 20:08:35 INFO SparkContext: Starting job: collect at /opt/spark/app/matrix_multiply.py:128
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Got job 0 (collect at /opt/spark/app/matrix_multiply.py:128) with 1 output partitions
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Final stage: ResultStage 0 (collect at /opt/spark/app/matrix_multiply.py:128)
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Parents of final stage: List()
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Missing parents: List()
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[1] at collect at /opt/spark/app/matrix_multiply.py:128), which has no missing parents
+spark-client  | 25/11/05 20:08:35 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 7.2 KiB, free 433.0 MiB)
+spark-client  | 25/11/05 20:08:35 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 4.7 KiB, free 433.0 MiB)
+spark-client  | 25/11/05 20:08:35 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 987455dd36ad:36091 (size: 4.7 KiB, free: 433.0 MiB)
+spark-client  | 25/11/05 20:08:35 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1535
+spark-client  | 25/11/05 20:08:35 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (PythonRDD[1] at collect at /opt/spark/app/matrix_multiply.py:128) (first 15 tasks are for partitions Vector(0))
+spark-client  | 25/11/05 20:08:35 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks resource profile 0
+spark-worker  | Successfully installed numpy-2.2.6
+spark-worker  | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+spark-worker  |
+spark-worker  | [notice] A new release of pip is available: 23.0.1 -> 25.3
+spark-worker  | [notice] To update, run: python3 -m pip install --upgrade pip
+spark-worker  | Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Started daemon with process name: 14@spark-worker
+spark-worker  | 25/11/05 20:08:36 INFO SignalUtils: Registering signal handler for TERM
+spark-worker  | 25/11/05 20:08:36 INFO SignalUtils: Registering signal handler for HUP
+spark-worker  | 25/11/05 20:08:36 INFO SignalUtils: Registering signal handler for INT
+spark-worker  | 25/11/05 20:08:36 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing view acls to: root
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing modify acls to: root
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing view acls groups to:
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing modify acls groups to:
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-worker  | 25/11/05 20:08:36 INFO Utils: Successfully started service 'sparkWorker' on port 37387.
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Worker decommissioning not enabled.
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Starting Spark worker 172.28.0.3:37387 with 4 cores, 8.0 GiB RAM
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Running Spark version 3.4.0
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Spark home: /opt/spark
+spark-worker  | 25/11/05 20:08:36 INFO ResourceUtils: ==============================================================
+spark-worker  | 25/11/05 20:08:36 INFO ResourceUtils: No custom resources configured for spark.worker.
+spark-worker  | 25/11/05 20:08:36 INFO ResourceUtils: ==============================================================
+spark-worker  | 25/11/05 20:08:36 INFO JettyUtils: Start Jetty 0.0.0.0:8081 for WorkerUI
+spark-worker  | 25/11/05 20:08:36 INFO Utils: Successfully started service 'WorkerUI' on port 8081.
+spark-worker  | 25/11/05 20:08:36 INFO WorkerWebUI: Bound WorkerWebUI to 0.0.0.0, and started at http://spark-worker:8081
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Connecting to master spark-master:7077...
+spark-worker  | 25/11/05 20:08:36 INFO TransportClientFactory: Successfully created connection to spark-master/172.28.0.2:7077 after 10 ms (0 ms spent in bootstraps)
+spark-master  | 25/11/05 20:08:36 INFO Master: Registering worker 172.28.0.3:37387 with 4 cores, 8.0 GiB RAM
+spark-master  | 25/11/05 20:08:36 INFO Master: Start scheduling for app app-20251105200834-0000 with rpId: 0
+spark-master  | 25/11/05 20:08:36 INFO Master: Launching executor app-20251105200834-0000/0 on worker worker-20251105200836-172.28.0.3-37387
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Successfully registered with master spark://172.28.0.2:7077
+spark-client  | 25/11/05 20:08:36 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20251105200834-0000/0 on worker-20251105200836-172.28.0.3-37387 (172.28.0.3:37387) with 4 core(s)
+spark-client  | 25/11/05 20:08:36 INFO StandaloneSchedulerBackend: Granted executor ID app-20251105200834-0000/0 on hostPort 172.28.0.3:37387 with 4 core(s), 7.0 GiB RAM
+spark-worker  | 25/11/05 20:08:36 INFO Worker: Asked to launch executor app-20251105200834-0000/0 for MatrixMultiplication
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing view acls to: root
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing modify acls to: root
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing view acls groups to:
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: Changing modify acls groups to:
+spark-worker  | 25/11/05 20:08:36 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-worker  | 25/11/05 20:08:36 INFO ExecutorRunner: Launch command: "/opt/java/openjdk/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx7168M" "-Dspark.driver.port=36273" "-Djava.net.preferIPv6Addresses=false" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "-Djdk.reflect.useDirectMethodHandle=false" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@987455dd36ad:36273" "--executor-id" "0" "--hostname" "172.28.0.3" "--cores" "4" "--app-id" "app-20251105200834-0000" "--worker-url" "spark://Worker@172.28.0.3:37387" "--resourceProfileId" "0"
+spark-master  | 25/11/05 20:08:36 INFO Master: Start scheduling for app app-20251105200834-0000 with rpId: 0
+spark-client  | 25/11/05 20:08:36 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20251105200834-0000/0 is now RUNNING
+spark-client  | 25/11/05 20:08:37 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.28.0.3:52342) with ID 0,  ResourceProfileId 0
+spark-client  | 25/11/05 20:08:37 INFO BlockManagerMasterEndpoint: Registering block manager 172.28.0.3:45769 with 4.0 GiB RAM, BlockManagerId(0, 172.28.0.3, 45769, None)
+spark-client  | 25/11/05 20:08:37 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (172.28.0.3, executor 0, partition 0, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 172.28.0.3:45769 (size: 4.7 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 172.28.0.3:45769 (size: 704.3 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Added broadcast_1_python on disk on 172.28.0.3:45769 (size: 976.7 KiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 172.28.0.3:45769 (size: 704.1 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Added broadcast_0_python on disk on 172.28.0.3:45769 (size: 976.7 KiB)
+spark-client  | 25/11/05 20:08:38 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 843 ms on 172.28.0.3 (executor 0) (1/1)
+spark-client  | 25/11/05 20:08:38 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool
+spark-client  | 25/11/05 20:08:38 INFO PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 57775
+spark-client  | 25/11/05 20:08:38 INFO DAGScheduler: ResultStage 0 (collect at /opt/spark/app/matrix_multiply.py:128) finished in 3.454 s
+spark-client  | 25/11/05 20:08:38 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+spark-client  | 25/11/05 20:08:38 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+spark-client  | 25/11/05 20:08:38 INFO DAGScheduler: Job 0 finished: collect at /opt/spark/app/matrix_multiply.py:128, took 3.470897 s
+spark-client  | Збираю результати...
+spark-client  |
+spark-client  | Множення завершено за 3.78 секунд
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Результуюча матриця (A × B): розмір (500, 500), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[123925409 125976956 127309161 119103705 129712460 124523119 118920505
+spark-client  |   120941289 122812585 129931482]
+spark-client  |  [129807220 130326525 131541610 122485108 131115654 128645289 126241206
+spark-client  |   125505309 130299169 131687464]
+spark-client  |  [123586563 122760453 124203479 122378866 130372105 123037536 117343780
+spark-client  |   120426014 123253828 123756607]
+spark-client  |  [126240709 125029106 126956485 118800013 127540159 123282631 116211831
+spark-client  |   118978251 122563955 125886907]
+spark-client  |  [127808985 126651185 129400535 121975057 128759383 125413551 119150858
+spark-client  |   123974010 125887528 132405887]
+spark-client  |  [130905826 123814985 129615081 118761740 130208093 127972385 120453515
+spark-client  |   127246187 126421626 131078315]
+spark-client  |  [130258748 128067223 128869934 117430688 131164674 125573373 120006309
+spark-client  |   123677342 128187479 127995393]
+spark-client  |  [127997628 131012123 131317868 123172950 129629995 129982283 119020701
+spark-client  |   122367945 131007647 128046036]
+spark-client  |  [135411761 132681094 136618803 129665469 135921325 134044175 126517358
+spark-client  |   127851695 131494116 135659439]
+spark-client  |  [126805040 127442709 125487450 123399195 129902808 124604359 121447362
+spark-client  |   120667073 125899379 127754595]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 104089123
+spark-client  |   Максимум: 146617737
+spark-client  |   Середнє: 125038679.16
+spark-client  |   Стандартне відхилення: 4771929.13
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Зберігаю матриці у файли...
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 172.28.0.3:45769 in memory (size: 704.1 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Removed broadcast_1_python on 172.28.0.3:45769 on disk (size: 976.7 KiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 172.28.0.3:45769 in memory (size: 704.3 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerInfo: Removed broadcast_0_python on 172.28.0.3:45769 on disk (size: 976.7 KiB)
+spark-client  | Матриці збережено у /opt/spark/data/:
+spark-client  |   - matrix_a.npy (0.95 MB)
+spark-client  |   - matrix_b.npy (0.95 MB)
+spark-client  |   - result.npy (0.95 MB)
+spark-client  |
+spark-client  | Для завантаження використовуйте:
+spark-client  |   matrix = np.load('/opt/spark/data/matrix_a.npy')
+spark-client  | ============================================================
+spark-client  |
+spark-client  | Перевірка на невеликій частині (100x100)...
+spark-client  | Результати збігаються (100x100):
+spark-client  |   - Точне збігання: False
+spark-client  |   - Максимальна різниця: 115161401
+spark-client  |   - Середня різниця: 100383271.65
+spark-client  | 25/11/05 20:08:38 INFO SparkContext: SparkContext is stopping with exitCode 0.
+spark-client  | 25/11/05 20:08:38 INFO SparkUI: Stopped Spark web UI at http://987455dd36ad:4040
+spark-client  | 25/11/05 20:08:38 INFO StandaloneSchedulerBackend: Shutting down all executors
+spark-client  | 25/11/05 20:08:38 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Asking each executor to shut down
+spark-master  | 25/11/05 20:08:38 INFO Master: Received unregister request from application app-20251105200834-0000
+spark-master  | 25/11/05 20:08:38 INFO Master: Removing app app-20251105200834-0000
+spark-client  | 25/11/05 20:08:38 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+spark-client  | 25/11/05 20:08:38 INFO MemoryStore: MemoryStore cleared
+spark-client  | 25/11/05 20:08:38 INFO BlockManager: BlockManager stopped
+spark-worker  | 25/11/05 20:08:38 INFO Worker: Asked to kill executor app-20251105200834-0000/0
+spark-worker  | 25/11/05 20:08:38 INFO ExecutorRunner: Runner thread for executor app-20251105200834-0000/0 interrupted
+spark-worker  | 25/11/05 20:08:38 INFO ExecutorRunner: Killing process!
+spark-client  | 25/11/05 20:08:38 INFO BlockManagerMaster: BlockManagerMaster stopped
+spark-client  | 25/11/05 20:08:38 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+spark-master  | 25/11/05 20:08:38 INFO Master: 172.28.0.4:38210 got disassociated, removing it.
+spark-client  | 25/11/05 20:08:38 INFO SparkContext: Successfully stopped SparkContext
+spark-master  | 25/11/05 20:08:38 INFO Master: 987455dd36ad:36273 got disassociated, removing it.
+spark-worker  | 25/11/05 20:08:38 INFO Worker: Executor app-20251105200834-0000/0 finished with state KILLED exitStatus 0
+spark-worker  | 25/11/05 20:08:38 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+spark-master  | 25/11/05 20:08:38 WARN Master: Got status update for unknown executor app-20251105200834-0000/0
+spark-worker  | 25/11/05 20:08:38 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20251105200834-0000, execId=0)
+spark-worker  | 25/11/05 20:08:38 INFO ExternalShuffleBlockResolver: Application app-20251105200834-0000 removed, cleanupLocalDirs = true
+spark-worker  | 25/11/05 20:08:38 INFO Worker: Cleaning up local directories for application app-20251105200834-0000
+spark-client  | 25/11/05 20:08:39 INFO ShutdownHookManager: Shutdown hook called
+spark-client  | 25/11/05 20:08:39 INFO ShutdownHookManager: Deleting directory /tmp/spark-9ccb037a-fcaf-4ab8-acf5-22fe8d902369
+spark-client  | 25/11/05 20:08:39 INFO ShutdownHookManager: Deleting directory /tmp/spark-fadd3ca5-a740-4c7a-ae8c-89f2f4584d24/pyspark-72dc7de1-bb84-48b3-b73a-0080896b318f
+spark-client  | 25/11/05 20:08:39 INFO ShutdownHookManager: Deleting directory /tmp/spark-fadd3ca5-a740-4c7a-ae8c-89f2f4584d24
+spark-client exited with code 0

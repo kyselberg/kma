@@ -1,0 +1,644 @@
+dodocker-compose down
+docker-compose up --build
+
+[+] Running 4/4
+ ✔ Container spark-client    Removed                                                                                  0.0s
+ ✔ Container spark-worker    Removed                                                                                  0.1s
+ ✔ Container spark-master    Removed                                                                                  0.0s
+ ✔ Network sprktest_default  Removed                                                                                  0.1s
+[+] Building 0.1s (8/8) FINISHED                                                                      docker:desktop-linux
+ => [spark-client internal] load build definition from Dockerfile                                                     0.0s
+ => => transferring dockerfile: 179B                                                                                  0.0s
+ => [spark-client internal] load metadata for docker.io/apache/spark-py:latest                                        0.0s
+ => [spark-client internal] load .dockerignore                                                                        0.0s
+ => => transferring context: 141B                                                                                     0.0s
+ => [spark-client 1/3] FROM docker.io/apache/spark-py:latest                                                          0.0s
+ => CACHED [spark-client 2/3] RUN pip3 install --no-cache-dir numpy==2.2.6                                            0.0s
+ => CACHED [spark-client 3/3] WORKDIR /opt/spark                                                                      0.0s
+ => [spark-client] exporting to image                                                                                 0.0s
+ => => exporting layers                                                                                               0.0s
+ => => writing image sha256:1d4f69e78c4efda4f47c30fb1c6d74151fec1f5923625e090359edf9782f165d                          0.0s
+ => => naming to docker.io/library/sprktest-spark-client                                                              0.0s
+ => [spark-client] resolving provenance for metadata file                                                             0.0s
+[+] Running 4/4
+ ✔ Network sprktest_default  Created                                                                                  0.0s
+ ✔ Container spark-master    Created                                                                                  0.1s
+ ✔ Container spark-worker    Created                                                                                  0.1s
+ ✔ Container spark-client    Created                                                                                  0.2s
+Attaching to spark-client, spark-master, spark-worker
+spark-master  | ++ id -u
+spark-master  | + myuid=185
+spark-master  | ++ id -g
+spark-master  | + mygid=0
+spark-master  | + set +e
+spark-master  | ++ getent passwd 185
+spark-master  | + uidentry=
+spark-master  | + set -e
+spark-master  | + '[' -z '' ']'
+spark-master  | + '[' -w /etc/passwd ']'
+spark-master  | + echo '185:x:185:0:anonymous uid:/opt/spark:/bin/false'
+spark-master  | + '[' -z /opt/java/openjdk ']'
+spark-master  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-master  | + env
+spark-master  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-master  | + grep SPARK_JAVA_OPT_
+spark-master  | + sort -t_ -k4 -n
+spark-master  | ++ command -v readarray
+spark-master  | + '[' readarray ']'
+spark-master  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-master  | + '[' -n '' ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -n '' ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z ']'
+spark-master  | + '[' -z x ']'
+spark-master  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-master  | + case "$1" in
+spark-master  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-master  | + CMD=("$@")
+spark-master  | + exec /usr/bin/tini -s -- bash -c 'cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.master.Master'
+spark-master  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-worker  | ++ id -u
+spark-worker  | + myuid=0
+spark-worker  | ++ id -g
+spark-worker  | + mygid=0
+spark-worker  | + set +e
+spark-worker  | ++ getent passwd 0
+spark-worker  | + uidentry=root:x:0:0:root:/root:/bin/bash
+spark-worker  | + set -e
+spark-worker  | + '[' -z root:x:0:0:root:/root:/bin/bash ']'
+spark-worker  | + '[' -z /opt/java/openjdk ']'
+spark-worker  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-worker  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-worker  | + env
+spark-worker  | + sort -t_ -k4 -n
+spark-worker  | + grep SPARK_JAVA_OPT_
+spark-worker  | ++ command -v readarray
+spark-worker  | + '[' readarray ']'
+spark-worker  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-worker  | + '[' -n '' ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -n '' ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z ']'
+spark-worker  | + '[' -z x ']'
+spark-worker  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-worker  | + case "$1" in
+spark-worker  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-worker  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-worker  | + CMD=("$@")
+spark-worker  | + exec /usr/bin/tini -s -- bash -c 'pip3 install --no-cache-dir numpy==2.2.6 && mkdir -p /opt/spark/work && chmod 777 /opt/spark/work && cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077'
+spark-client  | ++ id -u
+spark-client  | + myuid=0
+spark-client  | ++ id -g
+spark-client  | + mygid=0
+spark-client  | + set +e
+spark-client  | ++ getent passwd 0
+spark-client  | + uidentry=root:x:0:0:root:/root:/bin/bash
+spark-client  | + set -e
+spark-client  | + '[' -z root:x:0:0:root:/root:/bin/bash ']'
+spark-client  | + '[' -z /opt/java/openjdk ']'
+spark-client  | + SPARK_CLASSPATH=':/opt/spark/jars/*'
+spark-client  | + sed 's/[^=]*=\(.*\)/\1/g'
+spark-client  | + grep SPARK_JAVA_OPT_
+spark-client  | + env
+spark-client  | + sort -t_ -k4 -n
+spark-client  | ++ command -v readarray
+spark-client  | + '[' readarray ']'
+spark-client  | + readarray -t SPARK_EXECUTOR_JAVA_OPTS
+spark-client  | Non-spark-on-k8s command provided, proceeding in pass-through mode...
+spark-client  | + '[' -n '' ']'
+spark-client  | + '[' -z x ']'
+spark-client  | + export PYSPARK_PYTHON
+spark-client  | + '[' -z x ']'
+spark-client  | + export PYSPARK_DRIVER_PYTHON
+spark-client  | + '[' -n '' ']'
+spark-client  | + '[' -z ']'
+spark-client  | + '[' -z ']'
+spark-client  | + '[' -z x ']'
+spark-client  | + SPARK_CLASSPATH='/opt/spark/conf::/opt/spark/jars/*'
+spark-client  | + case "$1" in
+spark-client  | + echo 'Non-spark-on-k8s command provided, proceeding in pass-through mode...'
+spark-client  | + CMD=("$@")
+spark-client  | + exec /usr/bin/tini -s -- bash -c 'cd /opt/spark && ./bin/spark-submit --master spark://spark-master:7077 /opt/spark/app/matrix_multiply.py'
+spark-worker  | Collecting numpy==2.2.6
+spark-worker  |   Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (14.3 MB)
+spark-master  | Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+spark-master  | 25/11/05 20:09:37 INFO Master: Started daemon with process name: 15@spark-master
+spark-master  | 25/11/05 20:09:37 INFO SignalUtils: Registering signal handler for TERM
+spark-master  | 25/11/05 20:09:37 INFO SignalUtils: Registering signal handler for HUP
+spark-master  | 25/11/05 20:09:37 INFO SignalUtils: Registering signal handler for INT
+spark-master  | 25/11/05 20:09:38 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-master  | 25/11/05 20:09:38 INFO SecurityManager: Changing view acls to: 185
+spark-master  | 25/11/05 20:09:38 INFO SecurityManager: Changing modify acls to: 185
+spark-master  | 25/11/05 20:09:38 INFO SecurityManager: Changing view acls groups to:
+spark-master  | 25/11/05 20:09:38 INFO SecurityManager: Changing modify acls groups to:
+spark-master  | 25/11/05 20:09:38 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: 185; groups with view permissions: EMPTY; users with modify permissions: 185; groups with modify permissions: EMPTY
+spark-master  | 25/11/05 20:09:38 INFO Utils: Successfully started service 'sparkMaster' on port 7077.
+spark-master  | 25/11/05 20:09:38 INFO Master: Starting Spark master at spark://172.28.0.2:7077
+spark-master  | 25/11/05 20:09:38 INFO Master: Running Spark version 3.4.0
+spark-master  | 25/11/05 20:09:38 INFO JettyUtils: Start Jetty 0.0.0.0:8080 for MasterUI
+spark-master  | 25/11/05 20:09:38 INFO Utils: Successfully started service 'MasterUI' on port 8080.
+spark-master  | 25/11/05 20:09:38 INFO MasterWebUI: Bound MasterWebUI to 0.0.0.0, and started at http://spark-master:8080
+spark-master  | 25/11/05 20:09:38 INFO Master: I have been elected leader! New state: ALIVE
+spark-client  | ============================================================
+spark-client  | Множення матриць через PySpark на кластері
+spark-client  | ============================================================
+spark-client  | 25/11/05 20:09:38 INFO SparkContext: Running Spark version 3.4.0
+spark-client  | 25/11/05 20:09:38 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-client  | 25/11/05 20:09:39 INFO ResourceUtils: ==============================================================
+spark-client  | 25/11/05 20:09:39 INFO ResourceUtils: No custom resources configured for spark.driver.
+spark-client  | 25/11/05 20:09:39 INFO ResourceUtils: ==============================================================
+spark-client  | 25/11/05 20:09:39 INFO SparkContext: Submitted application: MatrixMultiplication
+spark-client  | 25/11/05 20:09:39 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 4, script: , vendor: , memory -> name: memory, amount: 7168, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+spark-client  | 25/11/05 20:09:39 INFO ResourceProfile: Limiting resource is cpus at 4 tasks per executor
+spark-client  | 25/11/05 20:09:39 INFO ResourceProfileManager: Added ResourceProfile id: 0
+spark-worker  |      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.3/14.3 MB 9.5 MB/s eta 0:00:00
+spark-client  | 25/11/05 20:09:39 INFO SecurityManager: Changing view acls to: root
+spark-client  | 25/11/05 20:09:39 INFO SecurityManager: Changing modify acls to: root
+spark-client  | 25/11/05 20:09:39 INFO SecurityManager: Changing view acls groups to:
+spark-client  | 25/11/05 20:09:39 INFO SecurityManager: Changing modify acls groups to:
+spark-client  | 25/11/05 20:09:39 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-worker  | Installing collected packages: numpy
+spark-client  | 25/11/05 20:09:39 INFO Utils: Successfully started service 'sparkDriver' on port 45825.
+spark-client  | 25/11/05 20:09:39 INFO SparkEnv: Registering MapOutputTracker
+spark-client  | 25/11/05 20:09:39 INFO SparkEnv: Registering BlockManagerMaster
+spark-client  | 25/11/05 20:09:39 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+spark-client  | 25/11/05 20:09:39 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+spark-client  | 25/11/05 20:09:39 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+spark-client  | 25/11/05 20:09:39 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-79081aaa-e00a-475d-85da-a5bae7eca371
+spark-client  | 25/11/05 20:09:39 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+spark-client  | 25/11/05 20:09:39 INFO SparkEnv: Registering OutputCommitCoordinator
+spark-client  | 25/11/05 20:09:39 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+spark-client  | 25/11/05 20:09:39 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+spark-client  | 25/11/05 20:09:39 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+spark-client  | 25/11/05 20:09:39 INFO TransportClientFactory: Successfully created connection to spark-master/172.28.0.2:7077 after 16 ms (0 ms spent in bootstraps)
+spark-master  | 25/11/05 20:09:39 INFO Master: Registering app MatrixMultiplication
+spark-master  | 25/11/05 20:09:39 INFO Master: Registered app MatrixMultiplication with ID app-20251105200939-0000
+spark-master  | 25/11/05 20:09:39 INFO Master: Start scheduling for app app-20251105200939-0000 with rpId: 0
+spark-master  | 25/11/05 20:09:39 WARN Master: App app-20251105200939-0000 requires more resource than any of Workers could have.
+spark-client  | 25/11/05 20:09:39 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20251105200939-0000
+spark-client  | 25/11/05 20:09:39 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37659.
+spark-client  | 25/11/05 20:09:39 INFO NettyBlockTransferService: Server created on a4c70f5c3534:37659
+spark-client  | 25/11/05 20:09:39 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+spark-client  | 25/11/05 20:09:39 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, a4c70f5c3534, 37659, None)
+spark-client  | 25/11/05 20:09:39 INFO BlockManagerMasterEndpoint: Registering block manager a4c70f5c3534:37659 with 434.4 MiB RAM, BlockManagerId(driver, a4c70f5c3534, 37659, None)
+spark-client  | 25/11/05 20:09:39 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, a4c70f5c3534, 37659, None)
+spark-client  | 25/11/05 20:09:39 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, a4c70f5c3534, 37659, None)
+spark-client  | 25/11/05 20:09:39 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+spark-client  | Spark Master: spark://spark-master:7077
+spark-client  | Spark UI: http://spark-master:8080
+spark-client  |
+spark-client  | Генерую матриці розміром 5000x5000...
+spark-client  | Генерую матрицю A...
+spark-client  | Генерую матрицю B...
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Матриця A: розмір (5000, 5000), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[102 435 860 270 106  71 700  20 614 121]
+spark-client  |  [450 903 214 973 631 893 566  26 629 732]
+spark-client  |  [835  41 914 209 740 861 274 953 278 250]
+spark-client  |  [ 46 621 199 426 209 887 419 153 521 414]
+spark-client  |  [156 805 124 740 851 160 540 625 590 534]
+spark-client  |  [ 70 272 186   2 284  21 165 309 874 476]
+spark-client  |  [390 101 651 680 497 510 702 993 536 976]
+spark-client  |  [814 609 510 917 156 161  41 179 302 329]
+spark-client  |  [233 623 485 999 577 337 860 948 756 756]
+spark-client  |  [ 78 978 568 862  56 399 362 334 133  13]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 0
+spark-client  |   Максимум: 1000
+spark-client  |   Середнє: 500.08
+spark-worker  | Successfully installed numpy-2.2.6
+spark-worker  | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+spark-client  |   Стандартне відхилення: 288.91
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Матриця B: розмір (5000, 5000), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[510 365 382 322 988  98 742  17 595 106]
+spark-client  |  [349 518 255 998 820 888 748 257 816 482]
+spark-client  |  [902 847 249 274 676 336  11  73  55 381]
+spark-client  |  [595 623 683  77 146 451 669 246 239 677]
+spark-client  |  [157 721 158 532 412 766 470  67 367 351]
+spark-client  |  [428 951 355 696 113 862 936 755 870 905]
+spark-client  |  [285 931   8 198 172  74 452 759 533 940]
+spark-client  |  [170 680 717 234 942 282 511 548  48 432]
+spark-client  |  [175 396 996  39 389 793 670 938 112 671]
+spark-client  |  [738 721 542 489 318 866 476 290 383 116]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 0
+spark-client  |   Максимум: 1000
+spark-client  |   Середнє: 499.95
+spark-client  |   Стандартне відхилення: 288.90
+spark-client  |
+spark-client  | Починаю множення матриць...
+spark-client  | Матриця A: 5000x5000
+spark-client  | Матриця B: 5000x5000
+spark-client  | Результат: 5000x5000
+spark-client  | Використовую блоки розміром 1000x1000
+spark-client  | Передаю матриці через broadcast...
+spark-client  | 25/11/05 20:09:40 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 208.0 B, free 434.4 MiB)
+spark-worker  |
+spark-worker  | [notice] A new release of pip is available: 23.0.1 -> 25.3
+spark-worker  | [notice] To update, run: python3 -m pip install --upgrade pip
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 4.0 MiB, free 430.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 430.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece1 stored as bytes in memory (estimated size 4.0 MiB, free 426.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece1 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 426.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece2 stored as bytes in memory (estimated size 4.0 MiB, free 422.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece2 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 422.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece3 stored as bytes in memory (estimated size 4.0 MiB, free 418.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece3 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 418.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece4 stored as bytes in memory (estimated size 4.0 MiB, free 414.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece4 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 414.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece5 stored as bytes in memory (estimated size 4.0 MiB, free 410.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece5 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 410.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece6 stored as bytes in memory (estimated size 4.0 MiB, free 406.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece6 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 406.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece7 stored as bytes in memory (estimated size 4.0 MiB, free 402.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece7 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 402.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece8 stored as bytes in memory (estimated size 4.0 MiB, free 398.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece8 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 398.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece9 stored as bytes in memory (estimated size 4.0 MiB, free 394.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece9 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 394.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece10 stored as bytes in memory (estimated size 4.0 MiB, free 390.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece10 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 390.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece11 stored as bytes in memory (estimated size 4.0 MiB, free 386.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece11 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 386.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece12 stored as bytes in memory (estimated size 4.0 MiB, free 382.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece12 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 382.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece13 stored as bytes in memory (estimated size 4.0 MiB, free 378.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece13 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 378.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece14 stored as bytes in memory (estimated size 4.0 MiB, free 374.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece14 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 374.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece15 stored as bytes in memory (estimated size 4.0 MiB, free 370.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece15 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 370.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece16 stored as bytes in memory (estimated size 4.0 MiB, free 366.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece16 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 366.4 MiB)
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_0_piece17 stored as bytes in memory (estimated size 732.7 KiB, free 365.7 MiB)
+spark-client  | 25/11/05 20:09:41 INFO BlockManagerInfo: Added broadcast_0_piece17 in memory on a4c70f5c3534:37659 (size: 732.7 KiB, free: 365.7 MiB)
+spark-client  | 25/11/05 20:09:41 INFO SparkContext: Created broadcast 0 from broadcast at <unknown>:0
+spark-worker  | Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+spark-worker  | 25/11/05 20:09:41 INFO Worker: Started daemon with process name: 14@spark-worker
+spark-worker  | 25/11/05 20:09:41 INFO SignalUtils: Registering signal handler for TERM
+spark-worker  | 25/11/05 20:09:41 INFO SignalUtils: Registering signal handler for HUP
+spark-worker  | 25/11/05 20:09:41 INFO SignalUtils: Registering signal handler for INT
+spark-client  | 25/11/05 20:09:41 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 208.0 B, free 365.7 MiB)
+spark-worker  | 25/11/05 20:09:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+spark-worker  | 25/11/05 20:09:41 INFO SecurityManager: Changing view acls to: root
+spark-worker  | 25/11/05 20:09:41 INFO SecurityManager: Changing modify acls to: root
+spark-worker  | 25/11/05 20:09:41 INFO SecurityManager: Changing view acls groups to:
+spark-worker  | 25/11/05 20:09:41 INFO SecurityManager: Changing modify acls groups to:
+spark-worker  | 25/11/05 20:09:41 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-worker  | 25/11/05 20:09:41 INFO Utils: Successfully started service 'sparkWorker' on port 41747.
+spark-worker  | 25/11/05 20:09:41 INFO Worker: Worker decommissioning not enabled.
+spark-worker  | 25/11/05 20:09:41 INFO Worker: Starting Spark worker 172.28.0.3:41747 with 4 cores, 8.0 GiB RAM
+spark-worker  | 25/11/05 20:09:41 INFO Worker: Running Spark version 3.4.0
+spark-worker  | 25/11/05 20:09:41 INFO Worker: Spark home: /opt/spark
+spark-worker  | 25/11/05 20:09:41 INFO ResourceUtils: ==============================================================
+spark-worker  | 25/11/05 20:09:41 INFO ResourceUtils: No custom resources configured for spark.worker.
+spark-worker  | 25/11/05 20:09:41 INFO ResourceUtils: ==============================================================
+spark-worker  | 25/11/05 20:09:41 INFO JettyUtils: Start Jetty 0.0.0.0:8081 for WorkerUI
+spark-worker  | 25/11/05 20:09:42 INFO Utils: Successfully started service 'WorkerUI' on port 8081.
+spark-worker  | 25/11/05 20:09:42 INFO WorkerWebUI: Bound WorkerWebUI to 0.0.0.0, and started at http://spark-worker:8081
+spark-worker  | 25/11/05 20:09:42 INFO Worker: Connecting to master spark-master:7077...
+spark-worker  | 25/11/05 20:09:42 INFO TransportClientFactory: Successfully created connection to spark-master/172.28.0.2:7077 after 15 ms (0 ms spent in bootstraps)
+spark-master  | 25/11/05 20:09:42 INFO Master: Registering worker 172.28.0.3:41747 with 4 cores, 8.0 GiB RAM
+spark-master  | 25/11/05 20:09:42 INFO Master: Start scheduling for app app-20251105200939-0000 with rpId: 0
+spark-worker  | 25/11/05 20:09:42 INFO Worker: Successfully registered with master spark://172.28.0.2:7077
+spark-master  | 25/11/05 20:09:42 INFO Master: Launching executor app-20251105200939-0000/0 on worker worker-20251105200941-172.28.0.3-41747
+spark-client  | 25/11/05 20:09:42 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20251105200939-0000/0 on worker-20251105200941-172.28.0.3-41747 (172.28.0.3:41747) with 4 core(s)
+spark-worker  | 25/11/05 20:09:42 INFO Worker: Asked to launch executor app-20251105200939-0000/0 for MatrixMultiplication
+spark-client  | 25/11/05 20:09:42 INFO StandaloneSchedulerBackend: Granted executor ID app-20251105200939-0000/0 on hostPort 172.28.0.3:41747 with 4 core(s), 7.0 GiB RAM
+spark-worker  | 25/11/05 20:09:42 INFO SecurityManager: Changing view acls to: root
+spark-worker  | 25/11/05 20:09:42 INFO SecurityManager: Changing modify acls to: root
+spark-worker  | 25/11/05 20:09:42 INFO SecurityManager: Changing view acls groups to:
+spark-worker  | 25/11/05 20:09:42 INFO SecurityManager: Changing modify acls groups to:
+spark-worker  | 25/11/05 20:09:42 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 4.0 MiB, free 361.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 361.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece1 stored as bytes in memory (estimated size 4.0 MiB, free 357.7 MiB)
+spark-worker  | 25/11/05 20:09:42 INFO ExecutorRunner: Launch command: "/opt/java/openjdk/bin/java" "-cp" "/opt/spark/conf:/opt/spark/jars/*" "-Xmx7168M" "-Dspark.driver.port=45825" "-Djava.net.preferIPv6Addresses=false" "-XX:+IgnoreUnrecognizedVMOptions" "--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED" "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED" "--add-opens=java.base/java.io=ALL-UNNAMED" "--add-opens=java.base/java.net=ALL-UNNAMED" "--add-opens=java.base/java.nio=ALL-UNNAMED" "--add-opens=java.base/java.util=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED" "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED" "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED" "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED" "--add-opens=java.base/sun.security.action=ALL-UNNAMED" "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED" "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED" "-Djdk.reflect.useDirectMethodHandle=false" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "--driver-url" "spark://CoarseGrainedScheduler@a4c70f5c3534:45825" "--executor-id" "0" "--hostname" "172.28.0.3" "--cores" "4" "--app-id" "app-20251105200939-0000" "--worker-url" "spark://Worker@172.28.0.3:41747" "--resourceProfileId" "0"
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece1 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 357.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece2 stored as bytes in memory (estimated size 4.0 MiB, free 353.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece2 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 353.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece3 stored as bytes in memory (estimated size 4.0 MiB, free 349.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece3 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 349.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece4 stored as bytes in memory (estimated size 4.0 MiB, free 345.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece4 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 345.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece5 stored as bytes in memory (estimated size 4.0 MiB, free 341.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece5 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 341.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece6 stored as bytes in memory (estimated size 4.0 MiB, free 337.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece6 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 337.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece7 stored as bytes in memory (estimated size 4.0 MiB, free 333.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece7 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 333.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece8 stored as bytes in memory (estimated size 4.0 MiB, free 329.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece8 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 329.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece9 stored as bytes in memory (estimated size 4.0 MiB, free 325.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece9 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 325.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece10 stored as bytes in memory (estimated size 4.0 MiB, free 321.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece10 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 321.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece11 stored as bytes in memory (estimated size 4.0 MiB, free 317.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece11 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 317.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece12 stored as bytes in memory (estimated size 4.0 MiB, free 313.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece12 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 313.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece13 stored as bytes in memory (estimated size 4.0 MiB, free 309.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece13 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 309.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece14 stored as bytes in memory (estimated size 4.0 MiB, free 305.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece14 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 305.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece15 stored as bytes in memory (estimated size 4.0 MiB, free 301.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece15 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 301.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece16 stored as bytes in memory (estimated size 4.0 MiB, free 297.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece16 in memory on a4c70f5c3534:37659 (size: 4.0 MiB, free: 297.7 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_1_piece17 stored as bytes in memory (estimated size 731.2 KiB, free 297.0 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_1_piece17 in memory on a4c70f5c3534:37659 (size: 731.2 KiB, free: 297.0 MiB)
+spark-client  | 25/11/05 20:09:42 INFO SparkContext: Created broadcast 1 from broadcast at <unknown>:0
+spark-client  | Створюю 5 блоків для A, 5 блоків для B
+spark-client  | Виконую блочне множення...
+spark-master  | 25/11/05 20:09:42 INFO Master: Start scheduling for app app-20251105200939-0000 with rpId: 0
+spark-client  | 25/11/05 20:09:42 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20251105200939-0000/0 is now RUNNING
+spark-client  | 25/11/05 20:09:42 INFO SparkContext: Starting job: collect at /opt/spark/app/matrix_multiply.py:128
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Got job 0 (collect at /opt/spark/app/matrix_multiply.py:128) with 25 output partitions
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Final stage: ResultStage 0 (collect at /opt/spark/app/matrix_multiply.py:128)
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Parents of final stage: List()
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Missing parents: List()
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[1] at collect at /opt/spark/app/matrix_multiply.py:128), which has no missing parents
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 7.4 KiB, free 297.0 MiB)
+spark-client  | 25/11/05 20:09:42 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 4.9 KiB, free 297.0 MiB)
+spark-client  | 25/11/05 20:09:42 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on a4c70f5c3534:37659 (size: 4.9 KiB, free: 297.0 MiB)
+spark-client  | 25/11/05 20:09:42 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1535
+spark-client  | 25/11/05 20:09:42 INFO DAGScheduler: Submitting 25 missing tasks from ResultStage 0 (PythonRDD[1] at collect at /opt/spark/app/matrix_multiply.py:128) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+spark-client  | 25/11/05 20:09:42 INFO TaskSchedulerImpl: Adding task set 0.0 with 25 tasks resource profile 0
+spark-client  | 25/11/05 20:09:43 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.28.0.3:60876) with ID 0,  ResourceProfileId 0
+spark-client  | 25/11/05 20:09:43 INFO BlockManagerMasterEndpoint: Registering block manager 172.28.0.3:36801 with 4.0 GiB RAM, BlockManagerId(0, 172.28.0.3, 36801, None)
+spark-client  | 25/11/05 20:09:43 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (172.28.0.3, executor 0, partition 0, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:09:43 INFO TaskSetManager: Starting task 1.0 in stage 0.0 (TID 1) (172.28.0.3, executor 0, partition 1, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:09:43 INFO TaskSetManager: Starting task 2.0 in stage 0.0 (TID 2) (172.28.0.3, executor 0, partition 2, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:09:43 INFO TaskSetManager: Starting task 3.0 in stage 0.0 (TID 3) (172.28.0.3, executor 0, partition 3, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 172.28.0.3:36801 (size: 4.9 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece9 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece11 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece5 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece17 in memory on 172.28.0.3:36801 (size: 732.7 KiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece3 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece14 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece12 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece6 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece4 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece10 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece15 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece8 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece16 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece13 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece2 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece7 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:44 INFO BlockManagerInfo: Added broadcast_0_piece1 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:45 INFO BlockManagerInfo: Added broadcast_0_python on disk on 172.28.0.3:36801 (size: 95.4 MiB)
+spark-client  | 25/11/05 20:09:45 INFO BlockManagerInfo: Added broadcast_1_piece13 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece4 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece10 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece8 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece7 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece5 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece14 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece11 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece12 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece17 in memory on 172.28.0.3:36801 (size: 731.2 KiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece16 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece2 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece15 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece9 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece1 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:46 INFO BlockManagerInfo: Added broadcast_1_piece6 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:47 INFO BlockManagerInfo: Added broadcast_1_piece3 in memory on 172.28.0.3:36801 (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:09:48 INFO BlockManagerInfo: Added broadcast_1_python on disk on 172.28.0.3:36801 (size: 95.4 MiB)
+spark-client  | 25/11/05 20:10:33 INFO BlockManagerInfo: Added taskresult_2 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:33 INFO TaskSetManager: Starting task 4.0 in stage 0.0 (TID 4) (172.28.0.3, executor 0, partition 4, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:10:33 INFO TransportClientFactory: Successfully created connection to /172.28.0.3:36801 after 1 ms (0 ms spent in bootstraps)
+spark-client  | 25/11/05 20:10:33 INFO BlockManagerInfo: Removed taskresult_2 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:33 INFO TaskSetManager: Finished task 2.0 in stage 0.0 (TID 2) in 49865 ms on 172.28.0.3 (executor 0) (1/25)
+spark-client  | 25/11/05 20:10:33 INFO PythonAccumulatorV2: Connected to AccumulatorServer at host: 127.0.0.1 port: 50997
+spark-client  | 25/11/05 20:10:33 INFO BlockManagerInfo: Added taskresult_0 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:33 INFO TaskSetManager: Starting task 5.0 in stage 0.0 (TID 5) (172.28.0.3, executor 0, partition 5, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:10:33 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 50184 ms on 172.28.0.3 (executor 0) (2/25)
+spark-client  | 25/11/05 20:10:33 INFO BlockManagerInfo: Removed taskresult_0 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:34 INFO BlockManagerInfo: Added taskresult_1 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:34 INFO TaskSetManager: Starting task 6.0 in stage 0.0 (TID 6) (172.28.0.3, executor 0, partition 6, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:10:34 INFO TaskSetManager: Finished task 1.0 in stage 0.0 (TID 1) in 50357 ms on 172.28.0.3 (executor 0) (3/25)
+spark-client  | 25/11/05 20:10:34 INFO BlockManagerInfo: Removed taskresult_1 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:34 INFO BlockManagerInfo: Added taskresult_3 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:10:34 INFO TaskSetManager: Starting task 7.0 in stage 0.0 (TID 7) (172.28.0.3, executor 0, partition 7, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:10:34 INFO TaskSetManager: Finished task 3.0 in stage 0.0 (TID 3) in 50490 ms on 172.28.0.3 (executor 0) (4/25)
+spark-client  | 25/11/05 20:10:34 INFO BlockManagerInfo: Removed taskresult_3 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:17 INFO BlockManagerInfo: Added taskresult_6 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:17 INFO TaskSetManager: Starting task 8.0 in stage 0.0 (TID 8) (172.28.0.3, executor 0, partition 8, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:11:17 INFO TaskSetManager: Finished task 6.0 in stage 0.0 (TID 6) in 43731 ms on 172.28.0.3 (executor 0) (5/25)
+spark-client  | 25/11/05 20:11:17 INFO BlockManagerInfo: Removed taskresult_6 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:17 INFO BlockManagerInfo: Added taskresult_5 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:17 INFO TaskSetManager: Starting task 9.0 in stage 0.0 (TID 9) (172.28.0.3, executor 0, partition 9, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:11:17 INFO BlockManagerInfo: Removed taskresult_5 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:17 INFO TaskSetManager: Finished task 5.0 in stage 0.0 (TID 5) in 44057 ms on 172.28.0.3 (executor 0) (6/25)
+spark-client  | 25/11/05 20:11:18 INFO BlockManagerInfo: Added taskresult_4 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:18 INFO TaskSetManager: Starting task 10.0 in stage 0.0 (TID 10) (172.28.0.3, executor 0, partition 10, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:11:18 INFO TaskSetManager: Finished task 4.0 in stage 0.0 (TID 4) in 44712 ms on 172.28.0.3 (executor 0) (7/25)
+spark-client  | 25/11/05 20:11:18 INFO BlockManagerInfo: Removed taskresult_4 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:18 INFO BlockManagerInfo: Added taskresult_7 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:11:18 INFO TaskSetManager: Starting task 11.0 in stage 0.0 (TID 11) (172.28.0.3, executor 0, partition 11, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:11:18 INFO TaskSetManager: Finished task 7.0 in stage 0.0 (TID 7) in 44568 ms on 172.28.0.3 (executor 0) (8/25)
+spark-client  | 25/11/05 20:11:18 INFO BlockManagerInfo: Removed taskresult_7 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Added taskresult_10 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Starting task 12.0 in stage 0.0 (TID 12) (172.28.0.3, executor 0, partition 12, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Finished task 10.0 in stage 0.0 (TID 10) in 43981 ms on 172.28.0.3 (executor 0) (9/25)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Removed taskresult_10 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Added taskresult_8 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Starting task 13.0 in stage 0.0 (TID 13) (172.28.0.3, executor 0, partition 13, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Finished task 8.0 in stage 0.0 (TID 8) in 44460 ms on 172.28.0.3 (executor 0) (10/25)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Removed taskresult_8 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Added taskresult_9 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Starting task 14.0 in stage 0.0 (TID 14) (172.28.0.3, executor 0, partition 14, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Finished task 9.0 in stage 0.0 (TID 9) in 44728 ms on 172.28.0.3 (executor 0) (11/25)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Removed taskresult_9 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Added taskresult_11 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Starting task 15.0 in stage 0.0 (TID 15) (172.28.0.3, executor 0, partition 15, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:02 INFO TaskSetManager: Finished task 11.0 in stage 0.0 (TID 11) in 44177 ms on 172.28.0.3 (executor 0) (12/25)
+spark-client  | 25/11/05 20:12:02 INFO BlockManagerInfo: Removed taskresult_11 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:46 INFO BlockManagerInfo: Added taskresult_12 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:46 INFO TaskSetManager: Starting task 16.0 in stage 0.0 (TID 16) (172.28.0.3, executor 0, partition 16, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:46 INFO TaskSetManager: Finished task 12.0 in stage 0.0 (TID 12) in 44034 ms on 172.28.0.3 (executor 0) (13/25)
+spark-client  | 25/11/05 20:12:46 INFO BlockManagerInfo: Removed taskresult_12 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:46 INFO BlockManagerInfo: Added taskresult_13 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:46 INFO TaskSetManager: Starting task 17.0 in stage 0.0 (TID 17) (172.28.0.3, executor 0, partition 17, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:46 INFO TaskSetManager: Finished task 13.0 in stage 0.0 (TID 13) in 44395 ms on 172.28.0.3 (executor 0) (14/25)
+spark-client  | 25/11/05 20:12:46 INFO BlockManagerInfo: Removed taskresult_13 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:47 INFO BlockManagerInfo: Added taskresult_15 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:47 INFO TaskSetManager: Starting task 18.0 in stage 0.0 (TID 18) (172.28.0.3, executor 0, partition 18, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:47 INFO TaskSetManager: Finished task 15.0 in stage 0.0 (TID 15) in 44254 ms on 172.28.0.3 (executor 0) (15/25)
+spark-client  | 25/11/05 20:12:47 INFO BlockManagerInfo: Removed taskresult_15 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:47 INFO BlockManagerInfo: Added taskresult_14 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:12:47 INFO TaskSetManager: Starting task 19.0 in stage 0.0 (TID 19) (172.28.0.3, executor 0, partition 19, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:12:47 INFO TaskSetManager: Finished task 14.0 in stage 0.0 (TID 14) in 44795 ms on 172.28.0.3 (executor 0) (16/25)
+spark-client  | 25/11/05 20:12:47 INFO BlockManagerInfo: Removed taskresult_14 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:44 INFO BlockManagerInfo: Added taskresult_16 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:44 INFO TaskSetManager: Starting task 20.0 in stage 0.0 (TID 20) (172.28.0.3, executor 0, partition 20, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:13:44 INFO TaskSetManager: Finished task 16.0 in stage 0.0 (TID 16) in 58416 ms on 172.28.0.3 (executor 0) (17/25)
+spark-client  | 25/11/05 20:13:44 INFO BlockManagerInfo: Removed taskresult_16 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:44 INFO BlockManagerInfo: Added taskresult_17 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:44 INFO TaskSetManager: Starting task 21.0 in stage 0.0 (TID 21) (172.28.0.3, executor 0, partition 21, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:13:44 INFO TaskSetManager: Finished task 17.0 in stage 0.0 (TID 17) in 58458 ms on 172.28.0.3 (executor 0) (18/25)
+spark-client  | 25/11/05 20:13:44 INFO BlockManagerInfo: Removed taskresult_17 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:45 INFO BlockManagerInfo: Added taskresult_18 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:45 INFO TaskSetManager: Starting task 22.0 in stage 0.0 (TID 22) (172.28.0.3, executor 0, partition 22, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:13:45 INFO BlockManagerInfo: Removed taskresult_18 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:45 INFO TaskSetManager: Finished task 18.0 in stage 0.0 (TID 18) in 58278 ms on 172.28.0.3 (executor 0) (19/25)
+spark-client  | 25/11/05 20:13:46 INFO BlockManagerInfo: Added taskresult_19 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:13:46 INFO TaskSetManager: Starting task 23.0 in stage 0.0 (TID 23) (172.28.0.3, executor 0, partition 23, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:13:46 INFO TaskSetManager: Finished task 19.0 in stage 0.0 (TID 19) in 59077 ms on 172.28.0.3 (executor 0) (20/25)
+spark-client  | 25/11/05 20:13:46 INFO BlockManagerInfo: Removed taskresult_19 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Added taskresult_21 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO TaskSetManager: Starting task 24.0 in stage 0.0 (TID 24) (172.28.0.3, executor 0, partition 24, PROCESS_LOCAL, 7268 bytes)
+spark-client  | 25/11/05 20:14:29 INFO TaskSetManager: Finished task 21.0 in stage 0.0 (TID 21) in 44247 ms on 172.28.0.3 (executor 0) (21/25)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Removed taskresult_21 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Added taskresult_20 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO TaskSetManager: Finished task 20.0 in stage 0.0 (TID 20) in 44934 ms on 172.28.0.3 (executor 0) (22/25)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Removed taskresult_20 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Added taskresult_22 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:29 INFO TaskSetManager: Finished task 22.0 in stage 0.0 (TID 22) in 44409 ms on 172.28.0.3 (executor 0) (23/25)
+spark-client  | 25/11/05 20:14:29 INFO BlockManagerInfo: Removed taskresult_22 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:30 INFO BlockManagerInfo: Added taskresult_23 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:14:30 INFO TaskSetManager: Finished task 23.0 in stage 0.0 (TID 23) in 44084 ms on 172.28.0.3 (executor 0) (24/25)
+spark-client  | 25/11/05 20:14:30 INFO BlockManagerInfo: Removed taskresult_23 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:11 INFO BlockManagerInfo: Added taskresult_24 in memory on 172.28.0.3:36801 (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:11 INFO TaskSetManager: Finished task 24.0 in stage 0.0 (TID 24) in 42435 ms on 172.28.0.3 (executor 0) (25/25)
+spark-client  | 25/11/05 20:15:11 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool
+spark-client  | 25/11/05 20:15:11 INFO DAGScheduler: ResultStage 0 (collect at /opt/spark/app/matrix_multiply.py:128) finished in 329.156 s
+spark-client  | 25/11/05 20:15:11 INFO BlockManagerInfo: Removed taskresult_24 on 172.28.0.3:36801 in memory (size: 3.8 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:11 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+spark-client  | 25/11/05 20:15:11 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+spark-client  | 25/11/05 20:15:11 INFO DAGScheduler: Job 0 finished: collect at /opt/spark/app/matrix_multiply.py:128, took 316.514648 s
+spark-client  | Збираю результати...
+spark-client  |
+spark-client  | Множення завершено за 332.21 секунд
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Результуюча матриця (A × B): розмір (5000, 5000), тип int32
+spark-client  | ============================================================
+spark-client  | Перші 10x10 елементів:
+spark-client  | [[1263198962 1280415754 1250490876 1260130485 1270402853 1257072584
+spark-client  |   1254547078 1266218085 1268954743 1269283738]
+spark-client  |  [1256927925 1271823293 1249105485 1248110023 1251003397 1238347234
+spark-client  |   1243376887 1259305665 1255777904 1249527530]
+spark-client  |  [1262617015 1270004067 1243952366 1237613882 1248410203 1242004822
+spark-client  |   1254711001 1264224246 1229235710 1263087757]
+spark-client  |  [1266777254 1263871045 1245614589 1232662927 1267107361 1241793292
+spark-client  |   1249098432 1259681901 1260618931 1252747863]
+spark-client  |  [1266183364 1280835127 1260521790 1255849600 1280072112 1259239245
+spark-client  |   1259804636 1263704476 1265763801 1272844124]
+spark-client  |  [1240964233 1251851902 1246617345 1236489182 1254122202 1239042512
+spark-client  |   1246693141 1246315908 1239848134 1243589125]
+spark-client  |  [1242044567 1264106885 1247404971 1241037744 1247531906 1240180035
+spark-client  |   1243949327 1247278012 1243114102 1257667487]
+spark-client  |  [1255955626 1275259300 1257583975 1258156650 1264870370 1253902112
+spark-client  |   1255628056 1264798283 1248688131 1265633724]
+spark-client  |  [1241976600 1278563348 1254322519 1250624448 1265234875 1245196120
+spark-client  |   1241569839 1264669642 1258405964 1269521838]
+spark-client  |  [1250828557 1266737767 1236680622 1231519921 1251032736 1240245923
+spark-client  |   1252333236 1252627356 1234470019 1256821103]]
+spark-client  |
+spark-client  | Статистика:
+spark-client  |   Мінімум: 1163771219
+spark-client  |   Максимум: 1336662463
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece12 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece17 on 172.28.0.3:36801 in memory (size: 732.7 KiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece7 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_python on 172.28.0.3:36801 on disk (size: 95.4 MiB)
+spark-client  |   Середнє: 1250064472.33
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece1 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece12 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece15 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece17 on 172.28.0.3:36801 in memory (size: 731.2 KiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece13 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece2 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece9 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece4 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece15 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece8 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece14 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece11 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece9 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 3.9 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece3 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece1 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_python on 172.28.0.3:36801 on disk (size: 95.4 MiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece7 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece3 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece10 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece8 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece4 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece16 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece2 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece6 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece13 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece10 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_1_piece5 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece14 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece16 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece6 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece11 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerInfo: Removed broadcast_0_piece5 on 172.28.0.3:36801 in memory (size: 4.0 MiB, free: 4.0 GiB)
+spark-client  |   Стандартне відхилення: 15591956.48
+spark-client  |
+spark-client  | ============================================================
+spark-client  | Зберігаю матриці у файли...
+spark-client  | Матриці збережено у /opt/spark/data/:
+spark-client  |   - matrix_a.npy (95.37 MB)
+spark-client  |   - matrix_b.npy (95.37 MB)
+spark-client  |   - result.npy (95.37 MB)
+spark-client  |
+spark-client  | Для завантаження використовуйте:
+spark-client  |   matrix = np.load('/opt/spark/data/matrix_a.npy')
+spark-client  | ============================================================
+spark-client  |
+spark-client  | Перевірка на невеликій частині (100x100)...
+spark-client  | Результати збігаються (100x100):
+spark-client  |   - Точне збігання: False
+spark-client  |   - Максимальна різниця: 1281316340
+spark-client  |   - Середня різниця: 1226535339.74
+spark-client  | 25/11/05 20:15:12 INFO SparkContext: SparkContext is stopping with exitCode 0.
+spark-client  | 25/11/05 20:15:12 INFO SparkUI: Stopped Spark web UI at http://a4c70f5c3534:4040
+spark-client  | 25/11/05 20:15:12 INFO StandaloneSchedulerBackend: Shutting down all executors
+spark-client  | 25/11/05 20:15:12 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Asking each executor to shut down
+spark-client  | 25/11/05 20:15:12 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+spark-master  | 25/11/05 20:15:12 INFO Master: Received unregister request from application app-20251105200939-0000
+spark-master  | 25/11/05 20:15:12 INFO Master: Removing app app-20251105200939-0000
+spark-client  | 25/11/05 20:15:12 INFO MemoryStore: MemoryStore cleared
+spark-client  | 25/11/05 20:15:12 INFO BlockManager: BlockManager stopped
+spark-client  | 25/11/05 20:15:12 INFO BlockManagerMaster: BlockManagerMaster stopped
+spark-client  | 25/11/05 20:15:12 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+spark-master  | 25/11/05 20:15:12 INFO Master: 172.28.0.4:37420 got disassociated, removing it.
+spark-master  | 25/11/05 20:15:12 INFO Master: a4c70f5c3534:45825 got disassociated, removing it.
+spark-client  | 25/11/05 20:15:12 INFO SparkContext: Successfully stopped SparkContext
+spark-worker  | 25/11/05 20:15:12 INFO Worker: Asked to kill executor app-20251105200939-0000/0
+spark-worker  | 25/11/05 20:15:12 INFO ExecutorRunner: Runner thread for executor app-20251105200939-0000/0 interrupted
+spark-worker  | 25/11/05 20:15:12 INFO ExecutorRunner: Killing process!
+spark-worker  | 25/11/05 20:15:13 INFO Worker: Executor app-20251105200939-0000/0 finished with state KILLED exitStatus 0
+spark-master  | 25/11/05 20:15:13 WARN Master: Got status update for unknown executor app-20251105200939-0000/0
+spark-worker  | 25/11/05 20:15:13 INFO ExternalShuffleBlockResolver: Clean up non-shuffle and non-RDD files associated with the finished executor 0
+spark-worker  | 25/11/05 20:15:13 INFO ExternalShuffleBlockResolver: Executor is not registered (appId=app-20251105200939-0000, execId=0)
+spark-worker  | 25/11/05 20:15:13 INFO ExternalShuffleBlockResolver: Application app-20251105200939-0000 removed, cleanupLocalDirs = true
+spark-worker  | 25/11/05 20:15:13 INFO Worker: Cleaning up local directories for application app-20251105200939-0000
+spark-client  | 25/11/05 20:15:13 INFO ShutdownHookManager: Shutdown hook called
+spark-client  | 25/11/05 20:15:13 INFO ShutdownHookManager: Deleting directory /tmp/spark-f7d2fe1e-50e3-42f9-baae-e1459cca10c0
+spark-client  | 25/11/05 20:15:13 INFO ShutdownHookManager: Deleting directory /tmp/spark-7a5006e1-c806-478a-8509-688780b16d35/pyspark-b2d6bbc9-5568-4eb9-8c36-363662801de8
+spark-client  | 25/11/05 20:15:13 INFO ShutdownHookManager: Deleting directory /tmp/spark-7a5006e1-c806-478a-8509-688780b16d35
+spark-client exited with code 0

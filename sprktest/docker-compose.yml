@@ -1,0 +1,60 @@
+services:
+  spark-master:
+    image: apache/spark-py:latest
+    container_name: spark-master
+    hostname: spark-master
+    command: bash -c "cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.master.Master"
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    volumes:
+      - ./matrix_multiply.py:/opt/spark/app/matrix_multiply.py
+      - ./data:/opt/spark/data
+
+  spark-worker:
+    image: apache/spark-py:latest
+    container_name: spark-worker
+    hostname: spark-worker
+    user: root
+    command: bash -c "pip3 install --no-cache-dir numpy==2.2.6 && mkdir -p /opt/spark/work && chmod 777 /opt/spark/work && cd /opt/spark && ./bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077"
+    environment:
+      - SPARK_WORKER_MEMORY=8g
+      - SPARK_WORKER_CORES=4
+    deploy:
+      resources:
+        limits:
+          memory: 10G
+          cpus: '4'
+        reservations:
+          memory: 8G
+          cpus: '4'
+    depends_on:
+      - spark-master
+    volumes:
+      - ./matrix_multiply.py:/opt/spark/app/matrix_multiply.py
+      - ./data:/opt/spark/data
+
+  spark-client:
+    build: .
+    container_name: spark-client
+    depends_on:
+      - spark-master
+      - spark-worker
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - PYSPARK_PYTHON=python3
+      - PYSPARK_DRIVER_PYTHON=python3
+      # Встановіть SAVE_MATRICES=true для збереження матриць у файли
+      - SAVE_MATRICES=true
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+          cpus: '2'
+        reservations:
+          memory: 4G
+          cpus: '2'
+    volumes:
+      - ./matrix_multiply.py:/opt/spark/app/matrix_multiply.py
+      - ./data:/opt/spark/data
+    command: bash -c "cd /opt/spark && ./bin/spark-submit --master spark://spark-master:7077 /opt/spark/app/matrix_multiply.py"
